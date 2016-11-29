@@ -14,7 +14,9 @@
             <div class="uk-grid">
                 <div id="navigation" class="uk-width-medium-1-4">
                     <h1 class="nav-header"><?=$company['title']?></h1>
+
                     <a class="nav-header" href="http://<?=$company['website']?>"><?=$company['website_name']?></a>
+
                     <ul class="uk-nav uk-nav-side">
                         <?php if (count($languages) > 1): ?>
                             <li class="language-select">
@@ -259,63 +261,61 @@
                                     <?php endif; ?>
                                 </p>
                             <?php endforeach; ?>
+                        </div>
+
+                        <div class="uk-width-medium-1-2">
+                            <h2 id="contact"><?=tl('Contact')?></h2>
+
+                            <?php foreach($company['contacts'] as $contact): ?>
+                                <p>
+                                    <?php if ($contact['url'] !== null): ?>
+                                        <strong><?=$contact['name']?></strong><br/>
+                                        <a href="<?=$contact['url']?>"><?=$contact['urlName']?></a>
+                                    <?php endif; ?>
+
+                                    <?php if ($contact['email'] !== null): ?>
+                                        <strong><?=$contact['name']?></strong><br/>
+                                        <a href="mailto:<?=$contact['email']?>"><?=$contact['email']?></a>
+                                    <?php endif; ?>
+                                </p>
+                            <?php endforeach; ?>
+                        </div>
                     </div>
 
-                    <div class="uk-width-medium-1-2">
-                    <h2 id="contact"><?=tl('Contact')?></h2>
+                    <hr>
 
-                    <?php foreach($company['contacts'] as $contact): ?>
-                        <p>
-                            <?php if ($contact['url'] !== null): ?>
-                                <strong><?=$contact['name']?></strong><br/>
-                                <a href="<?=$contact['url']?>"><?=$contact['urlName']?></a>
-                            <?php endif; ?>
-
-                            <?php if ($contact['email'] !== null): ?>
-                                <strong><?=$contact['name']?></strong><br/>
-                                <a href="mailto:<?=$contact['email']?>"><?=$contact['email']?></a>
-                            <?php endif; ?>
-                        </p>
-                    <?php endforeach; ?>
+                    <p><a href="http://dopresskit.com/">presskit()</a> by Rami Ismail (<a href="http://www.vlambeer.com/">Vlambeer</a>) - also thanks to <a href="sheet.php?p=credits">these fine folks</a></p>
                 </div>
             </div>
-
-            <hr>
-
-            <p>
-                <a href="http://dopresskit.com/">presskit()</a> by Rami Ismail (<a href="http://www.vlambeer.com/">Vlambeer</a>) - also thanks to <a href="sheet.php?p=credits">these fine folks</a>
-            </p>
         </div>
-    </div>
-</div>
 
-<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/3.0.4/jquery.imagesloaded.js"></script>		
-<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/masonry/3.1.2/masonry.pkgd.min.js"></script>
-<script type="text/javascript">
-$( document ).ready(function() {
-    var container = $('.images');
+        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/3.0.4/jquery.imagesloaded.js"></script>		
+        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/masonry/3.1.2/masonry.pkgd.min.js"></script>
+        <script type="text/javascript">
+            $( document ).ready(function() {
+                var container = $('.images');
 
-    container.imagesLoaded( function() {
-        container.masonry({
-            itemSelector: '.uk-width-medium-1-2',
+            container.imagesLoaded( function() {
+                container.masonry({
+                    itemSelector: '.uk-width-medium-1-2',
+                });
+            });
         });
-    });
-});
-</script>
+        </script>
 
-<?php if ($company['google_analytics'] !== null): ?>
-    <script type="text/javascript">
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', '<?=$company['google_analytics']?>');
-        _gaq.push(['_trackPageview']);
+        <?php if ($company['google_analytics'] !== null): ?>
+            <script type="text/javascript">
+                var _gaq = _gaq || [];
+                _gaq.push(['_setAccount', '<?=$company['google_analytics']?>');
+                _gaq.push(['_trackPageview']);
 
-        (function() {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })();
-    </script>
-<?php endif; ?>
-
+                (function() {
+                    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+                })();
+            </script>
+        <?php endif; ?>
+    </body>
 </html>
