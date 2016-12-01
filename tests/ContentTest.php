@@ -133,35 +133,41 @@ class ContentTest extends TestCase
             $content = $this->createContent();
             $content->setWebsite('http://www.example.com/');
             verify($content->getWebsiteURL())->equals('http://www.example.com/');
+            verify($content->getWebsiteName())->equals('example.com');
         });
 
         $this->specify('when a website is not set getWebsiteURL will return false', function () {
             $content = $this->createContent();
             verify($content->getWebsiteURL())->false();
+            verify($content->getWebsiteName())->false();
         });
 
         $this->specify('when a empty website is set getWebsiteURL will return false', function () {
             $content = $this->createContent();
             $content->setWebsite('');
             verify($content->getWebsiteURL())->false();
+            verify($content->getWebsiteName())->false();
         });
 
         $this->specify('when a null website is set getWebsiteURL will return false', function () {
             $content = $this->createContent();
             $content->setWebsite(null);
             verify($content->getWebsiteURL())->false();
+            verify($content->getWebsiteName())->false();
         });
 
         $this->specify('when a invalid website url is set getWebsiteURL will return false', function () {
             $content = $this->createContent();
             $content->setWebsite('www.example.com');
             verify($content->getWebsiteURL())->false();
+            verify($content->getWebsiteName())->false();
         });
 
         $this->specify('only http urls are accepted as valid for the website', function () {
             $content = $this->createContent();
             $content->setWebsite('ssh://example.com');
             verify($content->getWebsiteURL())->false();
+            verify($content->getWebsiteName())->false();
         });
     }
 }

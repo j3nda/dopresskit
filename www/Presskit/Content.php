@@ -8,6 +8,7 @@ class Content
     private $foundingDate;
     private $releaseDate;
     private $websiteURL;
+    private $websiteName;
 
     public function setTitle($title)
     {
@@ -69,6 +70,14 @@ class Content
 
         if ($website !== '' && filter_var($website, FILTER_VALIDATE_URL) && substr($website, 0, 4) === 'http') {
             $this->websiteURL = $website;
+
+            $host = parse_url($website, PHP_URL_HOST);
+
+            if (substr($host, 0, 4) === 'www.') {
+                $host = substr($host, 4);
+            }
+
+            $this->websiteName = $host;
         }
     }
 
@@ -79,5 +88,14 @@ class Content
         }
 
         return $this->websiteURL;
+    }
+    
+    public function getWebsiteName()
+    {
+        if ($this->websiteName === null) {
+            return false;
+        }
+
+        return $this->websiteName;
     }
 }
