@@ -7,6 +7,7 @@ class Content
     private $title;
     private $foundingDate;
     private $releaseDate;
+    private $websiteURL;
 
     public function setTitle($title)
     {
@@ -60,5 +61,23 @@ class Content
         }
 
         return $this->releaseDate;
+    }
+
+    public function setWebsite($website)
+    {
+        $website = (string) $website;
+
+        if ($website !== '' && filter_var($website, FILTER_VALIDATE_URL) && substr($website, 0, 4) === 'http') {
+            $this->websiteURL = $website;
+        }
+    }
+
+    public function getWebsiteURL()
+    {
+        if ($this->websiteURL === null) {
+            return false;
+        }
+
+        return $this->websiteURL;
     }
 }

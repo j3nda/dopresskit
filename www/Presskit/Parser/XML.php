@@ -21,6 +21,7 @@ class XML
         $this->findTitle();
         $this->findFoundingDate();
         $this->findReleaseDate();
+        $this->findWebsite();
 
         return $this->content;
     }
@@ -43,6 +44,13 @@ class XML
     {
         if (count($this->data->{'release-date'}) > 0) {
             $this->content->setReleaseDate($this->data->{'release-date'});
+        }
+    }
+
+    private function findWebsite()
+    {
+        if (count($this->data->website) > 0) {
+            $this->content->setWebsite($this->data->website);
         }
     }
 }

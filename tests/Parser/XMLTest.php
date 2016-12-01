@@ -63,4 +63,17 @@ class XMLTest extends TestCase
             verify($XMLParser->parse()->getReleaseDate())->false();
         });
     }
+
+    public function testWebsiteParsing()
+    {
+        $this->specify('website is read from the xml file', function () {
+            $XMLParser = $this->createParser('normal');
+            verify($XMLParser->parse()->getWebsiteURL())->equals('http://www.example.com/');
+        });
+
+        $this->specify('it can handle a missing website tag', function () {
+            $XMLParser = $this->createParser('empty');
+            verify($XMLParser->parse()->getWebsiteURL())->false();
+        });
+    }
 }

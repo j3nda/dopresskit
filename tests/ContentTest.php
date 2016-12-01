@@ -121,4 +121,47 @@ class ContentTest extends TestCase
             verify($content->getReleaseDate())->false();
         });
     }
+
+    public function testWebsite()
+    {
+        $this->specify('website can be set', function () {
+            $content = $this->createContent();
+            verify($content->setWebsite('http://www.example.com/'))->isEmpty();
+        });
+
+        $this->specify('website can be read', function () {
+            $content = $this->createContent();
+            $content->setWebsite('http://www.example.com/');
+            verify($content->getWebsiteURL())->equals('http://www.example.com/');
+        });
+
+        $this->specify('when a website is not set getWebsiteURL will return false', function () {
+            $content = $this->createContent();
+            verify($content->getWebsiteURL())->false();
+        });
+
+        $this->specify('when a empty website is set getWebsiteURL will return false', function () {
+            $content = $this->createContent();
+            $content->setWebsite('');
+            verify($content->getWebsiteURL())->false();
+        });
+
+        $this->specify('when a null website is set getWebsiteURL will return false', function () {
+            $content = $this->createContent();
+            $content->setWebsite(null);
+            verify($content->getWebsiteURL())->false();
+        });
+
+        $this->specify('when a invalid website url is set getWebsiteURL will return false', function () {
+            $content = $this->createContent();
+            $content->setWebsite('www.example.com');
+            verify($content->getWebsiteURL())->false();
+        });
+
+        $this->specify('only http urls are accepted as valid for the website', function () {
+            $content = $this->createContent();
+            $content->setWebsite('ssh://example.com');
+            verify($content->getWebsiteURL())->false();
+        });
+    }
 }
