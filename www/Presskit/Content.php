@@ -6,6 +6,7 @@ class Content
 {
     private $title;
     private $foundingDate;
+    private $releaseDate;
 
     public function setTitle($title)
     {
@@ -41,5 +42,23 @@ class Content
         }
 
         return $this->foundingDate;
+    }
+
+    public function setReleaseDate($date)
+    {
+        $date = (string) $date;
+
+        if ($date !== '') {
+            $this->releaseDate = $date;
+        }
+    }
+
+    public function getReleaseDate()
+    {
+        if ($this->releaseDate === null) {
+            return false;
+        }
+
+        return $this->releaseDate;
     }
 }

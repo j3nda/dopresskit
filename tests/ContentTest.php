@@ -84,4 +84,41 @@ class ContentTest extends TestCase
             verify($content->getFoundingDate())->false();
         });
     }
+
+    public function testReleaseDate()
+    {
+        $this->specify('releaseDate can be set', function () {
+            $content = $this->createContent();
+            verify($content->setReleaseDate('A Date'))->isEmpty();
+        });
+
+        $this->specify('releaseDate can be read', function () {
+            $content = $this->createContent();
+            $content->setReleaseDate('Another Date');
+            verify($content->getReleaseDate())->equals('Another Date');
+        });
+
+        $this->specify('a non-empty releaseDate is always a string', function () {
+            $content = $this->createContent();
+            $content->setReleaseDate(100);
+            verify($content->getReleaseDate())->internalType('string');
+        });
+
+        $this->specify('when a release date is not set getReleaseDate will return false', function () {
+            $content = $this->createContent();
+            verify($content->getReleaseDate())->false();
+        });
+
+        $this->specify('when a empty release date is set getReleaseDate will return false', function () {
+            $content = $this->createContent();
+            $content->setReleaseDate('');
+            verify($content->getReleaseDate())->false();
+        });
+
+        $this->specify('when a null release date is set getReleaseDate will return false', function () {
+            $content = $this->createContent();
+            $content->setReleaseDate(null);
+            verify($content->getReleaseDate())->false();
+        });
+    }
 }

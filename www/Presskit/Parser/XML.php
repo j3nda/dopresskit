@@ -20,6 +20,7 @@ class XML
     {
         $this->findTitle();
         $this->findFoundingDate();
+        $this->findReleaseDate();
 
         return $this->content;
     }
@@ -35,6 +36,13 @@ class XML
     {
         if (count($this->data->{'founding-date'}) > 0) {
             $this->content->setFoundingDate($this->data->{'founding-date'});
+        }
+    }
+
+    private function findReleaseDate()
+    {
+        if (count($this->data->{'release-date'}) > 0) {
+            $this->content->setReleaseDate($this->data->{'release-date'});
         }
     }
 }

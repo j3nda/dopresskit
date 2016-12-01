@@ -50,4 +50,17 @@ class XMLTest extends TestCase
             verify($XMLParser->parse()->getFoundingDate())->false();
         });
     }
+
+    public function testReleaseDateParsing()
+    {
+        $this->specify('release-date is read from the xml file', function () {
+            $XMLParser = $this->createParser('normal');
+            verify($XMLParser->parse()->getReleaseDate())->equals('Second of January, 2016');
+        });
+
+        $this->specify('it can handle a missing release-date tag', function () {
+            $XMLParser = $this->createParser('empty');
+            verify($XMLParser->parse()->getReleaseDate())->false();
+        });
+    }
 }
