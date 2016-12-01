@@ -47,4 +47,41 @@ class ContentTest extends TestCase
             verify($content->getTitle())->false();
         });
     }
+
+    public function testFoundingDate()
+    {
+        $this->specify('foundingDate can be set', function () {
+            $content = $this->createContent();
+            verify($content->setFoundingDate('A Date'))->isEmpty();
+        });
+
+        $this->specify('foundingDate can be read', function () {
+            $content = $this->createContent();
+            $content->setFoundingDate('Another Date');
+            verify($content->getFoundingDate())->equals('Another Date');
+        });
+
+        $this->specify('a non-empty foundingDate is always a string', function () {
+            $content = $this->createContent();
+            $content->setFoundingDate(100);
+            verify($content->getFoundingDate())->internalType('string');
+        });
+
+        $this->specify('when a founding date is not set getFoundingDate will return false', function () {
+            $content = $this->createContent();
+            verify($content->getFoundingDate())->false();
+        });
+
+        $this->specify('when a empty founding date is set getFoundingDate will return false', function () {
+            $content = $this->createContent();
+            $content->setFoundingDate('');
+            verify($content->getFoundingDate())->false();
+        });
+
+        $this->specify('when a null founding date is set getFoundingDate will return false', function () {
+            $content = $this->createContent();
+            $content->setFoundingDate(null);
+            verify($content->getFoundingDate())->false();
+        });
+    }
 }
