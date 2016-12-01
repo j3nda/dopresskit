@@ -1,0 +1,7 @@
+<phpunit bootstrap="www/autoload.php">
+  <testsuites>
+    <testsuite name="presskit">
+      <directory>tests</directory>
+    </testsuite>
+  </testsuites>
+</phpunit>
