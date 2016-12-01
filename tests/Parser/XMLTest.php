@@ -37,4 +37,17 @@ class XMLTest extends TestCase
             verify($XMLParser->parse()->getTitle())->false();
         });
     }
+
+    public function testFoundingDateParsing()
+    {
+        $this->specify('founding-date is read from the xml file', function () {
+            $XMLParser = $this->createParser('normal');
+            verify($XMLParser->parse()->getFoundingDate())->equals('First of January, 2016');
+        });
+
+        $this->specify('it can handle a missing founding-date tag', function () {
+            $XMLParser = $this->createParser('empty');
+            verify($XMLParser->parse()->getFoundingDate())->false();
+        });
+    }
 }

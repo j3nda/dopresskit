@@ -19,6 +19,7 @@ class XML
     public function parse()
     {
         $this->findTitle();
+        $this->findFoundingDate();
 
         return $this->content;
     }
@@ -27,6 +28,13 @@ class XML
     {
         if (count($this->data->title) > 0) {
             $this->content->setTitle($this->data->title);
+        }
+    }
+
+    private function findFoundingDate()
+    {
+        if (count($this->data->{'founding-date'}) > 0) {
+            $this->content->setFoundingDate($this->data->{'founding-date'});
         }
     }
 }
