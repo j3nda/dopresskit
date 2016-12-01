@@ -8,11 +8,19 @@ class Content
 
     public function setTitle($title)
     {
-        $this->title = (string) $title;
+        $title = (string) $title;
+
+        if ($title !== '') {
+            $this->title = $title;
+        }
     }
 
     public function getTitle()
     {
+        if ($this->title === null) {
+            return false;
+        }
+
         return $this->title;
     }
 }
