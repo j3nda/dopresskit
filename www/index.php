@@ -20,9 +20,6 @@ foreach( $xml->children() as $child )
 {
 	switch( $child->getName() )
 	{
-		case("founding-date"):
-			define("COMPANY_DATE", $child);
-			break;
 		case("website"):
 			define("COMPANY_WEBSITE", $child);
 			break;
@@ -157,7 +154,6 @@ $company = array(
 	'website' => parseLink(COMPANY_WEBSITE),
 	'website_name' => trim(parseLink(COMPANY_WEBSITE), "/"),
 	'location' => COMPANY_BASED,
-	'founding_date' => COMPANY_DATE,
 	'contact' => COMPANY_CONTACT,
 	'social' => array(),
 	'releases' => array(),

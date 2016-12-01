@@ -74,7 +74,7 @@
 
                             <p>
                                 <strong><?=tl('Founding date:')?></strong><br/>
-                                <?=$company['founding_date']?>
+                                <?=$content->getFoundingDate()?>
                             </p>
 
                             <p>
