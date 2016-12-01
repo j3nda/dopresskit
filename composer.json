@@ -7,5 +7,10 @@
         "codeception/verify": "0.3.*",
         "squizlabs/php_codesniffer": "2.7.*",
         "phpmd/phpmd": "2.5.*"
+    },
+    "scripts": {
+        "test": "./vendor/bin/phpunit",
+        "lint": "./vendor/bin/phpcs --standard=phpcs.xml ./",
+        "md": "./vendor/bin/phpmd ./ text cleancode,codesize,design,naming,unusedcode --exclude vendor,www/lang"
     }
 }
