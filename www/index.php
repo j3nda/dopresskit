@@ -1,5 +1,10 @@
 <?php
 
+require_once(__DIR__ . '/autoload.php');
+
+$presskit = new Presskit\Presskit;
+$presskit->parse(__DIR__ . '/data.xml');
+
 // Language logic
 
 include 'lang/TranslateTool.php';
