@@ -4,44 +4,47 @@ use PHPUnit\Framework\TestCase;
 
 class ContentTest extends TestCase
 {
-    private $content;
-
     use Codeception\Specify;
 
-    public function setUp()
+    private function createContent()
     {
-        $this->content = new Presskit\Content;
+        return new Presskit\Content;
     }
 
     public function testTitle()
     {
         $this->specify('title can be set', function () {
-            verify($this->content->setTitle('A Title'))->isEmpty();
+            $content = $this->createContent();
+            verify($content->setTitle('A Title'))->isEmpty();
         });
 
         $this->specify('title can be read', function () {
-            $this->content->setTitle('Another Title');
-            verify($this->content->getTitle())->equals('Another Title');
+            $content = $this->createContent();
+            $content->setTitle('Another Title');
+            verify($content->getTitle())->equals('Another Title');
         });
 
         $this->specify('a non-empty title is always a string', function () {
-            $this->content->setTitle(100);
-            verify($this->content->getTitle())->internalType('string');
+            $content = $this->createContent();
+            $content->setTitle(100);
+            verify($content->getTitle())->internalType('string');
         });
 
         $this->specify('when a title is not set getTitle will return false', function () {
-            $content = new Presskit\Content;
+            $content = $this->createContent();
             verify($content->getTitle())->false();
         });
 
         $this->specify('when a empty title is set getTitle will return false', function () {
-            $this->content->setTitle('');
-            verify($this->content->getTitle())->false();
+            $content = $this->createContent();
+            $content->setTitle('');
+            verify($content->getTitle())->false();
         });
 
         $this->specify('when a null title is set getTitle will return false', function () {
-            $this->content->setTitle(null);
-            verify($this->content->getTitle())->false();
+            $content = $this->createContent();
+            $content->setTitle(null);
+            verify($content->getTitle())->false();
         });
     }
 }

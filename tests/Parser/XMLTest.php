@@ -4,26 +4,23 @@ use PHPUnit\Framework\TestCase;
 
 class XMLTest extends TestCase
 {
-    private $content;
-    private $XMLParser;
-
     use Codeception\Specify;
 
-    public function setUp()
+    private function createParser($fixture)
     {
-        $this->content = new Presskit\Content;
-        $this->XMLParser = new Presskit\Parser\XML(__DIR__ . '/../fixtures/normal.xml', $this->content);
+        $content = new Presskit\Content;
+        return new Presskit\Parser\XML(__DIR__ . '/../fixtures/' . $fixture . '.xml', $content);
     }
 
     public function testParsing()
     {
         $this->specify('parse returns the content object', function () {
-            verify($this->XMLParser->parse())->isInstanceOf('Presskit\Content');
+            $XMLParser = $this->createParser('normal');
+            verify($XMLParser->parse())->isInstanceOf('Presskit\Content');
         });
 
         $this->specify('it can handle a empty xml file', function () {
-            $content = new Presskit\Content;
-            $XMLParser = new Presskit\Parser\XML(__DIR__ . '/../fixtures/empty.xml', $content);
+            $XMLParser = $this->createParser('empty');
             verify($XMLParser->parse())->isInstanceOf('Presskit\Content');
         });
     }
@@ -31,12 +28,12 @@ class XMLTest extends TestCase
     public function testTitleParsing()
     {
         $this->specify('the title is read from the xml file', function () {
-            verify($this->XMLParser->parse()->getTitle())->equals('Example Title');
+            $XMLParser = $this->createParser('normal');
+            verify($XMLParser->parse()->getTitle())->equals('Example Title');
         });
 
         $this->specify('it can handle a missing title tag', function () {
-            $content = new Presskit\Content;
-            $XMLParser = new Presskit\Parser\XML(__DIR__ . '/../fixtures/empty.xml', $content);
+            $XMLParser = $this->createParser('empty');
             verify($XMLParser->parse()->getTitle())->false();
         });
     }
