@@ -3,7 +3,7 @@
 require_once(__DIR__ . '/autoload.php');
 
 $presskit = new Presskit\Presskit;
-$presskit->parse(__DIR__ . '/data.xml');
+$content = $presskit->parse(__DIR__ . '/data.xml');
 
 // Language logic
 
@@ -20,9 +20,6 @@ foreach( $xml->children() as $child )
 {
 	switch( $child->getName() )
 	{
-		case("title"):
-			define("COMPANY_TITLE", $child);
-			break;	
 		case("founding-date"):
 			define("COMPANY_DATE", $child);
 			break;
@@ -157,7 +154,6 @@ function parseLink($uri)
 $languages = TranslateTool::getLanguages();
 
 $company = array(
-	'title' => COMPANY_TITLE,
 	'website' => parseLink(COMPANY_WEBSITE),
 	'website_name' => trim(parseLink(COMPANY_WEBSITE), "/"),
 	'location' => COMPANY_BASED,

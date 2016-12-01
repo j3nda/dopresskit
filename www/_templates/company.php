@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 		
-        <title><?=$company['title']?></title>
+        <title><?=$content->getTitle()?></title>
         <link href="http://cdnjs.cloudflare.com/ajax/libs/uikit/1.2.0/css/uikit.gradient.min.css" rel="stylesheet" type="text/css">
         <link href="style.css" rel="stylesheet" type="text/css">
     </head>
@@ -13,7 +13,7 @@
         <div class="uk-container uk-container-center">
             <div class="uk-grid">
                 <div id="navigation" class="uk-width-medium-1-4">
-                    <h1 class="nav-header"><?=$company['title']?></h1>
+                    <h1 class="nav-header"><?=$content->getTitle()?></h1>
 
                     <a class="nav-header" href="http://<?=$company['website']?>"><?=$company['website_name']?></a>
 
@@ -68,7 +68,7 @@
 
                             <p>
                                 <strong><?=tl('Developer:')?></strong><br/>
-                                <a href=""><?=$company['title']?></a><br/>
+                                <a href=""><?=$content->getTitle()?></a><br/>
                                 <?=tl('Based in %s', $company['location'])?>
                             </p>
 
@@ -142,7 +142,7 @@
                     <h2 id="trailers"><?=tl('Videos')?></h2>
 
                     <?php if (count($company['trailers']) === 0): ?>
-                        <p><?=tlHtml('There are currently no trailers available for %s. Check back later for more or <a href="#contact">contact us</a> for specific requests!', $company['title'])?></p>
+                        <p><?=tlHtml('There are currently no trailers available for %s. Check back later for more or <a href="#contact">contact us</a> for specific requests!', $content->getTitle())?></p>
                     <?php else: ?>
                         <?php foreach ($company['trailers'] as $trailer): ?>
                             <p><strong><?=$trailer['name']?></strong>&nbsp;
@@ -180,7 +180,7 @@
                         <?php endif; ?>
                     </div>
 
-                    <p class="images-text"><?=tlHtml('There are far more images available for %s, but these are the ones we felt would be most useful to you. If you have specific requests, please do <a href="#contact">contact us</a>!', $company['title'])?></p>
+                    <p class="images-text"><?=tlHtml('There are far more images available for %s, but these are the ones we felt would be most useful to you. If you have specific requests, please do <a href="#contact">contact us</a>!', $content->getTitle())?></p>
 
                     <hr>
 
@@ -201,7 +201,7 @@
                     </div>
 
                     <?php if ($company['logo'] === NULL && $company['icon'] === NULL): ?>
-                        <p><?=tlHtml('There are currently no logos or icons available for %s. Check back later for more or <a href="#contact">contact us</a> for specific requests!', $company['title'])?></p>
+                        <p><?=tlHtml('There are currently no logos or icons available for %s. Check back later for more or <a href="#contact">contact us</a> for specific requests!', $content->getTitle())?></p>
                     <?php endif; ?>
 
                     <hr>
