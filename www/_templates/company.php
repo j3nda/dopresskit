@@ -15,7 +15,7 @@
                 <div id="navigation" class="uk-width-medium-1-4">
                     <h1 class="nav-header"><?=$content->getTitle()?></h1>
 
-                    <a class="nav-header" href="http://<?=$company['website']?>"><?=$company['website_name']?></a>
+                    <a class="nav-header" href="<?=$content->getWebsiteURL()?>"><?=$content->getWebsiteName()?></a>
 
                     <ul class="uk-nav uk-nav-side">
                         <?php if (count($languages) > 1): ?>
@@ -79,7 +79,7 @@
 
                             <p>
                                 <strong><?=tl('Website:')?></strong><br/>
-                                <a href="http://<?=$company['website']?>"><?=$company['website_name']?></a>
+                                <a href="http://<?=$content->getWebsiteURL()?>"><?=$content->getWebsiteName()?></a>
                             </p>
 
                             <p>
