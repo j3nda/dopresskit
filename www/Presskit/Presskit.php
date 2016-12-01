@@ -7,11 +7,11 @@ use Presskit\Parser\XML as XMLParser;
 
 class Presskit
 {
-    private $XMLParser;
+    private $content;
 
     public function __construct()
     {
-        $this->XMLParser = new XMLParser;
+        $this->content = new Content;
     }
 
     public function parse($file)
@@ -21,7 +21,8 @@ class Presskit
             $mimeType = $finfo->file($file, FILEINFO_MIME);
 
             if (strpos($mimeType, 'application/xml') !== false) {
-                return $this->XMLParser->parse($file);
+                $parser = new XMLParser($file, $this->content);
+                return $parser->parse();
             }
         }
 

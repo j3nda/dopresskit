@@ -15,16 +15,16 @@ class PresskitTest extends TestCase
 
     public function testFileParsing()
     {
-        $this->specify('a file has to exist', function () {
+        $this->specify('file has to exist', function () {
             verify($this->presskit->parse('/file/not/found'))->false();
         });
 
-        $this->specify('a file has to be xml', function () {
+        $this->specify('file has to be xml', function () {
             verify($this->presskit->parse(__DIR__ . '/PresskitTest.php'))->false();
         });
 
-        $this->specify('a xml file is accepted', function () {
-            verify($this->presskit->parse(__DIR__ . '/fixtures/data.xml'))->notEquals(false);
+        $this->specify('xml files are accepted', function () {
+            verify($this->presskit->parse(__DIR__ . '/fixtures/normal.xml'))->notEquals(false);
         });
     }
 }
