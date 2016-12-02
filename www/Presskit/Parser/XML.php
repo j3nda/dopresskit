@@ -71,7 +71,7 @@ class XML
         }
     }
 
-    public function findSocialContacts()
+    private function findSocialContacts()
     {
         if (count($this->data->socials) > 0) {
             foreach ($this->data->socials->social as $social) {
