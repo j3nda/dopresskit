@@ -107,4 +107,23 @@ class ContentTest extends TestCase
             verify($content->getPressContact())->equals('');
         });
     }
+
+    public function testLocation()
+    {
+        $this->specify('location can be set', function () {
+            $content = $this->createContent();
+            verify($content->setLocation('City, Country'))->isEmpty();
+        });
+
+        $this->specify('location can be read', function () {
+            $content = $this->createContent();
+            $content->setLocation('City, Country');
+            verify($content->getLocation())->equals('City, Country');
+        });
+
+        $this->specify('location can handle not being set', function () {
+            $content = $this->createContent();
+            verify($content->getLocation())->equals('');
+        });
+    }
 }

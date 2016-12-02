@@ -89,4 +89,17 @@ class XMLTest extends TestCase
             verify($XMLParser->parse()->getPressContact())->equals('');
         });
     }
+
+    public function testLocationParsing()
+    {
+        $this->specify('based-in is read from the xml file', function () {
+            $XMLParser = $this->createParser('normal');
+            verify($XMLParser->parse()->getLocation())->equals('City, Country');
+        });
+
+        $this->specify('it can handle a missing based-in tag', function () {
+            $XMLParser = $this->createParser('empty');
+            verify($XMLParser->parse()->getLocation())->equals('');
+        });
+    }
 }

@@ -12,6 +12,7 @@ class Content
     private $releaseDate = '';
     private $website = '';
     private $pressContact = '';
+    private $location = '';
 
     public function setTitle($title)
     {
@@ -65,5 +66,15 @@ class Content
     public function getPressContact()
     {
         return $this->pressContact;
+    }
+
+    public function setLocation($location)
+    {
+        $this->location = new Text($location);
+    }
+
+    public function getLocation()
+    {
+        return $this->location;
     }
 }

@@ -69,7 +69,7 @@
                             <p>
                                 <strong><?=tl('Developer:')?></strong><br/>
                                 <a href=""><?=$content->getTitle()?></a><br/>
-                                <?=tl('Based in %s', $company['location'])?>
+                                <?=tl('Based in %s', $content->getLocation())?>
                             </p>
 
                             <p>

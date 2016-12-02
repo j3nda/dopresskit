@@ -20,9 +20,6 @@ foreach( $xml->children() as $child )
 {
 	switch( $child->getName() )
 	{
-		case("based-in"):
-			define("COMPANY_BASED", $child);
-			break;
 		case("analytics"):
 			define("ANALYTICS", $child);
 			break;
@@ -145,7 +142,6 @@ function parseLink($uri)
 $languages = TranslateTool::getLanguages();
 
 $company = array(
-	'location' => COMPANY_BASED,
 	'social' => array(),
 	'releases' => array(),
 	'address' => array(),

@@ -6,6 +6,7 @@
 	<release-date>Second of January, 2016</release-date>
 	<website>http://www.example.com/</website>
 	<press-contact>press@example.com</press-contact>
+	<based-in>City, Country</based-in>
 	<press-can-request-copy>TRUE</press-can-request-copy>
 
 	<platforms>

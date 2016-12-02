@@ -23,6 +23,7 @@ class XML
         $this->findReleaseDate();
         $this->findWebsite();
         $this->findPressContact();
+        $this->findLocation();
 
         return $this->content;
     }
@@ -59,6 +60,13 @@ class XML
     {
         if (count($this->data->{'press-contact'}) > 0) {
             $this->content->setPressContact($this->data->{'press-contact'});
+        }
+    }
+
+    private function findLocation()
+    {
+        if (count($this->data->{'based-in'}) > 0) {
+            $this->content->setLocation($this->data->{'based-in'});
         }
     }
 }
