@@ -104,9 +104,9 @@
                             </p>
 
                             <p>
-                                <?php if (count($company['address']) > 0): ?>
+                                <?php if (count($content->getAddress()) > 0): ?>
                                     <strong><?=tl('Address:')?></strong><br/>
-                                    <?php foreach($address as $addressLine): ?>
+                                    <?php foreach($content->getAddress() as $addressLine): ?>
                                         <?=$addressLine?><br/>
                                     <?php endforeach; ?>
                                 <?php endif; ?>

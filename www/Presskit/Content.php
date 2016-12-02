@@ -16,6 +16,7 @@ class Content
     private $pressContact = '';
     private $location = '';
     private $socialContacts = [];
+    private $address = [];
 
     public function setTitle($title)
     {
@@ -93,5 +94,19 @@ class Content
     public function getSocialContacts()
     {
         return $this->socialContacts;
+    }
+
+    public function addAddressLine($addressLine)
+    {
+        $addressLine = new Text($addressLine);
+
+        if ((string) $addressLine !== '') {
+            $this->address[] = $addressLine;
+        }
+    }
+
+    public function getAddress()
+    {
+        return $this->address;
     }
 }

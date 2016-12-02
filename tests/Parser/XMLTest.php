@@ -117,4 +117,18 @@ class XMLTest extends TestCase
             verify($XMLParser->parse()->getSocialContacts())->count(0);
         });
     }
+
+    public function testAddressParsing()
+    {
+        $this->specify('address lines are read from the xml file', function () {
+            $XMLParser = $this->createParser('normal');
+            verify($XMLParser->parse()->getAddress())->count(3);
+            verify($XMLParser->parse()->getAddress()[0])->equals('Address Line 1');
+        });
+
+        $this->specify('it can handle a missing address tag', function () {
+            $XMLParser = $this->createParser('empty');
+            verify($XMLParser->parse()->getAddress())->count(0);
+        });
+    }
 }

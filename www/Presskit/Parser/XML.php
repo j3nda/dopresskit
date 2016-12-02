@@ -25,6 +25,7 @@ class XML
         $this->findPressContact();
         $this->findLocation();
         $this->findSocialContacts();
+        $this->findAddress();
 
         return $this->content;
     }
@@ -76,6 +77,15 @@ class XML
         if (count($this->data->socials) > 0) {
             foreach ($this->data->socials->social as $social) {
                 $this->content->addSocialContact($social->name, $social->link);
+            }
+        }
+    }
+
+    private function findAddress()
+    {
+        if (count($this->data->address) > 0) {
+            foreach ($this->data->address->line as $addressLine) {
+                $this->content->addAddressLine($addressLine);
             }
         }
     }

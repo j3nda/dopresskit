@@ -147,4 +147,24 @@ class ContentTest extends TestCase
             verify($content->getSocialContacts())->count(0);
         });
     }
+
+    public function testAddress()
+    {
+        $this->specify('social contacts can be added', function () {
+            $content = $this->createContent();
+            verify($content->addAddressLine('Address Line'))->isEmpty();
+        });
+
+        $this->specify('address can be read', function () {
+            $content = $this->createContent();
+            $content->addAddressLine('Address Line');
+            verify($content->getAddress())->count(1);
+            verify($content->getAddress()[0])->equals('Address Line');
+        });
+
+        $this->specify('address can handle lines not being added', function () {
+            $content = $this->createContent();
+            verify($content->getAddress())->count(0);
+        });
+    }
 }

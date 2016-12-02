@@ -23,15 +23,6 @@ foreach( $xml->children() as $child )
 		case("analytics"):
 			define("ANALYTICS", $child);
 			break;
-		case("address"):
-			$address = array();
-			$i = 0;
-			foreach( $child->children() as $subchild )
-			{
-				$address[$i] = $subchild;
-				$i++;
-			}
-			break;	
 		case("phone"):
 			define("COMPANY_PHONE", $child);
 			break;
@@ -134,7 +125,6 @@ $languages = TranslateTool::getLanguages();
 
 $company = array(
 	'releases' => array(),
-	'address' => array(),
 	'phone' => COMPANY_PHONE,
 	'description' => COMPANY_DESCRIPTION,
 	'history' => array(),
@@ -178,10 +168,6 @@ foreach ($dir as $file) {
 			);
 		}
 	}
-}
-
-foreach ($address as $addressLine) {
-	$company['address'][] = $addressLine->__toString();
 }
 
 foreach ($histories as $history) {

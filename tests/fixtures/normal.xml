@@ -24,6 +24,12 @@
 		</social>
 	</socials>
 
+	<address>
+		<line>Address Line 1</line>
+		<line>Address Line 2</line>
+		<line>Address Line 3</line>
+	</address>
+
 	<platforms>
 		<platform>
 			<name>PC / Mac</name>
