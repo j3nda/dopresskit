@@ -126,4 +126,25 @@ class ContentTest extends TestCase
             verify($content->getLocation())->equals('');
         });
     }
+
+    public function testSocialContacts()
+    {
+        $this->specify('social contacts can be added', function () {
+            $content = $this->createContent();
+            verify($content->addSocialContact('Name', 'http://www.example.com/'))->isEmpty();
+        });
+
+        $this->specify('social contacts can be read', function () {
+            $content = $this->createContent();
+            $content->addSocialContact('Name', 'http://www.example.com/');
+            verify($content->getSocialContacts())->count(1);
+            verify($content->getSocialContacts()[0]->name())->equals('Name');
+            verify($content->getSocialContacts()[0]->URI())->equals('http://www.example.com/');
+        });
+
+        $this->specify('social contacts can handle not being added', function () {
+            $content = $this->createContent();
+            verify($content->getSocialContacts())->count(0);
+        });
+    }
 }

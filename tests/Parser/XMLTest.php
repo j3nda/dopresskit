@@ -102,4 +102,19 @@ class XMLTest extends TestCase
             verify($XMLParser->parse()->getLocation())->equals('');
         });
     }
+
+    public function testSocialContactsParsing()
+    {
+        $this->specify('social contacts are read from the xml file', function () {
+            $XMLParser = $this->createParser('normal');
+            verify($XMLParser->parse()->getSocialContacts())->count(3);
+            verify($XMLParser->parse()->getSocialContacts()[0]->name())->equals('twitter.com/Example');
+            verify($XMLParser->parse()->getSocialContacts()[0]->URI())->equals('http://www.twitter.com/Example');
+        });
+
+        $this->specify('it can handle a missing socials tag', function () {
+            $XMLParser = $this->createParser('empty');
+            verify($XMLParser->parse()->getSocialContacts())->count(0);
+        });
+    }
 }
