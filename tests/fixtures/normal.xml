@@ -9,6 +9,21 @@
 	<based-in>City, Country</based-in>
 	<press-can-request-copy>TRUE</press-can-request-copy>
 
+	<socials>
+		<social>
+			<name>twitter.com/Example</name>
+			<link>http://www.twitter.com/Example</link>
+		</social>
+		<social>
+			<name>facebook.com/Example</name>
+			<link>http://www.facebook.com/Example</link>
+		</social>
+		<social>
+			<name>Skype</name>
+			<link>callto:Example</link>
+		</social>
+	</socials>
+
 	<platforms>
 		<platform>
 			<name>PC / Mac</name>

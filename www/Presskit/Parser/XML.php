@@ -24,6 +24,7 @@ class XML
         $this->findWebsite();
         $this->findPressContact();
         $this->findLocation();
+        $this->findSocialContacts();
 
         return $this->content;
     }
@@ -67,6 +68,15 @@ class XML
     {
         if (count($this->data->{'based-in'}) > 0) {
             $this->content->setLocation($this->data->{'based-in'});
+        }
+    }
+
+    public function findSocialContacts()
+    {
+        if (count($this->data->socials) > 0) {
+            foreach ($this->data->socials->social as $social) {
+                $this->content->addSocialContact($social->name, $social->link);
+            }
         }
     }
 }

@@ -4,6 +4,8 @@ namespace Presskit;
 
 use Presskit\Value\Text;
 use Presskit\Value\Website;
+use Presskit\Value\URL;
+use Presskit\Value\Contact;
 
 class Content
 {
@@ -13,6 +15,7 @@ class Content
     private $website = '';
     private $pressContact = '';
     private $location = '';
+    private $socialContacts = [];
 
     public function setTitle($title)
     {
@@ -76,5 +79,19 @@ class Content
     public function getLocation()
     {
         return $this->location;
+    }
+
+    public function addSocialContact($name, $uri)
+    {
+        $contact = new Contact($name, $uri);
+
+        if ((string) $contact !== '') {
+            $this->socialContacts[] = $contact;
+        }
+    }
+
+    public function getSocialContacts()
+    {
+        return $this->socialContacts;
     }
 }

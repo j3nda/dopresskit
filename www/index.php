@@ -23,15 +23,6 @@ foreach( $xml->children() as $child )
 		case("analytics"):
 			define("ANALYTICS", $child);
 			break;
-		case("socials"):
-			$socials = array();
-			$i = 0;
-			foreach( $child->children() as $subchild )
-			{
-				$socials[$i][$subchild->getName()] = $subchild;
-				$i++;
-			}
-			break;
 		case("address"):
 			$address = array();
 			$i = 0;
@@ -142,7 +133,6 @@ function parseLink($uri)
 $languages = TranslateTool::getLanguages();
 
 $company = array(
-	'social' => array(),
 	'releases' => array(),
 	'address' => array(),
 	'phone' => COMPANY_PHONE,
@@ -161,13 +151,6 @@ $company = array(
 	'contacts' => array(),
 	'google_analytics' => NULL,
 );
-
-foreach($socials as $social) {
-	$company['social'][] = array(
-		'name' => $social['social']->name,
-		'url' => $social['social']->link,
-	);
-}
 
 $defaultDirectories = array(
 	'.',
