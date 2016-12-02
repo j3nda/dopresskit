@@ -29,5 +29,10 @@ class TextTest extends TestCase
             $value = new Text(null);
             verify($value)->equals('');
         });
+
+        $this->specify('unnecessary whitespace is trimmed', function () {
+            $value = new Text('    A  Test     ');
+            verify($value)->equals('A  Test');
+        });
     }
 }

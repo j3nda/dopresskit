@@ -11,7 +11,7 @@ class Text
         $value = (string) $value;
 
         if ($value !== '') {
-            $this->value = $value;
+            $this->value = trim($value);
         }
     }
 
