@@ -24,26 +24,8 @@ class ContentTest extends TestCase
             verify($content->getTitle())->equals('Another Title');
         });
 
-        $this->specify('a non-empty title is always a string', function () {
+        $this->specify('title can handle not being set', function () {
             $content = $this->createContent();
-            $content->setTitle(100);
-            verify($content->getTitle())->internalType('string');
-        });
-
-        $this->specify('when a title is not set getTitle will return false', function () {
-            $content = $this->createContent();
-            verify($content->getTitle())->false();
-        });
-
-        $this->specify('when a empty title is set getTitle will return false', function () {
-            $content = $this->createContent();
-            $content->setTitle('');
-            verify($content->getTitle())->false();
-        });
-
-        $this->specify('when a null title is set getTitle will return false', function () {
-            $content = $this->createContent();
-            $content->setTitle(null);
             verify($content->getTitle())->false();
         });
     }
@@ -61,26 +43,8 @@ class ContentTest extends TestCase
             verify($content->getFoundingDate())->equals('Another Date');
         });
 
-        $this->specify('a non-empty foundingDate is always a string', function () {
+        $this->specify('foundingDate can handle not being set', function () {
             $content = $this->createContent();
-            $content->setFoundingDate(100);
-            verify($content->getFoundingDate())->internalType('string');
-        });
-
-        $this->specify('when a founding date is not set getFoundingDate will return false', function () {
-            $content = $this->createContent();
-            verify($content->getFoundingDate())->false();
-        });
-
-        $this->specify('when a empty founding date is set getFoundingDate will return false', function () {
-            $content = $this->createContent();
-            $content->setFoundingDate('');
-            verify($content->getFoundingDate())->false();
-        });
-
-        $this->specify('when a null founding date is set getFoundingDate will return false', function () {
-            $content = $this->createContent();
-            $content->setFoundingDate(null);
             verify($content->getFoundingDate())->false();
         });
     }
@@ -98,26 +62,8 @@ class ContentTest extends TestCase
             verify($content->getReleaseDate())->equals('Another Date');
         });
 
-        $this->specify('a non-empty releaseDate is always a string', function () {
+        $this->specify('releaseDate can handle not being set', function () {
             $content = $this->createContent();
-            $content->setReleaseDate(100);
-            verify($content->getReleaseDate())->internalType('string');
-        });
-
-        $this->specify('when a release date is not set getReleaseDate will return false', function () {
-            $content = $this->createContent();
-            verify($content->getReleaseDate())->false();
-        });
-
-        $this->specify('when a empty release date is set getReleaseDate will return false', function () {
-            $content = $this->createContent();
-            $content->setReleaseDate('');
-            verify($content->getReleaseDate())->false();
-        });
-
-        $this->specify('when a null release date is set getReleaseDate will return false', function () {
-            $content = $this->createContent();
-            $content->setReleaseDate(null);
             verify($content->getReleaseDate())->false();
         });
     }

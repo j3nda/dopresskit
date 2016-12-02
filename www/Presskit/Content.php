@@ -2,6 +2,8 @@
 
 namespace Presskit;
 
+use Presskit\Value\Text;
+
 class Content
 {
     private $title;
@@ -12,11 +14,7 @@ class Content
 
     public function setTitle($title)
     {
-        $title = (string) $title;
-
-        if ($title !== '') {
-            $this->title = $title;
-        }
+        $this->title = new Text($title);
     }
 
     public function getTitle()
@@ -25,16 +23,12 @@ class Content
             return false;
         }
 
-        return $this->title;
+        return $this->title->get();
     }
 
     public function setFoundingDate($date)
     {
-        $date = (string) $date;
-
-        if ($date !== '') {
-            $this->foundingDate = $date;
-        }
+        $this->foundingDate = new Text($date);
     }
 
     public function getFoundingDate()
@@ -43,16 +37,12 @@ class Content
             return false;
         }
 
-        return $this->foundingDate;
+        return $this->foundingDate->get();
     }
 
     public function setReleaseDate($date)
     {
-        $date = (string) $date;
-
-        if ($date !== '') {
-            $this->releaseDate = $date;
-        }
+        $this->releaseDate = new Text($date);
     }
 
     public function getReleaseDate()
@@ -61,7 +51,7 @@ class Content
             return false;
         }
 
-        return $this->releaseDate;
+        return $this->releaseDate->get();
     }
 
     public function setWebsite($website)
