@@ -24,6 +24,15 @@ class Website
         }
     }
 
+    public function __toString()
+    {
+        if ($this->url === null) {
+            return '';
+        }
+
+        return $this->name . ' (' . $this->url . ')';
+    }
+
     public function url()
     {
         if ($this->url === null) {

@@ -34,7 +34,7 @@ class XMLTest extends TestCase
 
         $this->specify('it can handle a missing title tag', function () {
             $XMLParser = $this->createParser('empty');
-            verify($XMLParser->parse()->getTitle())->false();
+            verify($XMLParser->parse()->getTitle())->equals('');
         });
     }
 
@@ -47,7 +47,7 @@ class XMLTest extends TestCase
 
         $this->specify('it can handle a missing founding-date tag', function () {
             $XMLParser = $this->createParser('empty');
-            verify($XMLParser->parse()->getFoundingDate())->false();
+            verify($XMLParser->parse()->getFoundingDate())->equals('');
         });
     }
 
@@ -60,7 +60,7 @@ class XMLTest extends TestCase
 
         $this->specify('it can handle a missing release-date tag', function () {
             $XMLParser = $this->createParser('empty');
-            verify($XMLParser->parse()->getReleaseDate())->false();
+            verify($XMLParser->parse()->getReleaseDate())->equals('');
         });
     }
 
@@ -73,7 +73,7 @@ class XMLTest extends TestCase
 
         $this->specify('it can handle a missing website tag', function () {
             $XMLParser = $this->createParser('empty');
-            verify($XMLParser->parse()->getWebsite())->false();
+            verify($XMLParser->parse()->getWebsite())->equals('');
         });
     }
 }

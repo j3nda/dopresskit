@@ -15,10 +15,10 @@ class Text
         }
     }
 
-    public function get()
+    public function __toString()
     {
         if ($this->value === null) {
-            return false;
+            return '';
         }
 
         return $this->value;

@@ -7,9 +7,9 @@ use Presskit\Value\Website;
 
 class Content
 {
-    private $title;
-    private $foundingDate;
-    private $releaseDate;
+    private $title = '';
+    private $foundingDate = '';
+    private $releaseDate = '';
     private $website;
 
     public function setTitle($title)
@@ -19,11 +19,7 @@ class Content
 
     public function getTitle()
     {
-        if ($this->title === null) {
-            return false;
-        }
-
-        return $this->title->get();
+        return $this->title;
     }
 
     public function setFoundingDate($date)
@@ -33,11 +29,7 @@ class Content
 
     public function getFoundingDate()
     {
-        if ($this->foundingDate === null) {
-            return false;
-        }
-
-        return $this->foundingDate->get();
+        return $this->foundingDate;
     }
 
     public function setReleaseDate($date)
@@ -47,11 +39,7 @@ class Content
 
     public function getReleaseDate()
     {
-        if ($this->releaseDate === null) {
-            return false;
-        }
-
-        return $this->releaseDate->get();
+        return $this->releaseDate;
     }
 
     public function setWebsite($website)

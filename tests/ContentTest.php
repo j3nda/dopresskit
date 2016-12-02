@@ -26,7 +26,7 @@ class ContentTest extends TestCase
 
         $this->specify('title can handle not being set', function () {
             $content = $this->createContent();
-            verify($content->getTitle())->false();
+            verify($content->getTitle())->equals('');
         });
     }
 
@@ -45,7 +45,7 @@ class ContentTest extends TestCase
 
         $this->specify('foundingDate can handle not being set', function () {
             $content = $this->createContent();
-            verify($content->getFoundingDate())->false();
+            verify($content->getFoundingDate())->equals('');
         });
     }
 
@@ -64,7 +64,7 @@ class ContentTest extends TestCase
 
         $this->specify('releaseDate can handle not being set', function () {
             $content = $this->createContent();
-            verify($content->getReleaseDate())->false();
+            verify($content->getReleaseDate())->equals('');
         });
     }
 
@@ -78,13 +78,14 @@ class ContentTest extends TestCase
         $this->specify('website can be read', function () {
             $content = $this->createContent();
             $content->setWebsite('http://www.example.com/');
+            verify($content->getWebsite())->equals('example.com (http://www.example.com/)');
             verify($content->getWebsite()->url())->equals('http://www.example.com/');
             verify($content->getWebsite()->name())->equals('example.com');
         });
 
         $this->specify('website can handle not being set', function () {
             $content = $this->createContent();
-            verify($content->getWebsite())->false();
+            verify($content->getWebsite())->equals('');
         });
     }
 }
