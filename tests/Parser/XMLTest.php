@@ -76,4 +76,17 @@ class XMLTest extends TestCase
             verify($XMLParser->parse()->getWebsite())->equals('');
         });
     }
+
+    public function testPressContactParsing()
+    {
+        $this->specify('press-contact is read from the xml file', function () {
+            $XMLParser = $this->createParser('normal');
+            verify($XMLParser->parse()->getPressContact())->equals('press@example.com');
+        });
+
+        $this->specify('it can handle a missing press-contact tag', function () {
+            $XMLParser = $this->createParser('empty');
+            verify($XMLParser->parse()->getPressContact())->equals('');
+        });
+    }
 }

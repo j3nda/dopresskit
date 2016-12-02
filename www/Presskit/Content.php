@@ -10,7 +10,8 @@ class Content
     private $title = '';
     private $foundingDate = '';
     private $releaseDate = '';
-    private $website;
+    private $website = '';
+    private $pressContact = '';
 
     public function setTitle($title)
     {
@@ -54,5 +55,15 @@ class Content
         }
 
         return $this->website;
+    }
+
+    public function setPressContact($contact)
+    {
+        $this->pressContact = new Text($contact);
+    }
+
+    public function getPressContact()
+    {
+        return $this->pressContact;
     }
 }

@@ -22,6 +22,7 @@ class XML
         $this->findFoundingDate();
         $this->findReleaseDate();
         $this->findWebsite();
+        $this->findPressContact();
 
         return $this->content;
     }
@@ -51,6 +52,13 @@ class XML
     {
         if (count($this->data->website) > 0) {
             $this->content->setWebsite($this->data->website);
+        }
+    }
+
+    private function findPressContact()
+    {
+        if (count($this->data->{'press-contact'}) > 0) {
+            $this->content->setPressContact($this->data->{'press-contact'});
         }
     }
 }

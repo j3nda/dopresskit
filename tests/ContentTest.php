@@ -88,4 +88,23 @@ class ContentTest extends TestCase
             verify($content->getWebsite())->equals('');
         });
     }
+
+    public function testPressContact()
+    {
+        $this->specify('pressContact can be set', function () {
+            $content = $this->createContent();
+            verify($content->setPressContact('press@example.com'))->isEmpty();
+        });
+
+        $this->specify('pressContact can be read', function () {
+            $content = $this->createContent();
+            $content->setPressContact('press@example.com');
+            verify($content->getPressContact())->equals('press@example.com');
+        });
+
+        $this->specify('pressContact can handle not being set', function () {
+            $content = $this->createContent();
+            verify($content->getPressContact())->equals('');
+        });
+    }
 }

@@ -5,6 +5,7 @@
 	<founding-date>First of January, 2016</founding-date>
 	<release-date>Second of January, 2016</release-date>
 	<website>http://www.example.com/</website>
+	<press-contact>press@example.com</press-contact>
 	<press-can-request-copy>TRUE</press-can-request-copy>
 
 	<platforms>

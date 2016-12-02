@@ -84,7 +84,7 @@
 
                             <p>
                                 <strong><?=tl('Press / Business Contact:')?></strong><br/>
-                                <a href="mailto:<?=$company['contact']?>"><?=$company['contact']?></a>
+                                <a href="mailto:<?=$content->getPressContact()?>"><?=$content->getPressContact()?></a>
                             </p>
 
                             <p>

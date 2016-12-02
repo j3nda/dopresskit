@@ -20,9 +20,6 @@ foreach( $xml->children() as $child )
 {
 	switch( $child->getName() )
 	{
-		case("press-contact"):
-			define("COMPANY_CONTACT", $child);
-			break;
 		case("based-in"):
 			define("COMPANY_BASED", $child);
 			break;
@@ -149,7 +146,6 @@ $languages = TranslateTool::getLanguages();
 
 $company = array(
 	'location' => COMPANY_BASED,
-	'contact' => COMPANY_CONTACT,
 	'social' => array(),
 	'releases' => array(),
 	'address' => array(),
