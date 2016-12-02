@@ -88,7 +88,7 @@
                             </p>
 
                             <p>
-                              <strong><?=tl('Social:')?></strong>br/>
+                              <strong><?=tl('Social:')?></strong><br/>
 
                                 <?php foreach($content->getSocialContacts() as $contact): ?>
                                     <a href="<?=$contact->uri()?>"><?=$contact->name()?></a><br/>
