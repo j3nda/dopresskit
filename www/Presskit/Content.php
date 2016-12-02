@@ -17,6 +17,8 @@ class Content
     private $location = '';
     private $socialContacts = [];
     private $address = [];
+    private $phone = '';
+    private $description = '';
 
     public function setTitle($title)
     {
@@ -108,5 +110,25 @@ class Content
     public function getAddress()
     {
         return $this->address;
+    }
+
+    public function setPhone($phone)
+    {
+        $this->phone = new Text($phone);
+    }
+
+    public function getPhone()
+    {
+        return $this->phone;
+    }
+
+    public function setDescription($description)
+    {
+        $this->description = new Text($description);
+    }
+
+    public function getDescription()
+    {
+        return $this->description;
     }
 }

@@ -167,4 +167,42 @@ class ContentTest extends TestCase
             verify($content->getAddress())->count(0);
         });
     }
+
+    public function testPhone()
+    {
+        $this->specify('phone can be set', function () {
+            $content = $this->createContent();
+            verify($content->setPhone('123456'))->isEmpty();
+        });
+
+        $this->specify('phone can be read', function () {
+            $content = $this->createContent();
+            $content->setPhone('123456');
+            verify($content->getPhone())->equals('123456');
+        });
+
+        $this->specify('phone can handle not being set', function () {
+            $content = $this->createContent();
+            verify($content->getPhone())->equals('');
+        });
+    }
+
+    public function testDescription()
+    {
+        $this->specify('description can be set', function () {
+            $content = $this->createContent();
+            verify($content->setDescription('A description'))->isEmpty();
+        });
+
+        $this->specify('description can be read', function () {
+            $content = $this->createContent();
+            $content->setDescription('A description');
+            verify($content->getDescription())->equals('A description');
+        });
+
+        $this->specify('description can handle not being set', function () {
+            $content = $this->createContent();
+            verify($content->getDescription())->equals('');
+        });
+    }
 }

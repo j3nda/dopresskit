@@ -131,4 +131,30 @@ class XMLTest extends TestCase
             verify($XMLParser->parse()->getAddress())->count(0);
         });
     }
+
+    public function testPhoneParsing()
+    {
+        $this->specify('phone is read from the xml file', function () {
+            $XMLParser = $this->createParser('normal');
+            verify($XMLParser->parse()->getPhone())->equals('+00 (1) 22 33 44 55 66');
+        });
+
+        $this->specify('it can handle a missing phone tag', function () {
+            $XMLParser = $this->createParser('empty');
+            verify($XMLParser->parse()->getPhone())->equals('');
+        });
+    }
+
+    public function testDescriptionParsing()
+    {
+        $this->specify('description is read from the xml file', function () {
+            $XMLParser = $this->createParser('normal');
+            verify($XMLParser->parse()->getDescription())->equals('A nice description');
+        });
+
+        $this->specify('it can handle a missing description tag', function () {
+            $XMLParser = $this->createParser('empty');
+            verify($XMLParser->parse()->getDescription())->equals('');
+        });
+    }
 }

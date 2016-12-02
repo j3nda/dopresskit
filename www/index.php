@@ -23,12 +23,6 @@ foreach( $xml->children() as $child )
 		case("analytics"):
 			define("ANALYTICS", $child);
 			break;
-		case("phone"):
-			define("COMPANY_PHONE", $child);
-			break;
-		case("description"):
-			define("COMPANY_DESCRIPTION", $child);
-			break;
 		case("histories"):
 			$histories = array();
 			$i = 0;
@@ -125,8 +119,6 @@ $languages = TranslateTool::getLanguages();
 
 $company = array(
 	'releases' => array(),
-	'phone' => COMPANY_PHONE,
-	'description' => COMPANY_DESCRIPTION,
 	'history' => array(),
 	'trailers' => array(),
 	'images_archive_size' => 0,

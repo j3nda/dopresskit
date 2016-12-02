@@ -114,13 +114,13 @@
                            
                             <p>
                                <strong><?=tl('Phone:')?></strong><br/>
-                                <?=$company['phone']?>
+                                <?=$content->getPhone()?>
                            </p>
                         </div>
 
                         <div class="uk-width-medium-4-6">
                             <h2 id="description"><?=tl('Description')?></h2>
-                            <p><?=$company['description']?></p>
+                            <p><?=$content->getDescription()?></p>
 
                             <h2 id="history"><?=tl('History')?></h2>
                             <?php foreach ($company['history'] as $history): ?>

@@ -26,6 +26,8 @@ class XML
         $this->findLocation();
         $this->findSocialContacts();
         $this->findAddress();
+        $this->findPhone();
+        $this->findDescription();
 
         return $this->content;
     }
@@ -87,6 +89,20 @@ class XML
             foreach ($this->data->address->line as $addressLine) {
                 $this->content->addAddressLine($addressLine);
             }
+        }
+    }
+
+    private function findPhone()
+    {
+        if (count($this->data->phone) > 0) {
+            $this->content->setPhone($this->data->phone);
+        }
+    }
+
+    private function findDescription()
+    {
+        if (count($this->data->description) > 0) {
+            $this->content->setDescription($this->data->description);
         }
     }
 }
