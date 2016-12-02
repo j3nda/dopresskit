@@ -24,8 +24,8 @@ class WebsiteTest extends TestCase
 
         $this->specify('when a empty website is set url and name will return false', function () {
             $value = new Website('');
-            verify($value->url())->false();
-            verify($value->name())->false();
+            verify($value->url())->equals('');
+            verify($value->name())->equals('');
         });
 
         $this->specify('when a null website is set the value will be empty', function () {
@@ -35,26 +35,26 @@ class WebsiteTest extends TestCase
 
         $this->specify('when a null website is set url and name will return false', function () {
             $value = new Website(null);
-            verify($value->url())->false();
-            verify($value->name())->false();
+            verify($value->url())->equals('');
+            verify($value->name())->equals('');
         });
 
-        $this->specify('when a invalid website is the value will be empty', function () {
+        $this->specify('when a invalid website is set the value will be empty', function () {
             $value = new Website('example.com');
             verify($value)->equals('');
         });
 
-        $this->specify('when a invalid website is set url and name will return false', function () {
+        $this->specify('when a invalid website is set the url and name will return false', function () {
             $value = new Website('example.com');
-            verify($value->url())->false();
-            verify($value->name())->false();
+            verify($value->url())->equals('');
+            verify($value->name())->equals('');
         });
 
         $this->specify('only http urls are accepted as valid for the website', function () {
             $value = new Website('ssh://example.com');
             verify($value)->equals('');
-            verify($value->url())->false();
-            verify($value->name())->false();
+            verify($value->url())->equals('');
+            verify($value->name())->equals('');
         });
     }
 }

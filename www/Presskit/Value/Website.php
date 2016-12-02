@@ -36,7 +36,7 @@ class Website
     public function url()
     {
         if ($this->url === null) {
-            return false;
+            return '';
         }
 
         return $this->url;
@@ -45,7 +45,7 @@ class Website
     public function name()
     {
         if ($this->url === null) {
-            return false;
+            return '';
         }
 
         return $this->name;
