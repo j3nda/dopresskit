@@ -68,12 +68,12 @@ class XMLTest extends TestCase
     {
         $this->specify('website is read from the xml file', function () {
             $XMLParser = $this->createParser('normal');
-            verify($XMLParser->parse()->getWebsiteURL())->equals('http://www.example.com/');
+            verify($XMLParser->parse()->getWebsite()->url())->equals('http://www.example.com/');
         });
 
         $this->specify('it can handle a missing website tag', function () {
             $XMLParser = $this->createParser('empty');
-            verify($XMLParser->parse()->getWebsiteURL())->false();
+            verify($XMLParser->parse()->getWebsite())->false();
         });
     }
 }

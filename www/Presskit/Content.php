@@ -3,14 +3,14 @@
 namespace Presskit;
 
 use Presskit\Value\Text;
+use Presskit\Value\Website;
 
 class Content
 {
     private $title;
     private $foundingDate;
     private $releaseDate;
-    private $websiteURL;
-    private $websiteName;
+    private $website;
 
     public function setTitle($title)
     {
@@ -56,36 +56,15 @@ class Content
 
     public function setWebsite($website)
     {
-        $website = (string) $website;
-
-        if ($website !== '' && filter_var($website, FILTER_VALIDATE_URL) && substr($website, 0, 4) === 'http') {
-            $this->websiteURL = $website;
-
-            $host = parse_url($website, PHP_URL_HOST);
-
-            if (substr($host, 0, 4) === 'www.') {
-                $host = substr($host, 4);
-            }
-
-            $this->websiteName = $host;
-        }
+        $this->website = new Website($website);
     }
 
-    public function getWebsiteURL()
+    public function getWebsite()
     {
-        if ($this->websiteURL === null) {
+        if ($this->website === null) {
             return false;
         }
 
-        return $this->websiteURL;
-    }
-    
-    public function getWebsiteName()
-    {
-        if ($this->websiteName === null) {
-            return false;
-        }
-
-        return $this->websiteName;
+        return $this->website;
     }
 }
