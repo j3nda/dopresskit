@@ -157,4 +157,19 @@ class XMLTest extends TestCase
             verify($XMLParser->parse()->getDescription())->equals('');
         });
     }
+
+    public function testHistoryParsing()
+    {
+        $this->specify('history is read from the xml file', function () {
+            $XMLParser = $this->createParser('normal');
+            verify($XMLParser->parse()->getHistory())->count(2);
+            verify($XMLParser->parse()->getHistory()[0]->heading())->equals('Early history');
+            verify($XMLParser->parse()->getHistory()[1]->heading())->equals('After that');
+        });
+
+        $this->specify('it can handle a missing histories tag', function () {
+            $XMLParser = $this->createParser('empty');
+            verify($XMLParser->parse()->getHistory())->count(0);
+        });
+    }
 }

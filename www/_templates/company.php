@@ -123,9 +123,9 @@
                             <p><?=$content->getDescription()?></p>
 
                             <h2 id="history"><?=tl('History')?></h2>
-                            <?php foreach ($company['history'] as $history): ?>
-                                <strong><?=$history['header']?></strong>
-                                <p><?=$history['text']?></p>
+                            <?php foreach ($content->getHistory() as $history): ?>
+                                <strong><?=$history->heading()?></strong>
+                                <p><?=$history->body()?></p>
                             <?php endforeach; ?>
 
                             <h2 id="projects"><?=tl('Projects')?></h2>

@@ -23,15 +23,6 @@ foreach( $xml->children() as $child )
 		case("analytics"):
 			define("ANALYTICS", $child);
 			break;
-		case("histories"):
-			$histories = array();
-			$i = 0;
-			foreach( $child->children() as $subchild )
-			{
-				$histories[$i][$subchild->getName()] = $subchild;
-				$i++;
-			}
-			break;
 		case("features"):
 			$features = array();
 			$i = 0;
@@ -119,7 +110,6 @@ $languages = TranslateTool::getLanguages();
 
 $company = array(
 	'releases' => array(),
-	'history' => array(),
 	'trailers' => array(),
 	'images_archive_size' => 0,
 	'images' => array(),
@@ -160,13 +150,6 @@ foreach ($dir as $file) {
 			);
 		}
 	}
-}
-
-foreach ($histories as $history) {
-	$company['history'][] = array(
-		'header' => $history['history']->header,
-		'text' => $history['history']->text,
-	);
 }
 
 foreach ($trailers as $trailer) {

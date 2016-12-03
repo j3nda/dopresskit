@@ -6,6 +6,7 @@ use Presskit\Value\Text;
 use Presskit\Value\Website;
 use Presskit\Value\URL;
 use Presskit\Value\Contact;
+use Presskit\Value\History;
 
 class Content
 {
@@ -19,6 +20,7 @@ class Content
     private $address = [];
     private $phone = '';
     private $description = '';
+    private $history = [];
 
     public function setTitle($title)
     {
@@ -130,5 +132,19 @@ class Content
     public function getDescription()
     {
         return $this->description;
+    }
+
+    public function addHistory($heading, $body)
+    {
+        $history = new History($heading, $body);
+
+        if ((string) $history !== '') {
+            $this->history[] = $history;
+        }
+    }
+
+    public function getHistory()
+    {
+        return $this->history;
     }
 }

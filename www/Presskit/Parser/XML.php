@@ -28,6 +28,7 @@ class XML
         $this->findAddress();
         $this->findPhone();
         $this->findDescription();
+        $this->findHistory();
 
         return $this->content;
     }
@@ -103,6 +104,15 @@ class XML
     {
         if (count($this->data->description) > 0) {
             $this->content->setDescription($this->data->description);
+        }
+    }
+
+    private function findHistory()
+    {
+        if (count($this->data->histories) > 0) {
+            foreach ($this->data->histories->history as $history) {
+                $this->content->addHistory($history->header, $history->text);
+            }
         }
     }
 }

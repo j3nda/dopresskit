@@ -205,4 +205,25 @@ class ContentTest extends TestCase
             verify($content->getDescription())->equals('');
         });
     }
+
+    public function testHistory()
+    {
+        $this->specify('history can be added', function () {
+            $content = $this->createContent();
+            verify($content->addHistory('Heading', 'Body'))->isEmpty();
+        });
+
+        $this->specify('history can be read', function () {
+            $content = $this->createContent();
+            $content->addHistory('Heading', 'Body');
+            verify($content->getHistory())->count(1);
+            verify($content->getHistory()[0]->heading())->equals('Heading');
+            verify($content->getHistory()[0]->body())->equals('Body');
+        });
+
+        $this->specify('history can handle nothing being added', function () {
+            $content = $this->createContent();
+            verify($content->getHistory())->count(0);
+        });
+    }
 }
