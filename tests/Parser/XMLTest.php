@@ -172,4 +172,18 @@ class XMLTest extends TestCase
             verify($XMLParser->parse()->getHistory())->count(0);
         });
     }
+
+    public function testFeatureParsing()
+    {
+        $this->specify('features are read from the xml file', function () {
+            $XMLParser = $this->createParser('normal');
+            verify($XMLParser->parse()->getFeatures())->count(5);
+            verify($XMLParser->parse()->getFeatures()[0])->equals('Includes something really interesting about the game which players will love.');
+        });
+
+        $this->specify('it can handle a missing features tag', function () {
+            $XMLParser = $this->createParser('empty');
+            verify($XMLParser->parse()->getFeatures())->count(0);
+        });
+    }
 }

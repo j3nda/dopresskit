@@ -21,6 +21,7 @@ class Content
     private $phone = '';
     private $description = '';
     private $history = [];
+    private $features = [];
 
     public function setTitle($title)
     {
@@ -146,5 +147,19 @@ class Content
     public function getHistory()
     {
         return $this->history;
+    }
+
+    public function addFeature($feature)
+    {
+        $feature = new Text($feature);
+
+        if ((string) $feature !== '') {
+            $this->features[] = $feature;
+        }
+    }
+
+    public function getFeatures()
+    {
+        return $this->features;
     }
 }

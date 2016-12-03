@@ -29,6 +29,7 @@ class XML
         $this->findPhone();
         $this->findDescription();
         $this->findHistory();
+        $this->findFeatures();
 
         return $this->content;
     }
@@ -112,6 +113,15 @@ class XML
         if (count($this->data->histories) > 0) {
             foreach ($this->data->histories->history as $history) {
                 $this->content->addHistory($history->header, $history->text);
+            }
+        }
+    }
+
+    private function findFeatures()
+    {
+        if (count($this->data->features) > 0) {
+            foreach($this->data->features->feature as $feature) {
+                $this->content->addFeature($feature);
             }
         }
     }

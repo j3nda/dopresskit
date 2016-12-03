@@ -226,4 +226,24 @@ class ContentTest extends TestCase
             verify($content->getHistory())->count(0);
         });
     }
+
+    public function testFeatures()
+    {
+        $this->specify('features can be added', function () {
+            $content = $this->createContent();
+            verify($content->addFeature('Feature'))->isEmpty();
+        });
+
+        $this->specify('features can be read', function () {
+            $content = $this->createContent();
+            $content->addFeature('Feature');
+            verify($content->getFeatures())->count(1);
+            verify($content->getFeatures()[0])->equals('Feature');
+        });
+
+        $this->specify('features can handle nothing being added', function () {
+            $content = $this->createContent();
+            verify($content->getFeatures())->count(0);
+        });
+    }
 }

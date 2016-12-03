@@ -23,15 +23,6 @@ foreach( $xml->children() as $child )
 		case("analytics"):
 			define("ANALYTICS", $child);
 			break;
-		case("features"):
-			$features = array();
-			$i = 0;
-			foreach( $child->children() as $subchild )
-			{
-				$features[$i] = $subchild;
-				$i++;
-			}
-			break;	
 		case("trailers"):
 			$trailers = array();
 			$i = 0;
