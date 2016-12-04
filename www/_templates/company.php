@@ -141,22 +141,38 @@
 
                     <h2 id="trailers"><?=tl('Videos')?></h2>
 
-                    <?php if (count($company['trailers']) === 0): ?>
+                    <?php if (count($content->getTrailers()) === 0): ?>
                         <p><?=tlHtml('There are currently no trailers available for %s. Check back later for more or <a href="#contact">contact us</a> for specific requests!', $content->getTitle())?></p>
                     <?php else: ?>
-                        <?php foreach ($company['trailers'] as $trailer): ?>
-                            <p><strong><?=$trailer['name']?></strong>&nbsp;
-                            <?=$trailer['urls']?>
+                        <?php foreach ($content->getTrailers() as $trailer): ?>
+                            <p><strong><?=$trailer->name()?></strong>&nbsp;
 
-                            <?php if ($trailer['embedded'] !== NULL): ?>
+                            <?php foreach ($trailer->locations() as $index => $location): ?>
+
+                                <?php if ((string) $location->format() === 'youtube'): ?>
+                                    <a href="<?=$location?>">Youtube</a><?php if ($index < (count($trailer->locations()) - 1)): ?>, <?php endif; ?>
+                                <?php endif; ?>
+
+                                <?php if ((string) $location->format() === 'vimeo'): ?>
+                                    <a href="<?=$location?>">Vimeo</a><?php if ($index < (count($trailer->locations()) - 1)): ?>, <?php endif; ?>
+                                <?php endif; ?>
+
+                                <?php if ((string) $location->format() === 'mov'): ?>
+                                    <a href="trailers/<?=$location?>">.mov</a><?php if ($index < (count($trailer->locations()) - 1)): ?>, <?php endif; ?>
+                                <?php endif; ?>
+
+                                <?php if ((string) $location->format() === 'mp4'): ?>
+                                    <a href="trailers/<?=$location?>">.mp4</a><?php if ($index < (count($trailer->locations()) - 1)): ?>, <?php endif; ?>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+
+                            <?php if ((string) $trailer->youtube() !== ''): ?>
                                 <div class="uk-responsive-width iframe-container">
-                                    <?php if ($trailer['embedded']['platform'] === 'youtube'): ?>
-                                        <iframe src="http://www.youtube.com/embed/<?=$trailer['embedded']['id']?>" frameborder="0" allowfullscreen></iframe>
-                                    <?php endif; ?>
-
-                                    <?php if ($trailer['embedded']['platform'] === 'vimeo'): ?>
-    			                        <iframe src="http://player.vimeo.com/video/<?=$trailer['embedded']['id']?>" frameborder="0" allowfullscreen></iframe>
-                                    <?php endif; ?>
+                                    <iframe src="http://www.youtube.com/embed/<?=$trailer->youtube()?>" frameborder="0" allowfullscreen></iframe>
+                                </div>
+                            <?php elseif ((string) $trailer->vimeo() !== ''): ?>
+                                <div class="uk-responsive-width iframe-container">
+    			                    <iframe src="http://player.vimeo.com/video/<?=$trailer->vimeo()?>" frameborder="0" allowfullscreen></iframe>
                                 </div>
                             <?php endif; ?>
                         <?php endforeach; ?>

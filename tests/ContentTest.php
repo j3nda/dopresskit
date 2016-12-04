@@ -246,4 +246,25 @@ class ContentTest extends TestCase
             verify($content->getFeatures())->count(0);
         });
     }
+
+    public function testTrailers()
+    {
+        $this->specify('trailers can be added', function () {
+            $content = $this->createContent();
+            verify($content->addTrailer('Trailer', []))->isEmpty();
+        });
+
+        $this->specify('trailers can be read', function () {
+            $content = $this->createContent();
+            $content->addTrailer('Trailer', ['youtube' => '123']);
+            verify($content->getTrailers())->count(1);
+            verify($content->getTrailers()[0]->name())->equals('Trailer');
+            verify($content->getTrailers()[0]->locations())->count(1);
+        });
+
+        $this->specify('trailers can handle nothing being added', function () {
+            $content = $this->createContent();
+            verify($content->getTrailers())->count(0);
+        });
+    }
 }

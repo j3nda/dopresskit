@@ -186,4 +186,18 @@ class XMLTest extends TestCase
             verify($XMLParser->parse()->getFeatures())->count(0);
         });
     }
+
+    public function testTrailerParsing()
+    {
+        $this->specify('trailers are read from the xml file', function () {
+            $XMLParser = $this->createParser('normal');
+            verify($XMLParser->parse()->getTrailers())->count(5);
+            verify($XMLParser->parse()->getTrailers()[0])->equals('Trailer');
+        });
+
+        $this->specify('it can handle a missing trailers tag', function () {
+            $XMLParser = $this->createParser('empty');
+            verify($XMLParser->parse()->getTrailers())->count(0);
+        });
+    }
 }

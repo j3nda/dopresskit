@@ -99,13 +99,26 @@
 	<trailers>
 		<trailer>
 			<name>Trailer</name>
-			<youtube>7jQbITg0MSk</youtube>
-			<vimeo>23571681</vimeo>
+			<youtube>JE4ja5oErfA</youtube>
+			<vimeo>32203439</vimeo>
+			<mov>MOVTrailer</mov>
+			<mp4>MP4Trailer</mp4>
 		</trailer>
 		<trailer>
-			<name>Gameplay Video</name>
-			<youtube>7jQbITg0MSk</youtube>
-			<vimeo>23571681</vimeo>
+			<name>Youtube Video</name>
+			<youtube>JE4ja5oErfA</youtube>
+		</trailer>
+		<trailer>
+			<name>Vimeo Video</name>
+			<vimeo>32203439</vimeo>
+		</trailer>
+		<trailer>
+			<name>Mov Video</name>
+			<mov>MOVTrailer</mov>
+		</trailer>
+		<trailer>
+			<name>MP4 Video</name>
+			<mp4>MP4Trailer</mp4>
 		</trailer>
 	</trailers>
 	

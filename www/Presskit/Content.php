@@ -7,6 +7,7 @@ use Presskit\Value\Website;
 use Presskit\Value\URL;
 use Presskit\Value\Contact;
 use Presskit\Value\History;
+use Presskit\Value\Trailer;
 
 class Content
 {
@@ -22,6 +23,7 @@ class Content
     private $description = '';
     private $history = [];
     private $features = [];
+    private $trailers = [];
 
     public function setTitle($title)
     {
@@ -161,5 +163,19 @@ class Content
     public function getFeatures()
     {
         return $this->features;
+    }
+
+    public function addTrailer($name, $locations)
+    {
+        $trailer = new Trailer($name, $locations);
+
+        if ((string) $trailer !== '') {
+            $this->trailers[] = $trailer;
+        }
+    }
+
+    public function getTrailers()
+    {
+        return $this->trailers;
     }
 }

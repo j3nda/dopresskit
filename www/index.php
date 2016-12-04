@@ -23,15 +23,6 @@ foreach( $xml->children() as $child )
 		case("analytics"):
 			define("ANALYTICS", $child);
 			break;
-		case("trailers"):
-			$trailers = array();
-			$i = 0;
-			foreach( $child->children() as $subchild )
-			{
-				$trailers[$i][$subchild->getName()] = $subchild;
-				$i++;
-			}
-			break;					
 		case("awards"):
 			$awards = array();
 			$i = 0;
@@ -101,7 +92,6 @@ $languages = TranslateTool::getLanguages();
 
 $company = array(
 	'releases' => array(),
-	'trailers' => array(),
 	'images_archive_size' => 0,
 	'images' => array(),
 	'logo_archive_size' => 0,
@@ -141,46 +131,6 @@ foreach ($dir as $file) {
 			);
 		}
 	}
-}
-
-foreach ($trailers as $trailer) {
-	$arr = array(
-		'name' => $trailer['trailer']->name,
-		'urls' => '',
-		'embedded' => NULL,
-	);
-
-	if (count($trailer['trailer']->youtube) !== 0) {
-		$arr['urls'] .= '<a href="http://www.youtube.com/watch?v='.$trailer['trailer']->youtube.'">YouTube</a>, ';
-
-		$arr['embedded'] = array(
-			'platform' => 'youtube',
-			'id' => $trailer['trailer']->youtube,
-		);
-	}
-
-	if (count($trailer['trailer']->vimeo) !== 0) {
-		$arr['urls'] .= '<a href="http://www.vimeo.com/'.$trailer['trailer']->vimeo.'">Vimeo</a>, ';
-
-		if ($arr['embedded'] === NULL) {
-			$arr['embedded'] = array(
-				'platform' => 'vimeo',
-				'id' => $trailer['trailer']->vimeo,
-			);
-		}
-	}
-
-	if (count($trailer['trailer']->mov) !== 0) {
-		$arr['urls'] .= '<a href="trailers/'.$trailer['trailer']->mov.'">.mov</a>, ';
-	}
-
-	if (count($trailer['trailer']->mp4) !== 0) {
-		$arr['urls'] .= '<a href="trailers/'.$trailer['trailer']->mp4.'">.mp4</a>, ';
-	}
-
-	$arr['urls'] = substr($arr['urls'], 0, -2);
-
-	$company['trailers'][] = $arr;
 }
 
 if (file_exists('images/images.zip')) {

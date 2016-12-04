@@ -30,6 +30,7 @@ class XML
         $this->findDescription();
         $this->findHistory();
         $this->findFeatures();
+        $this->findTrailers();
 
         return $this->content;
     }
@@ -122,6 +123,33 @@ class XML
         if (count($this->data->features) > 0) {
             foreach($this->data->features->feature as $feature) {
                 $this->content->addFeature($feature);
+            }
+        }
+    }
+
+    private function findTrailers()
+    {
+        if (count($this->data->trailers) > 0) {
+            foreach ($this->data->trailers->trailer as $trailer) {
+                $locations = [];
+
+                if (count($trailer->youtube) > 0) {
+                    $locations['youtube'] = $trailer->youtube;
+                }
+
+                if (count($trailer->vimeo) > 0) {
+                    $locations['vimeo'] = $trailer->vimeo;
+                }
+
+                if (count($trailer->mov) > 0) {
+                    $locations['mov'] = $trailer->mov;
+                }
+
+                if (count($trailer->mp4) > 0) {
+                    $locations['mp4'] = $trailer->mp4;
+                }
+
+                $this->content->addTrailer($trailer->name, $locations);
             }
         }
     }
