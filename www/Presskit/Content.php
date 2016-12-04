@@ -8,6 +8,7 @@ use Presskit\Value\URL;
 use Presskit\Value\Contact;
 use Presskit\Value\History;
 use Presskit\Value\Trailer;
+use Presskit\Value\Award;
 
 class Content
 {
@@ -24,6 +25,7 @@ class Content
     private $history = [];
     private $features = [];
     private $trailers = [];
+    private $awards = [];
 
     public function setTitle($title)
     {
@@ -177,5 +179,19 @@ class Content
     public function getTrailers()
     {
         return $this->trailers;
+    }
+
+    public function addAward($award, $description)
+    {
+        $award = new Award($award, $description);
+
+        if ((string) $award !== '') {
+            $this->awards[] = $award;
+        }
+    }
+
+    public function getAwards()
+    {
+        return $this->awards;
     }
 }

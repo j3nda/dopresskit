@@ -31,6 +31,7 @@ class XML
         $this->findHistory();
         $this->findFeatures();
         $this->findTrailers();
+        $this->findAwards();
 
         return $this->content;
     }
@@ -150,6 +151,15 @@ class XML
                 }
 
                 $this->content->addTrailer($trailer->name, $locations);
+            }
+        }
+    }
+
+    private function findAwards()
+    {
+        if (count($this->data->awards) > 0) {
+            foreach ($this->data->awards->award as $award) {
+                $this->content->addAward($award->description, $award->info);
             }
         }
     }

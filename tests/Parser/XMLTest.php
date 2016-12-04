@@ -204,4 +204,19 @@ class XMLTest extends TestCase
             verify($XMLParser->parse()->getTrailers())->count(0);
         });
     }
+
+    public function testAwardParsing()
+    {
+        $this->specify('awards are read from the xml file', function () {
+            $XMLParser = $this->createParser('normal');
+            verify($XMLParser->parse()->getAwards())->count(4);
+            verify($XMLParser->parse()->getAwards()[0])
+                ->equals('Winner in this highly relevant contest. (Award Location, 20 October, 1989)');
+        });
+
+        $this->specify('it can handle a missing awards tag', function () {
+            $XMLParser = $this->createParser('empty');
+            verify($XMLParser->parse()->getAwards())->count(0);
+        });
+    }
 }

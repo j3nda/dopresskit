@@ -270,4 +270,25 @@ class ContentTest extends TestCase
             verify($content->getTrailers())->count(0);
         });
     }
+
+    public function testAwards()
+    {
+        $this->specify('awards can be added', function () {
+            $content = $this->createContent();
+            verify($content->addAward('Award', 'Description'))->isEmpty();
+        });
+
+        $this->specify('awards can be read', function () {
+            $content = $this->createContent();
+            $content->addAward('Award', 'Description');
+            verify($content->getAwards())->count(1);
+            verify($content->getAwards()[0]->award())->equals('Award');
+            verify($content->getAwards()[0]->description())->equals('Description');
+        });
+
+        $this->specify('awards can handle nothing being added', function () {
+            $content = $this->createContent();
+            verify($content->getAwards())->count(0);
+        });
+    }
 }

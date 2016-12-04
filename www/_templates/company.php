@@ -40,7 +40,7 @@
                         <li><a href="#images"><?=tl('Images')?></a></li>
                         <li><a href="#logo"><?=tl('Logo & Icon')?></a></li>
 
-                        <?php if (count($company['awards']) > 0): ?>
+                        <?php if (count($content->getAwards()) > 0): ?>
                             <li><a href="#awards"><?=tl('Awards & Recognition')?></a></li>
                         <?php endif; ?>
 
@@ -222,12 +222,12 @@
 
                     <hr>
 
-                    <?php if (count($company['awards']) > 0): ?>
+                    <?php if (count($content->getAwards()) > 0): ?>
                         <h2 id="awards"><?=tl('Awards & Recognition')?></h2>
 
                         <ul>
-                            <?php foreach ($company['awards'] as $award): ?>
-                                <li><?=$award['description']?> - <cite><?=$award['info']?></cite></li>
+                            <?php foreach ($content->getAwards() as $award): ?>
+                                <li><?=$award->award()?> - <cite><?=$award->description()?></cite></li>
                             <?php endforeach; ?>
                         </ul>
 
