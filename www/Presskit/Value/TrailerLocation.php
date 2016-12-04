@@ -20,15 +20,15 @@ class TrailerLocation
         if ((string) $this->format !== '' && (string) $this->path !== '') {
             if ((string) $this->format === 'youtube') {
                 return 'https://www.youtube.com/watch?v=' . $this->path;
-            } else if ((string) $this->format === 'vimeo') {
+            } elseif ((string) $this->format === 'vimeo') {
                 return 'https://vimeo.com/' . $this->path;
-            } else if ((string) $this->format === 'mov') {
+            } elseif ((string) $this->format === 'mov') {
                 return $this->path . '.mov';
-            } else if ((string) $this->format === 'mp4') {
+            } elseif ((string) $this->format === 'mp4') {
                 return $this->path . '.mp4';
-            } else {
-                return $this->format . ' (' . $this->path . ')';
             }
+            
+            return $this->format . ' (' . $this->path . ')';
         }
 
         return '';

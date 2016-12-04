@@ -2,6 +2,9 @@
 
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+*/
 class XMLTest extends TestCase
 {
     use Codeception\Specify;
@@ -178,7 +181,8 @@ class XMLTest extends TestCase
         $this->specify('features are read from the xml file', function () {
             $XMLParser = $this->createParser('normal');
             verify($XMLParser->parse()->getFeatures())->count(5);
-            verify($XMLParser->parse()->getFeatures()[0])->equals('Includes something really interesting about the game which players will love.');
+            verify($XMLParser->parse()->getFeatures()[0])
+                ->equals('Includes something really interesting about the game which players will love.');
         });
 
         $this->specify('it can handle a missing features tag', function () {

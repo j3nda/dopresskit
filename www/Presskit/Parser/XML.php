@@ -121,7 +121,7 @@ class XML
     private function findFeatures()
     {
         if (count($this->data->features) > 0) {
-            foreach($this->data->features->feature as $feature) {
+            foreach ($this->data->features->feature as $feature) {
                 $this->content->addFeature($feature);
             }
         }
