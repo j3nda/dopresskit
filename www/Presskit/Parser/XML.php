@@ -32,6 +32,7 @@ class XML
         $this->findFeatures();
         $this->findTrailers();
         $this->findAwards();
+        $this->findQuotes();
 
         return $this->content;
     }
@@ -160,6 +161,15 @@ class XML
         if (count($this->data->awards) > 0) {
             foreach ($this->data->awards->award as $award) {
                 $this->content->addAward($award->description, $award->info);
+            }
+        }
+    }
+
+    private function findQuotes()
+    {
+        if (count($this->data->quotes) > 0) {
+            foreach ($this->data->quotes->quote as $quote) {
+                $this->content->addQuote($quote->description, $quote->name, $quote->link, $quote->website);
             }
         }
     }

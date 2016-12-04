@@ -219,4 +219,19 @@ class XMLTest extends TestCase
             verify($XMLParser->parse()->getAwards())->count(0);
         });
     }
+
+    public function testQuoteParsing()
+    {
+        $this->specify('quotes are read from the xml file', function () {
+            $XMLParser = $this->createParser('normal');
+            verify($XMLParser->parse()->getQuotes())->count(4);
+            verify($XMLParser->parse()->getQuotes()[0])
+                ->equals('This is a rather insignificant quote by a highly important person. - Person Name');
+        });
+
+        $this->specify('it can handle a missing quotes tag', function () {
+            $XMLParser = $this->createParser('empty');
+            verify($XMLParser->parse()->getQuotes())->count(0);
+        });
+    }
 }

@@ -9,6 +9,7 @@ use Presskit\Value\Contact;
 use Presskit\Value\History;
 use Presskit\Value\Trailer;
 use Presskit\Value\Award;
+use Presskit\Value\Quote;
 
 class Content
 {
@@ -26,6 +27,7 @@ class Content
     private $features = [];
     private $trailers = [];
     private $awards = [];
+    private $quotes = [];
 
     public function setTitle($title)
     {
@@ -193,5 +195,19 @@ class Content
     public function getAwards()
     {
         return $this->awards;
+    }
+
+    public function addQuote($description, $name, $website, $websiteName)
+    {
+        $quote = new Quote($description, $name, $website, $websiteName);
+
+        if ((string) $quote !== '') {
+            $this->quotes[] = $quote;
+        }
+    }
+
+    public function getQuotes()
+    {
+        return $this->quotes;
     }
 }

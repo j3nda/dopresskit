@@ -291,4 +291,27 @@ class ContentTest extends TestCase
             verify($content->getAwards())->count(0);
         });
     }
+
+    public function testQuotes()
+    {
+        $this->specify('quotes can be added', function () {
+            $content = $this->createContent();
+            verify($content->addQuote('Description', 'Name', 'http://www.example.com/', 'Example'))->isEmpty();
+        });
+
+        $this->specify('quotes can be read', function () {
+            $content = $this->createContent();
+            verify($content->addQuote('Description', 'Name', 'http://www.example.com/', 'Example'))->isEmpty();
+            verify($content->getQuotes())->count(1);
+            verify($content->getQuotes()[0]->description())->equals('Description');
+            verify($content->getQuotes()[0]->name())->equals('Name');
+            verify($content->getQuotes()[0]->website()->url())->equals('http://www.example.com/');
+            verify($content->getQuotes()[0]->websiteName())->equals('Example');
+        });
+
+        $this->specify('quotes can handle not being added', function () {
+            $content = $this->createContent();
+            verify($content->getQuotes())->count(0);
+        });
+    }
 }

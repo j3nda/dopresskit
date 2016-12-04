@@ -23,15 +23,6 @@ foreach( $xml->children() as $child )
 		case("analytics"):
 			define("ANALYTICS", $child);
 			break;
-		case("quotes"):
-			$quotes = array();
-			$i = 0;
-			foreach( $child->children() as $subchild )
-			{
-				$quotes[$i][$subchild->getName()] = $subchild;
-				$i++;
-			}
-			break;					
 		case("additionals"):
 			$additionals = array();
 			$i = 0;
@@ -88,7 +79,6 @@ $company = array(
 	'logo_archive_size' => 0,
 	'logo' => NULL,
 	'icon' => NULL,
-	'quotes' => array(),
 	'additional_links' => array(),
 	'credits' => array(),
 	'contacts' => array(),
@@ -175,15 +165,6 @@ if (file_exists('images/logo.png')) {
 
 if (file_exists('images/icon.png')) {
 	$company['icon'] = 'icon.png';
-}
-
-foreach ($quotes as $quote) {
-	$company['quotes'][] = array(
-		'description' => $quote['quote']->description,
-		'name' => $quote['quote']->name,
-		'website' => $quote['quote']->website,
-		'url' => 'http://'.parseLink($quote['quote']->link) . '/',
-	);
 }
 
 foreach ($additionals as $additional) {

@@ -234,14 +234,14 @@
                         <hr>
                     <?php endif; ?>
 
-                    <?php if (count($company['quotes']) > 0): ?>
+                    <?php if (count($content->getQuotes()) > 0): ?>
                         <h2 id="quotes"><?=tl('Selected Articles')?></h2>
                         
                         <ul>
-                            <?php foreach ($company['quotes'] as $quote): ?>
+                            <?php foreach ($content->getQuotes() as $quote): ?>
                                 <li>
-                                    <?=$quote['description']?><br/>
-                                    <cite>- <?=$quote['name']?>, <a href="<?=$quote['url']?>"><?=$quote['website']?></a></cite>
+                                    <?=$quote->description()?><br/>
+                                    <cite>- <?=$quote->name()?><?php if ((string) $quote->website() !== ''): ?>, <a href="<?=$quote->website()->url()?>"><?=$quote->websiteName()?></a><?php endif; ?></cite>
                                 </li>
                             <?php endforeach; ?>
                         </ul>
