@@ -34,6 +34,7 @@ class XML
         $this->findAwards();
         $this->findQuotes();
         $this->findAdditionalLinks();
+        $this->findCredits();
 
         return $this->content;
     }
@@ -180,6 +181,15 @@ class XML
         if (count($this->data->additionals) > 0) {
             foreach ($this->data->additionals->additional as $additional) {
                 $this->content->addAdditionalLink($additional->title, $additional->description, $additional->link);
+            }
+        }
+    }
+
+    private function findCredits()
+    {
+        if (count($this->data->credits) > 0) {
+            foreach ($this->data->credits->credit as $credit) {
+                $this->content->addCredit($credit->person, $credit->role, $credit->website);
             }
         }
     }

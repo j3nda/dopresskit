@@ -266,14 +266,14 @@
                         <div class="uk-width-medium-1-2">
                             <h2 id="credits"><?=tl('Team & Repeating Collaborators')?></h2>
                         
-                            <?php foreach ($company['credits'] as $credit): ?>
+                            <?php foreach ($content->getCredits() as $credit): ?>
                                 <p>
-                                    <?php if ($credit['url'] === null): ?>
-                                        <strong><?=$credit['name']?></strong><br/>
-                                        <?=$credit['role']?>
+                                    <?php if ((string) $credit->website() === ''): ?>
+                                        <strong><?=$credit->name()?></strong><br/>
+                                        <?=$credit->role()?>
                                     <?php else: ?>
-                                        <strong><?=$credit['name']?></strong><br/>
-                                        <a href="<?=$credit['url']?>"><?=$credit['role']?></a>
+                                        <strong><?=$credit->name()?></strong><br/>
+                                        <a href="<?=$credit->website()->url()?>"><?=$credit->role()?></a>
                                     <?php endif; ?>
                                 </p>
                             <?php endforeach; ?>

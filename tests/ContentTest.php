@@ -336,4 +336,26 @@ class ContentTest extends TestCase
             verify($content->getAdditionalLinks())->count(0);
         });
     }
+
+    public function testCredits()
+    {
+        $this->specify('credits can be added', function () {
+            $content = $this->createContent();
+            verify($content->addCredit('Name', 'Role', 'http://www.example.com/'))->isEmpty();
+        });
+
+        $this->specify('credits can be read', function () {
+            $content = $this->createContent();
+            verify($content->addCredit('Name', 'Role', 'http://www.example.com/'))->isEmpty();
+            verify($content->getCredits())->count(1);
+            verify($content->getCredits()[0]->name())->equals('Name');
+            verify($content->getCredits()[0]->role())->equals('Role');
+            verify($content->getCredits()[0]->website())->equals('example.com (http://www.example.com/)');
+        });
+
+        $this->specify('credits can handle not being added', function () {
+            $content = $this->createContent();
+            verify($content->getCredits())->count(0);
+        });
+    }
 }

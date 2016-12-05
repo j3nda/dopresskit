@@ -23,15 +23,6 @@ foreach( $xml->children() as $child )
 		case("analytics"):
 			define("ANALYTICS", $child);
 			break;
-		case("credits"):
-			$credits = array();
-			$i = 0;
-			foreach( $child->children() as $subchild )
-			{
-				$credits[$i][$subchild->getName()] = $subchild;
-				$i++;
-			}
-			break;					
 		case("contacts"):
 			$contacts = array();
 			$i = 0;
@@ -70,7 +61,6 @@ $company = array(
 	'logo_archive_size' => 0,
 	'logo' => NULL,
 	'icon' => NULL,
-	'credits' => array(),
 	'contacts' => array(),
 	'google_analytics' => NULL,
 );
@@ -155,20 +145,6 @@ if (file_exists('images/logo.png')) {
 
 if (file_exists('images/icon.png')) {
 	$company['icon'] = 'icon.png';
-}
-
-foreach ($credits as $credit) {
-	$url = NULL;
-
-	if (count($credit['credit']->website) !== 0) {
-		$url = 'http://'.parseLink($credit['credit']->website).'/';
-	}
-
-	$company['credits'][] = array(
-		'name' => $credit['credit']->person,
-		'role' => $credit['credit']->role,
-		'url' => $url,
-	);
 }
 
 foreach ($contacts as $contact) {

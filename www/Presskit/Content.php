@@ -11,6 +11,7 @@ use Presskit\Value\Trailer;
 use Presskit\Value\Award;
 use Presskit\Value\Quote;
 use Presskit\Value\AdditionalLink;
+use Presskit\Value\Credit;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyFields)
@@ -33,6 +34,7 @@ class Content
     private $awards = [];
     private $quotes = [];
     private $additionalLinks = [];
+    private $credits = [];
 
     public function setTitle($title)
     {
@@ -228,5 +230,19 @@ class Content
     public function getAdditionalLinks()
     {
         return $this->additionalLinks;
+    }
+
+    public function addCredit($name, $role, $website)
+    {
+        $credit = new Credit($name, $role, $website);
+
+        if ((string) $credit !== '') {
+            $this->credits[] = $credit;
+        }
+    }
+
+    public function getCredits()
+    {
+        return $this->credits;
     }
 }

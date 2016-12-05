@@ -249,4 +249,19 @@ class XMLTest extends TestCase
             verify($XMLParser->parse()->getAdditionalLinks())->count(0);
         });
     }
+
+    public function testCreditsParsing()
+    {
+        $this->specify('credits are read from the xml file', function () {
+            $XMLParser = $this->createParser('normal');
+            verify($XMLParser->parse()->getCredits())->count(2);
+            verify($XMLParser->parse()->getCredits()[1])
+                ->equals('Another Nice Name - Freelancer (http://www.example.com/)');
+        });
+
+        $this->specify('it can handle a missing credits tag', function () {
+            $XMLParser = $this->createParser('empty');
+            verify($XMLParser->parse()->getCredits())->count(0);
+        });
+    }
 }
