@@ -234,4 +234,19 @@ class XMLTest extends TestCase
             verify($XMLParser->parse()->getQuotes())->count(0);
         });
     }
+
+    public function testAdditionalLinksParsing()
+    {
+        $this->specify('additional links are read from the xml file', function () {
+            $XMLParser = $this->createParser('normal');
+            verify($XMLParser->parse()->getAdditionalLinks())->count(2);
+            verify($XMLParser->parse()->getAdditionalLinks()[0])
+                ->equals('Original Soundtrack - Available for free from (http://somemusicsite.com/thislink)');
+        });
+
+        $this->specify('it can handle a missing additionals tag', function () {
+            $XMLParser = $this->createParser('empty');
+            verify($XMLParser->parse()->getAdditionalLinks())->count(0);
+        });
+    }
 }

@@ -44,11 +44,11 @@
                             <li><a href="#awards"><?=tl('Awards & Recognition')?></a></li>
                         <?php endif; ?>
 
-                        <?php if (count($company['quotes']) > 0): ?>
+                        <?php if (count($content->getQuotes()) > 0): ?>
                             <li><a href="#quotes"><?=tl('Selected Articles')?></a></li>
                         <?php endif; ?>
 
-                        <?php if (count($company['additional_links']) > 0): ?>
+                        <?php if (count($content->getAdditionalLinks()) > 0): ?>
                             <li><a href="#links"><?=tl('Additional Links')?></a></li>
                         <?php endif; ?>
 
@@ -249,13 +249,13 @@
                         <hr>
                     <?php endif; ?>
 
-                    <?php if (count($company['additional_links']) > 0): ?>
+                    <?php if (count($content->getAdditionalLinks()) > 0): ?>
                         <h2 id="links"><?=tl('Additional Links')?></h2>
 
-                        <?php foreach ($company['additional_links'] as $additionaLink): ?>
+                        <?php foreach ($content->getAdditionalLinks() as $additionaLink): ?>
                             <p>
-                                <strong><?=$additionaLink['title']?></strong><br/>
-                                <?=$additionaLink['description']?> <a href="<?=$additionaLink['url']?>"><?=$additionaLink['urlName']?></a>.
+                                <strong><?=$additionaLink->title()?></strong><br/>
+                                <?=$additionaLink->description()?> <a href="<?=$additionaLink->website()->url()?>"><?=$additionaLink->website()->name()?></a>.
                             </p>
                         <?php endforeach; ?>
 

@@ -314,4 +314,26 @@ class ContentTest extends TestCase
             verify($content->getQuotes())->count(0);
         });
     }
+
+    public function testAdditionalLinks()
+    {
+        $this->specify('additional links can be added', function () {
+            $content = $this->createContent();
+            verify($content->addAdditionalLink('Title', 'Description', 'http://www.example.com/'))->isEmpty();
+        });
+
+        $this->specify('additional links can be read', function () {
+            $content = $this->createContent();
+            verify($content->addAdditionalLink('Title', 'Description', 'http://www.example.com/'))->isEmpty();
+            verify($content->getAdditionalLinks())->count(1);
+            verify($content->getAdditionalLinks()[0]->title())->equals('Title');
+            verify($content->getAdditionalLinks()[0]->description())->equals('Description');
+            verify($content->getAdditionalLinks()[0]->website())->equals('example.com (http://www.example.com/)');
+        });
+
+        $this->specify('additional links can handle not being added', function () {
+            $content = $this->createContent();
+            verify($content->getAdditionalLinks())->count(0);
+        });
+    }
 }

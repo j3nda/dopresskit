@@ -10,7 +10,11 @@ use Presskit\Value\History;
 use Presskit\Value\Trailer;
 use Presskit\Value\Award;
 use Presskit\Value\Quote;
+use Presskit\Value\AdditionalLink;
 
+/**
+ * @SuppressWarnings(PHPMD.TooManyFields)
+*/
 class Content
 {
     private $title = '';
@@ -28,6 +32,7 @@ class Content
     private $trailers = [];
     private $awards = [];
     private $quotes = [];
+    private $additionalLinks = [];
 
     public function setTitle($title)
     {
@@ -209,5 +214,19 @@ class Content
     public function getQuotes()
     {
         return $this->quotes;
+    }
+
+    public function addAdditionalLink($title, $description, $website)
+    {
+        $additionalLink = new AdditionalLink($title, $description, $website);
+
+        if ((string) $additionalLink !== '') {
+            $this->additionalLinks[] = $additionalLink;
+        }
+    }
+
+    public function getAdditionalLinks()
+    {
+        return $this->additionalLinks;
     }
 }

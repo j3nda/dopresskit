@@ -175,9 +175,9 @@
 			<link>http://somemusicsite.com/thislink</link>
 		</additional>
 		<additional>
-			<title>Release Blog Post</title>
-			<description>The blog-post through which this game was released is available at</description>
-			<link>http://vlambeer.com/bloglink</link>
+			<title>Company Link #1</title>
+			<description>This link is a link that might be useful. You can check it out at</description>
+			<link>http://somemusicsite.com/thislink</link>
 		</additional>
 	</additionals>
 	
