@@ -11,10 +11,11 @@ class WebsiteTest extends TestCase
     public function testValue()
     {
         $this->specify('website can be set and read', function () {
-            $value = new Website('http://www.example.com/');
-            verify($value)->equals('example.com (http://www.example.com/)');
-            verify($value->url())->equals('http://www.example.com/');
+            $value = new Website('http://www.example.com/Test');
+            verify($value)->equals('example.com (http://www.example.com/Test)');
+            verify($value->url())->equals('http://www.example.com/Test');
             verify($value->name())->equals('example.com');
+            verify($value->path())->equals('/Test');
         });
 
         $this->specify('when a empty website is set the value will be empty', function () {

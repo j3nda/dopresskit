@@ -6,6 +6,7 @@ class Website
 {
     private $url;
     private $name;
+    private $path;
 
     public function __construct($value)
     {
@@ -21,6 +22,8 @@ class Website
             }
 
             $this->name = $host;
+
+            $this->path = parse_url($value, PHP_URL_PATH);
         }
     }
 
@@ -49,5 +52,14 @@ class Website
         }
 
         return $this->name;
+    }
+
+    public function path()
+    {
+        if ($this->path === null) {
+            return '';
+        }
+
+        return $this->path;
     }
 }
