@@ -102,7 +102,7 @@ class Content
 
     public function addSocialContact($name, $uri)
     {
-        $contact = new Contact($name, $uri);
+        $contact = new Contact($name, $uri, '');
 
         if ((string) $contact !== '') {
             $this->socialContacts[] = $contact;
