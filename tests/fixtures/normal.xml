@@ -192,4 +192,19 @@
 			<website>http://www.example.com/</website>
 		</credit>
 	</credits>
+
+	<contacts>
+		<contact>
+			<name>Inquiries</name>
+			<mail>name@example.com</mail>
+		</contact>
+		<contact>
+			<name>Twitter</name>
+			<link>http://twitter.com/MyCompanyName</link>
+		</contact>
+		<contact>
+			<name>Facebook</name>
+			<link>http://facebook.com/MyCompanyName</link>
+		</contact>
+	</contacts>
 </game>

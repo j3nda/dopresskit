@@ -35,6 +35,7 @@ class XML
         $this->findQuotes();
         $this->findAdditionalLinks();
         $this->findCredits();
+        $this->findContacts();
 
         return $this->content;
     }
@@ -190,6 +191,15 @@ class XML
         if (count($this->data->credits) > 0) {
             foreach ($this->data->credits->credit as $credit) {
                 $this->content->addCredit($credit->person, $credit->role, $credit->website);
+            }
+        }
+    }
+
+    private function findContacts()
+    {
+        if (count($this->data->contacts) > 0) {
+            foreach ($this->data->contacts->contact as $contact) {
+                $this->content->addContact($contact->name, $contact->link, $contact->mail);
             }
         }
     }

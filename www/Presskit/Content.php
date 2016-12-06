@@ -35,6 +35,7 @@ class Content
     private $quotes = [];
     private $additionalLinks = [];
     private $credits = [];
+    private $contacts = [];
 
     public function setTitle($title)
     {
@@ -244,5 +245,19 @@ class Content
     public function getCredits()
     {
         return $this->credits;
+    }
+
+    public function addContact($name, $website, $email)
+    {
+        $contact = new Contact($name, $website, $email);
+
+        if ((string) $contact !== '') {
+            $this->contacts[] = $contact;
+        }
+    }
+
+    public function getContacts()
+    {
+        return $this->contacts;
     }
 }

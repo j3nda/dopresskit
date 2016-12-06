@@ -282,16 +282,21 @@
                         <div class="uk-width-medium-1-2">
                             <h2 id="contact"><?=tl('Contact')?></h2>
 
-                            <?php foreach($company['contacts'] as $contact): ?>
+                            <?php foreach($content->getContacts() as $contact): ?>
                                 <p>
-                                    <?php if ($contact['url'] !== null): ?>
-                                        <strong><?=$contact['name']?></strong><br/>
-                                        <a href="<?=$contact['url']?>"><?=$contact['urlName']?></a>
-                                    <?php endif; ?>
-
-                                    <?php if ($contact['email'] !== null): ?>
-                                        <strong><?=$contact['name']?></strong><br/>
-                                        <a href="mailto:<?=$contact['email']?>"><?=$contact['email']?></a>
+                                    <strong><?=$contact->name()?></strong><br/>
+                                    <?php if ((string) $contact->website() !== ''): ?>
+                                        <a href="<?=$contact->website()->url()?>">
+                                            <?php if ((string) $contact->website()->path() !== ''): ?>
+                                                <?=$contact->website()->name()?><?=$contact->website()->path()?>
+                                            <?php else: ?>
+                                                <?=$contact->website()->name()?>
+                                            <?php endif; ?>
+                                        </a>
+                                    <?php elseif ((string) $contact->uri() !== ''): ?>
+                                        <a href="<?=$contact->uri()?>"><?=$contact->uri()?></a>
+                                    <?php elseif ((string) $contact->email() !== ''): ?>
+                                        <a href="mailto:<?=$contact->email()?>"><?=$contact->email()?></a>
                                     <?php endif; ?>
                                 </p>
                             <?php endforeach; ?>
