@@ -27,9 +27,9 @@ class Contact
         if ((string) $this->name !== '') {
             if ((string) $this->website !== '') {
                 return $this->name . ' (' . $this->website->url() . ')';
-            } else if ((string) $this->uri !== '') {
+            } elseif ((string) $this->uri !== '') {
                 return $this->name . ' (' . $this->uri . ')';
-            } else if ((string) $this->email !== '') {
+            } elseif ((string) $this->email !== '') {
                 return $this->name . ' (' . $this->email . ')';
             }
         }

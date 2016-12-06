@@ -5,6 +5,9 @@ namespace Presskit\Parser;
 use Presskit\Content;
 use SimpleXMLElement;
 
+/**
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+ */
 class XML
 {
     private $content;
