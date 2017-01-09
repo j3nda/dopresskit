@@ -7,10 +7,22 @@ use Presskit\Parser\XML as XMLParser;
 
 class Presskit
 {
+	public static $hasModRewriteEnabled = false;
+
+	private $config;
+	private $request;
     private $content;
 
-    public function __construct()
+    public function __construct(
+		PresskitConfig $config = null,
+		PresskitRequest $request = null
+	)
     {
+		if ($config  === null) { $config  = new \Presskit\PresskitConfig(); }
+		if ($request === null) { $request = new \Presskit\PresskitRequest(); }
+
+		$this->config  = $config;
+		$this->request = $request;
         $this->content = new Content;
     }
 
@@ -25,7 +37,26 @@ class Presskit
                 return $parser->parse();
             }
         }
-
-        return false;
+        else
+        {
+            throw new Exceptions\DataXmlFilenameMissingException();
+        }
     }
+
+	public function getRequest()
+	{
+		return $this->request->getRequest();
+	}
+
+	public static function url($normalUrl, $rewriteUrl)
+	{
+		if (self::$hasModRewriteEnabled)
+		{
+			return $rewrite;
+		}
+		else
+		{
+			return $normalUrl;
+		}
+	}
 }

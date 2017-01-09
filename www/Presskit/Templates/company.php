@@ -305,7 +305,7 @@
 
                     <hr>
 
-                    <p><a href="http://dopresskit.com/">presskit()</a> by Rami Ismail (<a href="http://www.vlambeer.com/">Vlambeer</a>) - also thanks to <a href="sheet.php?p=credits">these fine folks</a></p>
+                    <p><a href="http://dopresskit.com/">presskit()</a> by Rami Ismail (<a href="http://www.vlambeer.com/">Vlambeer</a>) - also thanks to <a href="<?=\Presskit\Presskit::url('/?p=', '/').\Presskit\PresskitRequest::REQUEST_CREDITS_PAGE;?>">these fine folks</a>.</p>
                 </div>
             </div>
         </div>
