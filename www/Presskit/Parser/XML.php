@@ -13,7 +13,7 @@ class XML
     private $content;
     private $data;
 
-    public function __construct($file, Content $content)
+    public function __construct($file, /*Content*/ $content)
     {
         $this->content = $content;
         $this->data = new SimpleXMLElement(file_get_contents($file));
@@ -21,24 +21,60 @@ class XML
 
     public function parse()
     {
-        $this->findTitle();
-        $this->findFoundingDate();
-        $this->findReleaseDate();
-        $this->findWebsite();
-        $this->findPressContact();
-        $this->findLocation();
-        $this->findSocialContacts();
-        $this->findAddress();
-        $this->findPhone();
-        $this->findDescription();
-        $this->findHistory();
-        $this->findFeatures();
+		if ($this->content instanceof \Presskit\Content\CompanyContent)
+		{
+			return $this->parseCompany();
+		}
+		else
+		if ($this->content instanceof \Presskit\Content\ReleaseContent)
+		{
+			return $this->parseRelease();
+		}
+		else
+		{
+			throw new \Exception('Unimplemented Content!');
+		}
+	}
+
+	private function parseShared()
+	{
+		$this->findTitle();
+		$this->findWebsite();
+		$this->findDescription();
         $this->findTrailers();
         $this->findAwards();
         $this->findQuotes();
         $this->findAdditionalLinks();
         $this->findCredits();
+		$this->findMonetization();
+	}
+
+	private function parseCompany()
+	{
+		$this->parseShared();
+
+        $this->findFoundingDate();
+        $this->findPressContact();
+        $this->findLocation(); // tag: based-in
+        $this->findSocialContacts();
+        $this->findAddress();
+        $this->findPhone();
+        $this->findCompanyHistory();
         $this->findContacts();
+
+        return $this->content;
+    }
+
+    public function parseRelease()
+    {
+		$this->parseShared();
+
+        $this->findReleaseDate();
+		$this->findPressCanRequestCopy();
+		$this->findPlatforms();
+		$this->findPrices();
+		$this->findReleaseHistory();
+		$this->findFeatures();
 
         return $this->content;
     }
@@ -75,6 +111,13 @@ class XML
     {
         if (count($this->data->{'press-contact'}) > 0) {
             $this->content->setPressContact($this->data->{'press-contact'});
+        }
+    }
+
+    private function findPressCanRequestCopy()
+    {
+        if (count($this->data->{'press-can-request-copy'}) > 0) {
+            $this->content->setPressCanRequestCopy($this->data->{'press-can-request-copy'});
         }
     }
 
@@ -117,7 +160,7 @@ class XML
         }
     }
 
-    private function findHistory()
+    private function findCompanyHistory()
     {
         if (count($this->data->histories) > 0) {
             foreach ($this->data->histories->history as $history) {
@@ -126,11 +169,36 @@ class XML
         }
     }
 
+    private function findReleaseHistory()
+    {
+        if (count($this->data->history) > 0) {
+            $this->content->addHistory('unused', $this->data->history);
+        }
+    }
+
     private function findFeatures()
     {
         if (count($this->data->features) > 0) {
             foreach ($this->data->features->feature as $feature) {
                 $this->content->addFeature($feature);
+            }
+        }
+    }
+
+    private function findPlatforms()
+    {
+        if (count($this->data->platforms) > 0) {
+            foreach ($this->data->platforms->platform as $platform) {
+                $this->content->addPlatform($platform->name, $platform->link);
+            }
+        }
+    }
+
+    private function findPrices()
+    {
+        if (count($this->data->prices) > 0) {
+            foreach ($this->data->prices->price as $price) {
+                $this->content->addPrice($price->currency, $price->value);
             }
         }
     }
@@ -206,4 +274,11 @@ class XML
             }
         }
     }
+
+	private function findMonetization()
+	{
+		if (count($this->data->{'monetization-permission'}) > 0) {
+            $this->content->setMonetization($this->data->{'monetization-permission'});
+        }
+	}
 }

@@ -3,8 +3,8 @@
 namespace Presskit\Exceptions;
 
 
-class CompanyTemplateXmlFilenameMissingException
+class ReleaseNameIsMissingCreateSome
 extends \Exception
 {
-    
+
 }

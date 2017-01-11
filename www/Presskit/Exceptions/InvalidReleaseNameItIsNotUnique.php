@@ -3,7 +3,7 @@
 namespace Presskit\Exceptions;
 
 
-class CompanyTemplateXmlFilenameMissingException
+class InvalidReleaseNameItIsNotUnique
 extends \Exception
 {
     

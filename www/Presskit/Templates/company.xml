@@ -103,11 +103,17 @@
 		</quote>
 	</quotes>
 	
-	<press-can-request-copy>TRUE</press-can-request-copy> <!-- can be true or false -->
-	<monetization-permission>monetize</monetization-permission> <!-- can be: 	false (no video allowed),
-																			 	ask (permission on case-per-case basis),
-																			 	non-commercial (no monetization allowed),
-																			 	monetize (full permission) -->	
+	<!-- can be true or false -->
+	<press-can-request-copy>TRUE</press-can-request-copy> 
+
+	<!-- can be: 
+		- false          = (no video allowed),
+		- ask            = (permission on case-per-case basis),
+		- non-commercial = (no monetization allowed),
+		- monetize       = (full permission)
+	-->	
+	<monetization-permission>monetize</monetization-permission>
+
 	<additionals>
 		<additional>
 			<title>Company Link #1</title>

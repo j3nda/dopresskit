@@ -3,15 +3,15 @@
 namespace Presskit;
 
 
-class PresskitConfig
+class Config
 {
 	private $currentDir;
 
-	private $dataXmlFilename = 'data.xml';
-	private $trailersDirname = 'trailers';
-
+	private $dataXmlFilename      = 'data.xml';
+	private $trailersDirname      = 'trailers';
+	private $languageDirname      = 'lang';
 	private $imagesDirname        = 'images';
-	private $imagesZipFilename    = 'images/images.zip';
+	private $imageZipFilename     = 'images/images.zip';
 	private $imageLogoZipFilename = 'images/logo.zip';
 	private $imageLogoFilename    = 'images/logo.png';
 	private $imageIconFilename    = 'images/icon.png';
@@ -30,9 +30,19 @@ class PresskitConfig
 		'trailers',
 	);
 
+	public static $isModRewriteEnabled = false;
+	private $googleAnalytics = array(
+		Request::REQUEST_COMPANY_PAGE => null,
+	);
+
 	private $templateCompanyDataXmlFilename = 'Presskit/Templates/company.xml';
-	private $templateCompanyPhpFilename = 'Presskit/Templates/company.php';
-	private $templateCreditsPhpFilename = 'Presskit/Templates/credits.php';
+	private $templateCompanyLangXmlFilename = 'Presskit/Templates/company.lang.xml';
+	private $templateCompanyPhpFilename     = 'Presskit/Templates/company.php';
+	private $templateReleaseDataXmlFilename = 'Presskit/Templates/release.xml';
+	private $templateReleaseLangXmlFilename = 'Presskit/Templates/release.lang.xml';
+	private $templateReleasePhpFilename     = 'Presskit/Templates/release.php';
+	private $templateCreditsPhpFilename     = 'Presskit/Templates/credits.php';
+	private $template404PhpFilename         = 'Presskit/Templates/404.php';
 
 
 	public function __construct($currentDir)
@@ -70,9 +80,14 @@ class PresskitConfig
 		if (isset($this->$name))
 		{
 			$prefix = '';
-			if (preg_match('/(Filename|Dirname)$/i', $name))
+			$suffix = '';
+			if (preg_match('/(Filename|Dirname)$/i', $name, $tmp))
 			{
 				$prefix = $this->currentDir;
+				$suffix = (strtolower($tmp[1]) == 'dirname'
+					? DIRECTORY_SEPARATOR
+					: ''
+				);
 			}
 			if (is_array($this->$name))
 			{
@@ -80,8 +95,12 @@ class PresskitConfig
 			}
 			else
 			{
-				return $prefix.$this->$name;
+				return $prefix.$this->$name.$suffix;
 			}
+		}
+		else
+		{
+			throw new \Exception('Uninitialized variable '.$name);
 		}
 	}
 
@@ -89,8 +108,8 @@ class PresskitConfig
 	{
 		return str_replace(
 			$this->currentDir,
-			$absoluteResource,
-			''
+			'',
+			$absoluteResource
 		);
 	}
 }
