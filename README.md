@@ -47,9 +47,9 @@ Installation/Usage:
 
 2) cd into/this-repository
 
-3) run: $ php -S localhost:8888 -d `pwd`
+3) run: $ `php -S localhost:8888 -d $(pwd)`
 
-4) run: browser at address: http://localhost:8888
+4) open: your browser at address: http://localhost:8888
 
 5) update/modify content
 
@@ -63,7 +63,7 @@ Installation/Usage:
 
 5.5) update/modify: "my-game-name/data-en.xml" file (~as a release page)
 
-hint: you can also wget a static version of press-kit page, eg: wget -O ./my-game-name.html http://localhost:8888/?p=my-game-name
+hint: you can also wget a static version of press-kit page, eg: `wget -O ./my-game-name.html http://localhost:8888/?p=my-game-name`
 
 
 presskit() was only possible thanks to these fine folks!
