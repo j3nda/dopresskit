@@ -53,15 +53,15 @@ Installation/Usage:
 
 5) update/modify content
 
-5.1) update/modify: data-en.xml file (~as a company page)
+5.1) update/modify: "data-en.xml" file (~as a company page)
 
 5.2) create sub-directory, eg: "my-game-name"
 
 5.3) refresh page at browser or go to: http://localhost:8888
 
-5.4) click to "Projects", you will be redirected into "my-game-name" inc. installation
+5.4) click to "Projects", you will be redirected into "my-game-name" release page inc. installation
 
-5.5) update/modify: data-en.xml file (~as a release page)
+5.5) update/modify: "my-game-name/data-en.xml" file (~as a release page)
 
 hint: you can also wget a static version of press-kit page, eg: wget -O ./my-game-name.html http://localhost:8888/?p=my-game-name
 
