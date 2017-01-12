@@ -57,6 +57,7 @@ class Presskit
 			);
 
 			$xml->setAdditionalInfo(array(
+				'config'              => $this->config,
 				'language'            => $this->getCurrentLanguage(),
 				'languages'           => $this->getAvailableLanguages(),
 				'releases'            => $this->getReleases(),
@@ -108,6 +109,7 @@ class Presskit
 			}
 
 			$xml->setAdditionalInfo(array(
+				'config'              => $this->config,
 				'language'            => $this->getCurrentLanguage(),
 				'languages'           => $this->getAvailableLanguages(),
 //				'releases'            => $this->getReleases(),
@@ -177,8 +179,6 @@ class Presskit
 	{
 		return $this->request->getRequestRelease();
 	}
-
-
 
 	private function gatherReleases($directory)
 	{
@@ -250,7 +250,19 @@ class Presskit
 				}
 			}
 		}
-		return $img;
+
+        // excludeImageNames: REGEX!
+        $matches = array();
+        foreach($excludeImageNames as $exclureRegex)
+        {
+            $tmp = preg_grep('/'.$exclureRegex.'/', $img);
+            if (!empty($tmp))
+            {
+                $matches = array_unique(array_merge($matches, $tmp));
+            }
+        }
+
+		return array_diff($img, $matches);
 	}
 
 	public function getRelativePath($absoluteResource, $checkAvailability = false)

@@ -1,5 +1,17 @@
 <?php
+echo "<pre>
+This file is OBSOLETE and also some development is needed.
 
+Some features are still missing, eg:
+- check-n-distribute key-files (and/or download them)
+
+- press-can-request-copy is true, so template-update is needed,
+  @see: release.php for whole section about \"Request Press Copy\"
+  ~ elseif (isset(\$press_request_outdated_warning) && \$press_request_outdated_warning === true):
+
+- case(promoter): @from this file.
+";
+exit;
 if( file_exists('install.php') )
 {
 	header("Location: install.php");
@@ -58,7 +70,7 @@ if( !isset($xml) )
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		
+
 		<title>Instructions</title>
 		<link href="http://cdnjs.cloudflare.com/ajax/libs/uikit/1.2.0/css/uikit.gradient.min.css" rel="stylesheet" type="text/css">
 		<link href="style.css" rel="stylesheet" type="text/css">
@@ -126,7 +138,7 @@ foreach( $files as $keyfile ) {
 		if( $result != "FAIL" ) $press_request = TRUE;
 		else {
 			$press_request_fail = TRUE;
-			$press_request_fail_msg = tl('There was an unexpected error retrieving data from distribute(). Please try again later.');			
+			$press_request_fail_msg = tl('There was an unexpected error retrieving data from distribute(). Please try again later.');
 		}
 
 		curl_close($ch);
@@ -146,7 +158,7 @@ foreach( $files as $keyfile ) {
 		if( $result != "FAIL" ) $press_request = TRUE;
 		else {
 			$press_request_fail = TRUE;
-			$press_request_fail_msg = tl('There was an unforeseen error retrieving data from distribute(). Please try again later.');			
+			$press_request_fail_msg = tl('There was an unforeseen error retrieving data from distribute(). Please try again later.');
 		}
 	} else {
 		// it doesn't matter you have a keyfile, you can't integrate
@@ -165,7 +177,7 @@ foreach( $xml->children() as $child )
 	{
 		case("title"):
 			define("GAME_TITLE", $child);
-			break;	
+			break;
 		case("release-date"):
 			define("GAME_DATE", $child);
 			break;
@@ -213,7 +225,7 @@ foreach( $xml->children() as $child )
 				$features[$i] = $subchild;
 				$i++;
 			}
-			break;	
+			break;
 		case("trailers"):
 			$trailers = array();
 			$i = 0;
@@ -222,7 +234,7 @@ foreach( $xml->children() as $child )
 				$trailers[$i][$subchild->getName()] = $subchild;
 				$i++;
 			}
-			break;					
+			break;
 		case("awards"):
 			$awards = array();
 			$i = 0;
@@ -231,7 +243,7 @@ foreach( $xml->children() as $child )
 				$awards[$i][$subchild->getName()] = $subchild;
 				$i++;
 			}
-			break;					
+			break;
 		case("quotes"):
 			$quotes = array();
 			$i = 0;
@@ -240,7 +252,7 @@ foreach( $xml->children() as $child )
 				$quotes[$i][$subchild->getName()] = $subchild;
 				$i++;
 			}
-			break;					
+			break;
 		case("press-can-request-copy"):
 			if( strtolower($child) != "false" ) $press_request_outdated_warning = TRUE;
 			break;
@@ -258,7 +270,7 @@ foreach( $xml->children() as $child )
 				$additionals[$i][$subchild->getName()] = $subchild;
 				$i++;
 			}
-			break;					
+			break;
 		case("credits"):
 			$credits = array();
 			$i = 0;
@@ -267,16 +279,16 @@ foreach( $xml->children() as $child )
 				$credits[$i][$subchild->getName()] = $subchild;
 				$i++;
 			}
-			break;					
+			break;
 		case("promoter"):
 			$promoterawards = array();
 			$promoterquotes = array();
 
 			$promotercode = ($child->children());
 			$promotercode = $promotercode->product;
-			
+
 			$promoterxml = simplexml_load_file('http://promoterapp.com/dopresskit/'.$promotercode);
-			
+
 			foreach( $promoterxml->children() as $promoterchild )
 			{
 				switch( $promoterchild->children()->getName() )
@@ -287,7 +299,7 @@ foreach( $xml->children() as $child )
 						{
 							$promoterquotes[$i][$promotersubchild->getName()] = $promotersubchild;
 							$i++;
-						}					
+						}
 						break;
 					case("award"):
 						$i = 0;
@@ -295,11 +307,11 @@ foreach( $xml->children() as $child )
 						{
 							$promoterawards[$i][$promotersubchild->getName()] = $promotersubchild;
 							$i++;
-						}					
-						break;							
+						}
+						break;
 				}
 			}
-			
+
 			break;
 	}
 }
@@ -315,7 +327,7 @@ foreach( $xml->children() as $child )
 	{
 		case("title"):
 			define("COMPANY_TITLE", $child);
-			break;	
+			break;
 		case("based-in"):
 			define("COMPANY_BASED", $child);
 			break;
@@ -333,7 +345,7 @@ foreach( $xml->children() as $child )
 				$contacts[$i][$subchild->getName()] = $subchild;
 				$i++;
 			}
-			break;					
+			break;
 	}
 }
 
@@ -350,7 +362,7 @@ function parseLink($uri)
         $parsed = substr($parsed, 0, strlen($parsed) - 1);
     if( substr($parsed,-1,1) == "/" )
     	$parsed = substr($parsed, 0, strlen($parsed) - 1);
-    
+
     return $parsed;
 }
 
@@ -556,7 +568,7 @@ foreach ($additionals as $additional) {
 		'title' => $additional['additional']->title,
 		'description' => $additional['additional']->description,
 		'url' => 'http://'.parseLink($additional['additional']->link),
-		'urlName' => $urlName, 
+		'urlName' => $urlName,
 	);
 }
 

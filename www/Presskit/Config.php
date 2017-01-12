@@ -15,10 +15,11 @@ class Config
 	private $imageLogoZipFilename = 'images/logo.zip';
 	private $imageLogoFilename    = 'images/logo.png';
 	private $imageIconFilename    = 'images/icon.png';
+	/** array (it's possible to exclude filename or REGEX) */
 	private $companyExcludeImageNames = array(
-		'logo',
-		'icon',
-		'header',
+		'logo.png',
+		'icon.png',
+		'header.png',
 	);
 
 	private $releaseExcludeDirs = array(
@@ -64,7 +65,7 @@ class Config
 		{
 			throw new \Exception('Invalid $name! currentDir is reserved!');
 		}
-		if (in_array($name,
+		if (!is_array($value) && in_array($name,
 				array(
 					'companyExcludeImageNames',
 				)
@@ -83,7 +84,14 @@ class Config
 			$suffix = '';
 			if (preg_match('/(Filename|Dirname)$/i', $name, $tmp))
 			{
-				$prefix = $this->currentDir;
+				if (preg_match('/^(template).+$/i', $name))
+				{
+					$prefix = realpath(__DIR__.DIRECTORY_SEPARATOR.'..').DIRECTORY_SEPARATOR;
+				}
+				else
+				{
+					$prefix = $this->currentDir;
+				}
 				$suffix = (strtolower($tmp[1]) == 'dirname'
 					? DIRECTORY_SEPARATOR
 					: ''

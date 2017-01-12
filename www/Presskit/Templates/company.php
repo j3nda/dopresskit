@@ -68,13 +68,13 @@
 
 							<p>
 								<strong><?=tl('Developer:')?></strong><br/>
-								<a href=""><?=$content->getTitle()?></a><br/>
+								<a href="<?=$content->getWebsite()->url()?>"><?=$content->getTitle()?></a><br/>
 								<?=tl('Based in %s', $content->getLocation())?>
 							</p>
 
 							<p>
 								<strong><?=tl('Founding date:')?></strong><br/>
-								<?=$content->getFoundingDate()?>
+								<?=$content->getFoundingDate()?>.
 							</p>
 
 							<p>
@@ -112,10 +112,12 @@
 								<?php endif; ?>
 							</p>
 
+							<?php if (!empty($content->getPhone())): ?>
 							<p>
-							   <strong><?=tl('Phone:')?></strong><br/>
+								<strong><?=tl('Phone:')?></strong><br/>
 								<?=$content->getPhone()?>
-						   </p>
+							</p>
+							<?php endif; ?>
 						</div>
 
 						<div class="uk-width-medium-4-6">
@@ -207,16 +209,19 @@
 					<h2 id="logo"><?=tl('Logo & Icon')?></h2>
 
 					<?php if ($content->getAdditionalInfo()->logo_archive_size != 0): ?>
-						<a href="images/logo.zip"><div class="uk-alert"><?=tl('download logo files as .zip (%s)', $content->getAdditionalInfo()->logo_archive_size)?></div></a>
+						<a href="<?=
+							$content->getAdditionalInfo()->config->relativePath(
+								$content->getAdditionalInfo()->config->imageLogoZipFilename
+							)?>"><div class="uk-alert"><?=tl('download logo files as .zip (%s)', $content->getAdditionalInfo()->logo_archive_size)?></div></a>
 					<?php endif; ?>
 
 					<div class="uk-grid images">
 						<?php if ($content->getAdditionalInfo()->logo !== NULL): ?>
-							<div class="uk-width-medium-1-2"><a href="images/logo.png"><img src="images/logo.png" alt="logo" /></a></div>
+							<div class="uk-width-medium-1-2"><a href="<?=$content->getAdditionalInfo()->logo?>"><img src="<?=$content->getAdditionalInfo()->logo?>" alt="logo" /></a></div>
 						<?php endif; ?>
 
 						<?php if ($content->getAdditionalInfo()->icon !== NULL): ?>
-							<div class="uk-width-medium-1-2"><a href="images/icon.png"><img src="images/icon.png" alt="logo" /></a></div>
+							<div class="uk-width-medium-1-2"><a href="<?=$content->getAdditionalInfo()->icon?>"><img src="<?=$content->getAdditionalInfo()->icon?>" alt="icon" /></a></div>
 						<?php endif; ?>
 					</div>
 
