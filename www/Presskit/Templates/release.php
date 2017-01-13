@@ -6,7 +6,11 @@
 
 		<title><?=$content->getTitle().($content->getCompany() ? ' by '.$content->getCompany()->getTitle() : '')?></title>
 		<link href="//cdnjs.cloudflare.com/ajax/libs/uikit/1.2.0/css/uikit.gradient.min.css" rel="stylesheet" type="text/css">
-		<link href="style.css" rel="stylesheet" type="text/css">
+		<?php if (count($content->getAdditionalInfo()->config->cssFilenames) > 0): ?>
+		<?php foreach($content->getAdditionalInfo()->config->cssFilenames as $cssFilename): ?>
+		<link href="<?=$cssFilename?>" rel="stylesheet" type="text/css">
+		<?php endforeach; ?>
+		<?php endif; ?>
 	</head>
 
 	<body>
@@ -184,37 +188,57 @@
 						<p><?=tlHtml('There are currently no trailers available for %s. Check back later for more or <a href="#contact">contact us</a> for specific requests!', $content->getTitle())?></p>
 					<?php else: ?>
 						<?php foreach ($content->getTrailers() as $trailer): ?>
-							<p><strong><?=$trailer->name()?></strong>&nbsp;
+							<div id="trailers-inner" class="uk-alert">
+								<strong id="trailer-name"><?=$trailer->name()?></strong>
+								<br/><?=tl('Available:')?>
+								<?php foreach ($trailer->locations() as $index => $location): ?>
+									<?php if ((string) $location->format() === 'youtube'): ?>
+										<a href="<?=$location?>" _target="_blank">Youtube</a><?php if ($index < (count($trailer->locations()) - 1)): ?>, <?php else: ?>.<?php endif; ?>
+									<?php endif; ?>
+									<?php if ((string) $location->format() === 'vimeo'): ?>
+										<a href="<?=$location?>" _target="_blank">Vimeo</a><?php if ($index < (count($trailer->locations()) - 1)): ?>, <?php else: ?>.<?php endif; ?>
+									<?php endif; ?>
+									<?php if (in_array((string)$location->format(), \Presskit\Value\Trailer::getFileFormats())): ?>
+										<a href="<?php
 
-							<?php foreach ($trailer->locations() as $index => $location): ?>
+											if (is_readable($content->getAdditionalInfo()->config->trailersDirname.$location)): ?><?=
 
-								<?php if ((string) $location->format() === 'youtube'): ?>
-									<a href="<?=$location?>">Youtube</a><?php if ($index < (count($trailer->locations()) - 1)): ?>, <?php endif; ?>
+												$content->getAdditionalInfo()->config->relativePath($content->getAdditionalInfo()->config->trailersDirname).$location
+												?><?php else: ?><?=$location
+												?><?php endif;
+
+											?>"><?=strtoupper((string)$location->format())?><?php
+
+											if (is_readable($content->getAdditionalInfo()->config->trailersDirname.$location)): ?><?=
+												'('
+												.\Presskit\Helpers::filesizeToHumanReadable(
+													\Presskit\Helpers::getFilesize(
+														$content->getAdditionalInfo()->config->trailersDirname.$location)
+													)
+												.')'
+												?><?php endif;
+
+											?></a><?php if ($index < (count($trailer->locations()) - 1)): ?>, <?php else: ?>.<?php endif; ?>
+									<?php endif; ?>
+								<?php endforeach; ?>
+								<?php if ((string) $trailer->youtube() !== ''): ?>
+									<div class="uk-responsive-width iframe-container">
+										<iframe src="<?=sprintf(
+												\Presskit\Value\TrailerLocation::URL_YOUTUBE_EMBED,
+												$trailer->youtube()
+											)?>" frameborder="0" allowfullscreen></iframe>
+									</div>
+								<?php elseif ((string) $trailer->vimeo() !== ''): ?>
+									<div class="uk-responsive-width iframe-container">
+										<iframe src="<?=sprintf(
+												\Presskit\Value\TrailerLocation::URL_YOUTUBE_EMBED,
+												$trailer->vimeo()
+											)?>" frameborder="0" allowfullscreen></iframe>
+									</div>
 								<?php endif; ?>
-
-								<?php if ((string) $location->format() === 'vimeo'): ?>
-									<a href="<?=$location?>">Vimeo</a><?php if ($index < (count($trailer->locations()) - 1)): ?>, <?php endif; ?>
-								<?php endif; ?>
-
-								<?php if ((string) $location->format() === 'mov'): ?>
-									<a href="trailers/<?=$location?>">.mov</a><?php if ($index < (count($trailer->locations()) - 1)): ?>, <?php endif; ?>
-								<?php endif; ?>
-
-								<?php if ((string) $location->format() === 'mp4'): ?>
-									<a href="trailers/<?=$location?>">.mp4</a><?php if ($index < (count($trailer->locations()) - 1)): ?>, <?php endif; ?>
-								<?php endif; ?>
-							<?php endforeach; ?>
-
-							<?php if ((string) $trailer->youtube() !== ''): ?>
-								<div class="uk-responsive-width iframe-container">
-									<iframe src="//www.youtube.com/embed/<?=$trailer->youtube()?>" frameborder="0" allowfullscreen></iframe>
-								</div>
-							<?php elseif ((string) $trailer->vimeo() !== ''): ?>
-								<div class="uk-responsive-width iframe-container">
-									<iframe src="//player.vimeo.com/video/<?=$trailer->vimeo()?>" frameborder="0" allowfullscreen></iframe>
-								</div>
-							<?php endif; ?>
+							</div>
 						<?php endforeach; ?>
+						<div class="clear"></div>
 					<?php endif; ?>
 
 					<hr />

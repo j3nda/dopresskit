@@ -72,13 +72,13 @@ class Request
 
 		// Language
 		$this->currentLanguage = (isset($_GET['l'])
-			? strtolower(trim($_GET['l']))
+			? basename(strtolower(trim($_GET['l'])))
 			: TranslateTool::getDefaultLanguage()
 		);
 
 
 		// Page
-		$page = (isset($this->request['p']) ? trim($this->request['p']) : $this->defaultRequest);
+		$page = (isset($this->request['p']) ? basename(trim($this->request['p'])) : $this->defaultRequest);
 
 		if ($this->isRequestCreditsPage($page))
 		{
@@ -128,10 +128,10 @@ class Request
 			$names = array_unique($names);
 
 			throw new Exceptions\ReleaseNameIsMissingCreateSome(
-				'Requested releaseName is missing!'
+				'Requested releaseName "'.  htmlspecialchars($page).'" is missing!'
 				.' And it looks like you\'ve fresh installation.'
-				.' So create some sub-directory, like:'
-					.' '.implode(' or ', $names).'.'
+				.' So create some sub-directory, like: "'
+					.' '.implode('" or "', $names).'".'
 				.' And refresh!'
 			);
 		}

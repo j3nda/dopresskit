@@ -5,7 +5,13 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Thanks!</title>
 		<link href="http://cdnjs.cloudflare.com/ajax/libs/uikit/1.2.0/css/uikit.gradient.min.css" rel="stylesheet" type="text/css">
-		<link href="style.css" rel="stylesheet" type="text/css">
+		<?php if (count($config->cssFilenames) > 0): ?>
+		<?php foreach($config->cssFilenames as $cssFilename): ?>
+		<link href="<?=$cssFilename?>" rel="stylesheet" type="text/css">
+		<?php endforeach; ?>
+		<?php else: ?>
+		<link href="index.css" rel="stylesheet" type="text/css">
+		<?php endif; ?>
 	</head>
 	<body>
 		<div class="uk-container uk-container-center">
@@ -15,11 +21,11 @@
 					<a class="nav-header" href="<?=
 						\Presskit\Helpers::url(
 							(count($presskit->getAvailableLanguages()) > 1
-								? '?l='.$presskit->getCurrentLanguage
+								? '?l='.$presskit->getCurrentLanguage()
 								: './'
 							),
 							(count($presskit->getAvailableLanguages()) > 1
-								? $presskit->getCurrentLanguage
+								? $presskit->getCurrentLanguage()
 								: './'
 							)
 						)?>"><?=tl('press kit')?></a>

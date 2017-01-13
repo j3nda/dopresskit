@@ -122,6 +122,10 @@
 			<base>press kit</base>
 			<local>&lt;&lt; Back to: press kit.</local>
 		</translation>
+		<translation>
+			<base>Available:</base>
+			<local>Available:</local>
+		</translation>
 		
 		
 		<!-- company-page -->

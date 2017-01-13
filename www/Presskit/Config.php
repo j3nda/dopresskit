@@ -8,6 +8,7 @@ class Config
 	private $currentDir;
 
 	private $dataXmlFilename      = 'data.xml';
+	private $cssFilenames         = array('index.css');
 	private $trailersDirname      = 'trailers';
 	private $languageDirname      = 'lang';
 	private $imagesDirname        = 'images';

@@ -126,7 +126,7 @@ catch (Presskit\Exceptions\ReleaseNameIsMissingCreateSome $e)
 	header('HTTP/1.0 404 Not Found', true, 404);
 	$errorMessages = array(
 		get_class($e),
-		$e->getMessage()
+		implode('.<br/>', explode('. ', $e->getMessage()))
 	);
 	include_once($config->template404PhpFilename);
 	exit;

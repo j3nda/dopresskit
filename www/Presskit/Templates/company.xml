@@ -52,6 +52,8 @@
 		</trailer>
 		<trailer>
 			<name>This one too</name>
+			<mp4>open-close.mp4</mp4> <!-- video as file in trailers/open-close.mp4 -->
+			<mov>http://www.steppublishers.com/sites/default/files/step.mov</mov> <!-- video as a link to download -->
 			<youtube>0CevOaYrYDA</youtube>
 			<vimeo>12536488</vimeo>
 		</trailer>

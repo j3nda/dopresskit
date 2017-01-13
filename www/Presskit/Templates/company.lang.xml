@@ -114,6 +114,11 @@
 			<base>Contact</base>
 			<local>Contact</local>
 		</translation>
+		<translation>
+			<base>Available:</base>
+			<local>Available:</local>
+		</translation>
+		
 		
 		<!-- credits -->
 		<translation>
