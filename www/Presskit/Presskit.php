@@ -8,10 +8,6 @@ use Presskit\Parser\XML as XMLParser;
 
 class Presskit
 {
-	const FORMAT_FILESIZE_AS_HUMAN = 'human';
-
-	public static $isModRewriteEnabled = false;
-
 	private $config;
 	private $request;
 	private $content;
@@ -27,10 +23,15 @@ class Presskit
 	{
 		if ($config === null)
 		{
-			$config = new \Presskit\Config(__DIR__.'/../');
+			$config = new \Presskit\Config(
+				realpath(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR
+			);
 		}
 		$this->config   = $config;
-		$this->releases = $this->gatherReleases($this->config->currentDir);
+		$this->releases = $this->gatherReleases(
+			$this->config->currentDir,
+			$this->config->releaseExcludeDirs
+		);
 		$this->request  = new Request(
 			$this->config,
 			$this->releases,
@@ -52,7 +53,7 @@ class Presskit
 				new Content\CompanyContent()
 			);
 			TranslateTool::loadLanguage(
-				dirname($dataXmlFilename).DIRECTORY_SEPARATOR.$this->getRelativePath($this->config->languageDirname),
+				$this->config->languageDirname,
 				$this->getCurrentLanguage()
 			);
 
@@ -62,8 +63,9 @@ class Presskit
 				'languages'           => $this->getAvailableLanguages(),
 				'releases'            => $this->getReleases(),
 				'images_archive_size' => Helpers::filesizeToHumanReadable(Helpers::getFilesize($this->config->imageZipFilename)),
-				'images'              => $this->getImages($this->config->imagesDirname, $this->config->companyExcludeImageNames),
+				'images'              => $this->getImages($this->config->imagesDirname, $this->config->releaseExcludeImageNames),
 				'logo_archive_size'   => Helpers::filesizeToHumanReadable(Helpers::getFilesize($this->config->imageLogoZipFilename)),
+				'header'              => $this->getRelativePath($this->config->imageHeaderFilename, true),
 				'logo'                => $this->getRelativePath($this->config->imageLogoFilename, true),
 				'icon'                => $this->getRelativePath($this->config->imageIconFilename, true),
 				'google_analytics'    => $this->config->googleAnalytics[Request::REQUEST_COMPANY_PAGE],
@@ -80,7 +82,7 @@ class Presskit
 		}
 	}
 
-	public function parseRelease($dataXmlFilename)
+	public function parseRelease($dataXmlFilename, $releaseName)
 	{
 		try
 		{
@@ -92,15 +94,15 @@ class Presskit
 				new Content\ReleaseContent()
 			);
 			TranslateTool::loadLanguage(
-				dirname($dataXmlFilename).DIRECTORY_SEPARATOR.$this->getRelativePath($this->config->languageDirname),
+				$this->config->languageDirname,
 				$this->getCurrentLanguage()
 			);
 
 			$googleAnalytics = null;
 			$gaList = array_change_key_case($this->config->googleAnalytics, CASE_LOWER);
-			if (isset($gaList[basename(dirname($dataXmlFilename))]))
+			if (isset($gaList[strtolower($releaseName)]))
 			{
-				$googleAnalytics = $gaList[basename(dirname($dataXmlFilename))];
+				$googleAnalytics = $gaList[strtolower($releaseName)];
 			}
 			else
 			if (isset($gaList[Request::REQUEST_COMPANY_PAGE]))
@@ -112,27 +114,10 @@ class Presskit
 				'config'              => $this->config,
 				'language'            => $this->getCurrentLanguage(),
 				'languages'           => $this->getAvailableLanguages(),
-//				'releases'            => $this->getReleases(),
-				'images_archive_size' => Helpers::filesizeToHumanReadable(
-					Helpers::getFilesize(
-						dirname($dataXmlFilename)
-						.DIRECTORY_SEPARATOR
-						.$this->getRelativePath($this->config->imageZipFilename)
-					)
-				),
-				'images'              => $this->getImages(
-					dirname($dataXmlFilename)
-					.DIRECTORY_SEPARATOR
-					.$this->getRelativePath($this->config->imagesDirname),
-					$this->config->companyExcludeImageNames
-				),
-				'logo_archive_size'   => Helpers::filesizeToHumanReadable(
-					Helpers::getFilesize(
-						dirname($dataXmlFilename)
-						.DIRECTORY_SEPARATOR
-						.$this->getRelativePath($this->config->imageLogoZipFilename)
-					)
-				),
+				'images_archive_size' => Helpers::filesizeToHumanReadable(Helpers::getFilesize($this->config->imageZipFilename)),
+				'images'              => $this->getImages($this->config->imagesDirname, $this->config->companyExcludeImageNames),
+				'logo_archive_size'   => Helpers::filesizeToHumanReadable(Helpers::getFilesize($this->config->imageLogoZipFilename)),
+				'header'              => $this->getRelativePath($this->config->imageHeaderFilename, true),
 				'logo'                => $this->getRelativePath($this->config->imageLogoFilename, true),
 				'icon'                => $this->getRelativePath($this->config->imageIconFilename, true),
 				'google_analytics'    => $googleAnalytics,
@@ -180,7 +165,7 @@ class Presskit
 		return $this->request->getRequestRelease();
 	}
 
-	private function gatherReleases($directory)
+	private function gatherReleases($directory, $releaseExcludeDirs)
 	{
 		$dir = new \DirectoryIterator($directory);
 		$rel = array();
@@ -188,17 +173,23 @@ class Presskit
 		{
 			if (
 				   $file->isDir()
-				&& !in_array(basename($file->getFilename()), $this->config->releaseExcludeDirs)
+				&& !in_array(basename($file->getFilename()), $releaseExcludeDirs)
 			   )
 			{
 				$url = Helpers::url(
-					'?p='.strtolower($file->getFilename()),
-					strtolower($file->getFilename())
+					'?'
+						.(count($this->getAvailableLanguages()) > 1
+							? 'l='.$this->getCurrentLanguage()
+							: ''
+						)
+						.'p='.strtolower($file->getFilename())
+					,
+					(count($this->getAvailableLanguages()) > 1
+							? $this->getCurrentLanguage().'/'
+							: ''
+					)
+					.strtolower($file->getFilename())
 				);
-//				if ($language !== \TranslateTool::getDefaultLanguage()) {
-//					$url .= '&l=' . $language;
-//				}
-// TODO
 
 				$dirname = basename($file->getFilename());
 				if (isset($rel[strtolower($dirname)]))
@@ -214,6 +205,26 @@ class Presskit
 					);
 				}
 			}
+		}
+
+        // excludeReleaseNames: REGEX!
+		$relKeys = array_keys($rel);
+        $matches = array();
+        foreach($releaseExcludeDirs as $excludeRegex)
+        {
+			if (in_array($excludeRegex, array('.', '..')))
+			{
+				continue;
+			}
+            $tmp = preg_grep('/'.$excludeRegex.'/', $relKeys);
+            if (!empty($tmp))
+            {
+                $matches = array_unique(array_merge($matches, $tmp));
+            }
+        }
+		foreach($matches as $excludeReleaseName)
+		{
+			unset($rel[$excludeReleaseName]);
 		}
 
 		return $rel;
@@ -253,9 +264,9 @@ class Presskit
 
         // excludeImageNames: REGEX!
         $matches = array();
-        foreach($excludeImageNames as $exclureRegex)
+        foreach($excludeImageNames as $excludeRegex)
         {
-            $tmp = preg_grep('/'.$exclureRegex.'/', $img);
+            $tmp = preg_grep('/'.$excludeRegex.'/', $img);
             if (!empty($tmp))
             {
                 $matches = array_unique(array_merge($matches, $tmp));

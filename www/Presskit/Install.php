@@ -50,29 +50,34 @@ class Install
 			throw new \Exception('Unable to installRelease!');
 		}
 
-		if (!is_readable($this->config->currentDir.$release['dir'].DIRECTORY_SEPARATOR.basename($this->config->dataXmlFilename)))
+		$currentDir = $this->config->currentDir;
+		if (basename($this->config->currentDir) != $release['dir'])
+		{
+			$currentDir .= $release['dir'].DIRECTORY_SEPARATOR;
+		}
+		$currentDir = realpath($currentDir).DIRECTORY_SEPARATOR;
+		$dataXml    = Helpers::dataXmlToLanguageDataXml(
+			$currentDir.basename($this->config->dataXmlFilename),
+			strtolower(TranslateTool::getDefaultLanguage()),
+			false
+		);
+		if (!is_readable($dataXml))
 		{
 			$this->copy(
 				$this->config->templateReleaseDataXmlFilename,
-				Helpers::dataXmlToLanguageDataXml(
-					$this->config->currentDir.$release['dir'].DIRECTORY_SEPARATOR.basename($this->config->dataXmlFilename),
-					strtolower(TranslateTool::getDefaultLanguage()),
-					false
-				)
+				$dataXml
 			);
 		}
-		if (!is_readable($this->config->currentDir.$release['dir'].DIRECTORY_SEPARATOR.basename($this->config->imagesDirname)))
+		if (!is_readable($currentDir.basename($this->config->imagesDirname)))
 		{
-			mkdir($this->config->currentDir.$release['dir'].DIRECTORY_SEPARATOR.basename($this->config->imagesDirname));
+			mkdir($currentDir.basename($this->config->imagesDirname));
 		}
-		if (!is_readable($this->config->currentDir.$release['dir'].DIRECTORY_SEPARATOR.basename($this->config->trailersDirname)))
+		if (!is_readable($currentDir.basename($this->config->trailersDirname)))
 		{
-			mkdir($this->config->currentDir.$release['dir'].DIRECTORY_SEPARATOR.basename($this->config->trailersDirname));
+			mkdir($currentDir.basename($this->config->trailersDirname));
 		}
 		$this->installLanguage(
-			$this->config->currentDir.$release['dir']
-				.DIRECTORY_SEPARATOR
-				.str_replace($this->config->currentDir, '', $this->config->languageDirname), // @see: Presskit\Config::getRelativePath()
+			$currentDir.basename($this->config->languageDirname).DIRECTORY_SEPARATOR, // @see: Presskit\Config::getRelativePath()
 			$this->config->templateReleaseLangXmlFilename
 		);
 	}

@@ -5,7 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
 		<title><?=$content->getTitle()?></title>
-		<link href="http://cdnjs.cloudflare.com/ajax/libs/uikit/1.2.0/css/uikit.gradient.min.css" rel="stylesheet" type="text/css">
+		<link href="//cdnjs.cloudflare.com/ajax/libs/uikit/1.2.0/css/uikit.gradient.min.css" rel="stylesheet" type="text/css">
 		<link href="style.css" rel="stylesheet" type="text/css">
 	</head>
 
@@ -33,9 +33,19 @@
 						<?php endif; ?>
 
 						<li><a href="#factsheet"><?=tl('Factsheet')?></a></li>
-						<li><a href="#description"><?=tl('Description')?></a></li>
-						<li><a href="#history"><?=tl('History')?></a></li>
-						<li><a href="#projects"><?=tl('Projects')?></a></li>
+
+						<?php if(!empty($content->getDescription())): ?>
+							<li><a href="#description"><?=tl('Description')?></a></li>
+						<?php endif; ?>
+
+						<?php if ($content->getHistory() > 0): ?>
+							<li><a href="#history"><?=tl('History')?></a></li>
+						<?php endif; ?>
+
+						<?php if (count($content->getAdditionalInfo()->releases) > 0): ?>
+							<li><a href="#projects"><?=tl('Projects')?></a></li>
+						<?php endif; ?>
+
 						<li><a href="#trailers"><?=tl('Videos')?></a></li>
 						<li><a href="#images"><?=tl('Images')?></a></li>
 						<li><a href="#logo"><?=tl('Logo & Icon')?></a></li>
@@ -52,14 +62,19 @@
 							<li><a href="#links"><?=tl('Additional Links')?></a></li>
 						<?php endif; ?>
 
-						<li><a href="#credits"><?=tl('Team')?></a></li>
-						<li><a href="#contact"><?=tl('Contact')?></a></li>
+						<?php if (count($content->getCredits()) > 0): ?>
+							<li><a href="#credits"><?=tl('Team')?></a></li>
+						<?php endif; ?>
+
+						<?php if (count($content->getContacts()) > 0): ?>
+							<li><a href="#contact"><?=tl('Contact')?></a></li>
+						<?php endif; ?>
 					</ul>
 				</div>
 
 				<div id="content" class="uk-width-medium-3-4">
-					<?php if (file_exists("images/header.png")): ?>
-						<img src="images/header.png" class="header">
+					<?php if ($content->getAdditionalInfo()->header): ?>
+						<img src="<?=$content->getAdditionalInfo()->header?>" class="header" />
 					<?php endif; ?>
 
 					<div class="uk-grid">
@@ -68,25 +83,42 @@
 
 							<p>
 								<strong><?=tl('Developer:')?></strong><br/>
-								<a href="<?=$content->getWebsite()->url()?>"><?=$content->getTitle()?></a><br/>
+								<a href="<?=
+									\Presskit\Helpers::url(
+										(count($content->getAdditionalInfo()->languages) > 1
+											? '?l='.$content->getAdditionalInfo()->language
+											: ''
+										),
+										(count($content->getAdditionalInfo()->languages) > 1
+											? $content->getAdditionalInfo()->language
+											: ''
+										)
+									)?>"><?=$content->getTitle()?></a><br/>
 								<?=tl('Based in %s', $content->getLocation())?>
 							</p>
 
+							<?php if (!empty($content->getFoundingDate())): ?>
 							<p>
 								<strong><?=tl('Founding date:')?></strong><br/>
 								<?=$content->getFoundingDate()?>.
 							</p>
+							<?php endif; ?>
 
+							<?php if (!empty($content->getWebsite())): ?>
 							<p>
 								<strong><?=tl('Website:')?></strong><br/>
-								<a href="http://<?=$content->getWebsite()->url()?>"><?=$content->getWebsite()->name()?></a>
+								<a href="<?=$content->getWebsite()->url()?>"><?=$content->getWebsite()->name()?></a>
 							</p>
+							<?php endif; ?>
 
+							<?php if (!empty($content->getPressContact())): ?>
 							<p>
 								<strong><?=tl('Press / Business Contact:')?></strong><br/>
 								<a href="mailto:<?=$content->getPressContact()?>"><?=$content->getPressContact()?></a>
 							</p>
+							<?php endif; ?>
 
+							<?php if (count($content->getSocialContacts()) > 0): ?>
 							<p>
 							  <strong><?=tl('Social:')?></strong><br/>
 
@@ -94,7 +126,9 @@
 									<a href="<?=$contact->uri()?>"><?=$contact->name()?></a><br/>
 								<?php endforeach; ?>
 							</p>
+							<?php endif; ?>
 
+							<?php if (count($content->getAdditionalInfo()->releases) > 0): ?>
 							<p>
 								<strong><?=tl('Releases:')?></strong><br />
 
@@ -102,15 +136,16 @@
 									<a href="<?=$release['url']?>"><?=$release['name']?></a><br/>
 								<?php endforeach; ?>
 							</p>
+							<?php endif; ?>
 
+							<?php if (count($content->getAddress()) > 0): ?>
 							<p>
-								<?php if (count($content->getAddress()) > 0): ?>
-									<strong><?=tl('Address:')?></strong><br/>
-									<?php foreach($content->getAddress() as $addressLine): ?>
-										<?=$addressLine?><br/>
-									<?php endforeach; ?>
-								<?php endif; ?>
+								<strong><?=tl('Address:')?></strong><br/>
+								<?php foreach($content->getAddress() as $addressLine): ?>
+									<?=$addressLine?><br/>
+								<?php endforeach; ?>
 							</p>
+							<?php endif; ?>
 
 							<?php if (!empty($content->getPhone())): ?>
 							<p>
@@ -124,11 +159,13 @@
 							<h2 id="description"><?=tl('Description')?></h2>
 							<p><?=$content->getDescription()?></p>
 
-							<h2 id="history"><?=tl('History')?></h2>
-							<?php foreach ($content->getHistory() as $history): ?>
-								<strong><?=$history->heading()?></strong>
-								<p><?=$history->body()?></p>
-							<?php endforeach; ?>
+							<?php if ($content->getHistory() > 0): ?>
+								<h2 id="history"><?=tl('History')?></h2>
+								<?php foreach ($content->getHistory() as $history): ?>
+									<strong><?=$history->heading()?></strong>
+									<p><?=$history->body()?></p>
+								<?php endforeach; ?>
+							<?php endif; ?>
 
 							<?php if (count($content->getAdditionalInfo()->releases) > 0): ?>
 							<h2 id="projects"><?=tl('Projects')?></h2>
@@ -141,10 +178,8 @@
 						</div>
 					</div>
 
-					<hr>
-
+					<hr />
 					<h2 id="trailers"><?=tl('Videos')?></h2>
-
 					<?php if (count($content->getTrailers()) === 0): ?>
 						<p><?=tlHtml('There are currently no trailers available for %s. Check back later for more or <a href="#contact">contact us</a> for specific requests!', $content->getTitle())?></p>
 					<?php else: ?>
@@ -172,29 +207,38 @@
 
 							<?php if ((string) $trailer->youtube() !== ''): ?>
 								<div class="uk-responsive-width iframe-container">
-									<iframe src="http://www.youtube.com/embed/<?=$trailer->youtube()?>" frameborder="0" allowfullscreen></iframe>
+									<iframe src="//www.youtube.com/embed/<?=$trailer->youtube()?>" frameborder="0" allowfullscreen></iframe>
 								</div>
 							<?php elseif ((string) $trailer->vimeo() !== ''): ?>
 								<div class="uk-responsive-width iframe-container">
-									<iframe src="http://player.vimeo.com/video/<?=$trailer->vimeo()?>" frameborder="0" allowfullscreen></iframe>
+									<iframe src="//player.vimeo.com/video/<?=$trailer->vimeo()?>" frameborder="0" allowfullscreen></iframe>
 								</div>
 							<?php endif; ?>
 						<?php endforeach; ?>
 					<?php endif; ?>
 
-					<hr>
-
+					<hr />
 					<h2 id="images"><?=tl('Images')?></h2>
-
 					<?php if ($content->getAdditionalInfo()->images_archive_size != 0): ?>
-						<a href="images/images.zip"><div class="uk-alert"><?=tl('download all screenshots & photos as .zip (%s)', $content->getAdditionalInfo()->images_archive_size)?></div></a>
+						<a href="<?=
+							$content->getAdditionalInfo()->config->relativePath(
+								$content->getAdditionalInfo()->config->imageZipFilename
+							)?>"><div class="uk-alert"><?=tl('download all screenshots & photos as .zip (%s)', $content->getAdditionalInfo()->images_archive_size)?></div></a>
 					<?php endif; ?>
 
 					<?php if (count($content->getAdditionalInfo()->images) > 0): ?>
 						<div class="uk-grid images">
 							<?php foreach ($content->getAdditionalInfo()->images as $image): ?>
 								<div class="uk-width-medium-1-2">
-									<a href="images/<?=$image?>"><img src="images/<?=$image?>" alt="<?=$image?>" /></a>
+									<a href="<?php
+										$content->getAdditionalInfo()->config->relativePath(
+											$content->getAdditionalInfo()->config->imagesDirname
+										)
+										.$image?>"><img src="<?=
+											$content->getAdditionalInfo()->config->relativePath(
+												$content->getAdditionalInfo()->config->imagesDirname
+											)
+											.$image?>" alt="<?=$image?>" /></a>
 								</div>
 							<?php endforeach; ?>
 						</div>
@@ -204,77 +248,70 @@
 						</div>
 					<?php endif; ?>
 
-					<hr>
-
+					<hr />
 					<h2 id="logo"><?=tl('Logo & Icon')?></h2>
-
 					<?php if ($content->getAdditionalInfo()->logo_archive_size != 0): ?>
 						<a href="<?=
 							$content->getAdditionalInfo()->config->relativePath(
 								$content->getAdditionalInfo()->config->imageLogoZipFilename
 							)?>"><div class="uk-alert"><?=tl('download logo files as .zip (%s)', $content->getAdditionalInfo()->logo_archive_size)?></div></a>
 					<?php endif; ?>
-
 					<div class="uk-grid images">
-						<?php if ($content->getAdditionalInfo()->logo !== NULL): ?>
+						<?php if (!empty($content->getAdditionalInfo()->logo)): ?>
 							<div class="uk-width-medium-1-2"><a href="<?=$content->getAdditionalInfo()->logo?>"><img src="<?=$content->getAdditionalInfo()->logo?>" alt="logo" /></a></div>
 						<?php endif; ?>
 
-						<?php if ($content->getAdditionalInfo()->icon !== NULL): ?>
+						<?php if (!empty($content->getAdditionalInfo()->icon)): ?>
 							<div class="uk-width-medium-1-2"><a href="<?=$content->getAdditionalInfo()->icon?>"><img src="<?=$content->getAdditionalInfo()->icon?>" alt="icon" /></a></div>
 						<?php endif; ?>
 					</div>
-
-					<?php if ($content->getAdditionalInfo()->logo === NULL && $content->getAdditionalInfo()->icon === NULL): ?>
+					<?php if (empty($content->getAdditionalInfo()->logo) && empty($content->getAdditionalInfo()->icon)): ?>
 						<p><?=tlHtml('There are currently no logos or icons available for %s. Check back later for more or <a href="#contact">contact us</a> for specific requests!', $content->getTitle())?></p>
 					<?php endif; ?>
 
-					<hr>
-
 					<?php if (count($content->getAwards()) > 0): ?>
+						<hr />
 						<h2 id="awards"><?=tl('Awards & Recognition')?></h2>
-
 						<ul>
 							<?php foreach ($content->getAwards() as $award): ?>
 								<li><?=$award->award()?> - <cite><?=$award->description()?></cite></li>
 							<?php endforeach; ?>
 						</ul>
-
-						<hr>
 					<?php endif; ?>
 
 					<?php if (count($content->getQuotes()) > 0): ?>
+						<hr />
 						<h2 id="quotes"><?=tl('Selected Articles')?></h2>
-
 						<ul>
 							<?php foreach ($content->getQuotes() as $quote): ?>
 								<li>
 									<?=$quote->description()?><br/>
-									<cite>- <?=$quote->name()?><?php if ((string) $quote->website() !== ''): ?>, <a href="<?=$quote->website()->url()?>"><?=$quote->websiteName()?></a><?php endif; ?></cite>
+									<cite>- <?=$quote->name()?><?php if ((string)$quote->website() !== ''): ?>,
+										<a href="<?=$quote->website()->url()?>"><?=$quote->websiteName()?></a>
+										<?php endif; ?>.
+									</cite>
 								</li>
 							<?php endforeach; ?>
 						</ul>
-
-						<hr>
 					<?php endif; ?>
 
 					<?php if (count($content->getAdditionalLinks()) > 0): ?>
+						<hr />
 						<h2 id="links"><?=tl('Additional Links')?></h2>
-
 						<?php foreach ($content->getAdditionalLinks() as $additionaLink): ?>
 							<p>
 								<strong><?=$additionaLink->title()?></strong><br/>
 								<?=$additionaLink->description()?> <a href="<?=$additionaLink->website()->url()?>"><?=$additionaLink->website()->name()?></a>.
 							</p>
 						<?php endforeach; ?>
-
-						<hr>
 					<?php endif; ?>
 
+					<?php if (count($content->getCredits()) > 0 || count($content->getContacts()) > 0): ?>
+					<hr />
 					<div class="uk-grid">
 						<div class="uk-width-medium-1-2">
+						<?php if (count($content->getCredits()) > 0): ?>
 							<h2 id="credits"><?=tl('Team & Repeating Collaborators')?></h2>
-
 							<?php foreach ($content->getCredits() as $credit): ?>
 								<p>
 									<?php if ((string) $credit->website() === ''): ?>
@@ -286,11 +323,12 @@
 									<?php endif; ?>
 								</p>
 							<?php endforeach; ?>
+						<?php endif; ?>
 						</div>
 
 						<div class="uk-width-medium-1-2">
+						<?php if (count($content->getContacts()) > 0): ?>
 							<h2 id="contact"><?=tl('Contact')?></h2>
-
 							<?php foreach($content->getContacts() as $contact): ?>
 								<p>
 									<strong><?=$contact->name()?></strong><br/>
@@ -309,36 +347,40 @@
 									<?php endif; ?>
 								</p>
 							<?php endforeach; ?>
+						<?php endif; ?>
 						</div>
 					</div>
+					<?php endif; ?>
 
-					<hr>
-
+					<hr/>
 					<p><a href="http://dopresskit.com/">presskit()</a> by Rami Ismail (<a href="http://www.vlambeer.com/">Vlambeer</a>)
 						- also thanks to <a href="<?=  \Presskit\Helpers::url('/?p=', '/').\Presskit\Request::REQUEST_CREDITS_PAGE;?>">these fine folks</a>.</p>
 				</div>
 			</div>
 		</div>
 
-		<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-		<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/3.0.4/jquery.imagesloaded.js"></script>
-		<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/masonry/3.1.2/masonry.pkgd.min.js"></script>
+		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/3.0.4/jquery.imagesloaded.js"></script>
+		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/masonry/3.1.2/masonry.pkgd.min.js"></script>
 		<script type="text/javascript">
-			$( document ).ready(function() {
+			$( document ).ready(function()
+			{
 				var container = $('.images');
 
-			container.imagesLoaded( function() {
-				container.masonry({
-					itemSelector: '.uk-width-medium-1-2',
+				container.imagesLoaded( function()
+				{
+					container.masonry(
+					{
+						itemSelector: '.uk-width-medium-1-2',
+					});
 				});
 			});
-		});
 		</script>
 
 		<?php if ($content->getAdditionalInfo()->google_analytics !== null): ?>
 			<script type="text/javascript">
 				var _gaq = _gaq || [];
-				_gaq.push(['_setAccount', '<?=$company['google_analytics']?>');
+				_gaq.push(['_setAccount', '<?=$content->getAdditionalInfo()->google_analytics?>');
 				_gaq.push(['_trackPageview']);
 
 				(function() {

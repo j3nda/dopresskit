@@ -101,6 +101,7 @@ namespace Presskit
 				throw new Exceptions\DataXmlFilenameMissingException();
 			}
 		}
+
 		static public function filesizeToHumanReadable($filesize)
 		{
 			$units = ['B', 'KB', 'MB'];
@@ -111,6 +112,7 @@ namespace Presskit
 			$filesize = round($filesize, 2);
 			return $filesize . ' ' . $units[$unit];
 		}
+
 		static public function getFilesize($filename)
 		{
 			if (is_readable($filename))

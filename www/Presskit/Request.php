@@ -20,7 +20,7 @@ class Request
 	private $currentRelease;
 	private $currentLanguage;
 
-	
+
 	public function __construct(
 		Config $config,
 		array $releases,
@@ -90,7 +90,7 @@ class Request
 		{
 			return ($this->currentRequest = self::REQUEST_RELEASE_PAGE);
 		}
-		
+
 		$this->currentRequest = self::REQUEST_COMPANY_PAGE;
 
 		$this->reInvestigateRequest = false;

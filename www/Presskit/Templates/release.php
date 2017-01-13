@@ -5,7 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
 		<title><?=$content->getTitle().($content->getCompany() ? ' by '.$content->getCompany()->getTitle() : '')?></title>
-		<link href="http://cdnjs.cloudflare.com/ajax/libs/uikit/1.2.0/css/uikit.gradient.min.css" rel="stylesheet" type="text/css">
+		<link href="//cdnjs.cloudflare.com/ajax/libs/uikit/1.2.0/css/uikit.gradient.min.css" rel="stylesheet" type="text/css">
 		<link href="style.css" rel="stylesheet" type="text/css">
 	</head>
 
@@ -15,7 +15,17 @@
 				<div id="navigation" class="uk-width-medium-1-4">
 					<h1 class="nav-header"><?=$content->getTitle()?></h1>
 
-					<a class="nav-header" href="<?= \Presskit\Helpers::url('?l=', '').$content->getAdditionalInfo()->language?>"><?=tl('press kit')?></a>
+					<a class="nav-header" href="<?=
+						\Presskit\Helpers::url(
+							(count($content->getAdditionalInfo()->languages) > 1
+								? '?l='.$content->getAdditionalInfo()->language
+								: './'
+							),
+							(count($content->getAdditionalInfo()->languages) > 1
+								? $content->getAdditionalInfo()->language
+								: './'
+							)
+						)?>"><?=tl('press kit')?></a>
 
 					<ul class="uk-nav uk-nav-side">
 						<?php if (count($content->getAdditionalInfo()->languages) > 1): ?>
@@ -23,13 +33,10 @@
 								<a>
 									<?=tl('Language: ')?>
 									<select onchange="document.location = '<?=
-
 										\Presskit\Helpers::url(
 											'?l=\' + this.value + \'&amp;p='.$content->getAdditionalInfo()->release_name,
 											'\' + this.value + \'/'.htmlspecialchars($content->getAdditionalInfo()->release_name)
-										)
-
-										?>'">
+										)?>'">
 										<?php foreach($content->getAdditionalInfo()->languages as $tag => $name): ?>
 											<option value="<?=$tag?>" <?php if ($tag == $content->getAdditionalInfo()->language): ?>selected<?php endif; ?>><?= htmlspecialchars($name)?></option>
 										<?php endforeach; ?>
@@ -40,9 +47,15 @@
 						<?php endif; ?>
 
 						<li><a href="#factsheet"><?=tl('Factsheet')?></a></li>
-						<li><a href="#description"><?=tl('Description')?></a></li>
-						<li><a href="#history"><?=tl('History')?></a></li>
-						<li><a href="#projects"><?=tl('Projects')?></a></li>
+
+						<?php if(!empty($content->getDescription())): ?>
+							<li><a href="#description"><?=tl('Description')?></a></li>
+						<?php endif; ?>
+
+						<?php if ($content->getHistory() > 0): ?>
+							<li><a href="#history"><?=tl('History')?></a></li>
+						<?php endif; ?>
+
 						<li><a href="#trailers"><?=tl('Videos')?></a></li>
 						<li><a href="#images"><?=tl('Images')?></a></li>
 						<li><a href="#logo"><?=tl('Logo & Icon')?></a></li>
@@ -63,16 +76,25 @@
 							<li><a href="#monetize"><?=tl('Monetization Permission')?></a></li>
 						<?php endif; ?>
 
-						<li><a href="#links"><?=tl('Additional Links')?></a></li>
+						<?php if (count($content->getAdditionalLinks()) > 0): ?>
+							<li><a href="#links"><?=tl('Additional Links')?></a></li>
+						<?php endif; ?>
+
 						<li><a href="#about"><?=tl('About %s', $content->getCompany()->getTitle())?></a></li>
-						<li><a href="#credits"><?=tl('Team')?></a></li>
-						<li><a href="#contact"><?=tl('Contact')?></a></li>
+
+						<?php if (count($content->getCredits()) > 0): ?>
+							<li><a href="#credits"><?=tl('Team')?></a></li>
+						<?php endif; ?>
+
+						<?php if (count($content->getCompany()->getContacts()) > 0): ?>
+							<li><a href="#contact"><?=tl('Contact')?></a></li>
+						<?php endif; ?>
 					</ul>
 				</div>
 
 				<div id="content" class="uk-width-medium-3-4">
-					<?php if (file_exists($content->getAdditionalInfo()->release_name.'/images/header.png')): ?>
-						<img src="<?=$content->getAdditionalInfo()->release_name.'/images/header.png'?>" class="header">
+					<?php if ($content->getAdditionalInfo()->header): ?>
+						<img src="<?=$content->getAdditionalInfo()->header?>" class="header" />
 					<?php endif; ?>
 
 					<div class="uk-grid">
@@ -81,15 +103,28 @@
 
 							<p>
 								<strong><?=tl('Developer:')?></strong><br/>
-								<a href="<?= \Presskit\Helpers::url('?l=', '').$content->getAdditionalInfo()->language?>"><?=$content->getCompany()->getTitle()?></a><br/>
+								<a href="<?=
+									\Presskit\Helpers::url(
+										(count($content->getAdditionalInfo()->languages) > 1
+											? '?l='.$content->getAdditionalInfo()->language
+											: ''
+										),
+										(count($content->getAdditionalInfo()->languages) > 1
+											? $content->getAdditionalInfo()->language
+											: ''
+										)
+									)?>"><?=$content->getCompany()->getTitle()?></a><br/>
 								<?=tl('Based in %s', $content->getCompany()->getLocation())?>
 							</p>
 
+							<?php if (!empty($content->getReleaseDate())): ?>
 							<p>
 								<strong><?=tl('Release date:')?></strong><br/>
-								<?=$content->getReleaseDate()?>
+								<?=$content->getReleaseDate()?>.
 							</p>
+							<?php endif; ?>
 
+							<?php if (count($content->getPlatforms()) > 0): ?>
 							<p>
 								<strong><?=tl('Platforms:')?></strong><br />
 
@@ -97,11 +132,14 @@
 									<a href="<?=$platform->url()?>"><?=$platform->name()?></a><br/>
 								<?php endforeach; ?>
 							</p>
+							<?php endif; ?>
 
+							<?php if (!empty($content->getWebsite())): ?>
 							<p>
 								<strong><?=tl('Website:')?></strong><br/>
 								<a href="<?=$content->getWebsite()->url()?>"><?=$content->getWebsite()->name()?></a>
 							</p>
+							<?php endif; ?>
 
 							<?php if (count($content->getPrices()) > 0): ?>
 								<p>
@@ -120,30 +158,28 @@
 
 						<div class="uk-width-medium-4-6">
 							<h2 id="description"><?=tl('Description')?></h2>
-
 							<p><?=$content->getDescription()?></p>
 
-							<h2 id="history"><?=tl('History')?></h2>
-
 							<?php if ($content->getHistory() > 0): ?>
-							<?php foreach ($content->getHistory() as $history): ?>
-								<p><?=$history->body()?></p>
-							<?php endforeach; ?>
+								<h2 id="history"><?=tl('History')?></h2>
+								<?php foreach ($content->getHistory() as $history): ?>
+									<p><?=$history->body()?></p>
+								<?php endforeach; ?>
 							<?php endif; ?>
 
+							<?php if (count($content->getFeatures()) > 0): ?>
 							<h2><?=tl('Features')?></h2>
 							<ul>
 								<?php foreach ($content->getFeatures() as $feature): ?>
 									<li><?=$feature?></li>
 								<?php endforeach; ?>
 							</ul>
+							<?php endif; ?>
 						</div>
 					</div>
 
-					<hr>
-
+					<hr />
 					<h2 id="trailers"><?=tl('Videos')?></h2>
-
 					<?php if (count($content->getTrailers()) === 0): ?>
 						<p><?=tlHtml('There are currently no trailers available for %s. Check back later for more or <a href="#contact">contact us</a> for specific requests!', $content->getTitle())?></p>
 					<?php else: ?>
@@ -171,29 +207,38 @@
 
 							<?php if ((string) $trailer->youtube() !== ''): ?>
 								<div class="uk-responsive-width iframe-container">
-									<iframe src="http://www.youtube.com/embed/<?=$trailer->youtube()?>" frameborder="0" allowfullscreen></iframe>
+									<iframe src="//www.youtube.com/embed/<?=$trailer->youtube()?>" frameborder="0" allowfullscreen></iframe>
 								</div>
 							<?php elseif ((string) $trailer->vimeo() !== ''): ?>
 								<div class="uk-responsive-width iframe-container">
-									<iframe src="http://player.vimeo.com/video/<?=$trailer->vimeo()?>" frameborder="0" allowfullscreen></iframe>
+									<iframe src="//player.vimeo.com/video/<?=$trailer->vimeo()?>" frameborder="0" allowfullscreen></iframe>
 								</div>
 							<?php endif; ?>
 						<?php endforeach; ?>
 					<?php endif; ?>
 
-					<hr>
-
+					<hr />
 					<h2 id="images"><?=tl('Images')?></h2>
-
 					<?php if ($content->getAdditionalInfo()->images_archive_size != 0): ?>
-						<a href="<?=$content->getAdditionalInfo()->release_name?>/images/images.zip"><div class="uk-alert"><?=tl('download all screenshots & photos as .zip (%s)', $content->getAdditionalInfo()->images_archive_size)?></div></a>
+						<a href="<?=
+							$content->getAdditionalInfo()->config->relativePath(
+								$content->getAdditionalInfo()->config->imageZipFilename
+							)?>"><div class="uk-alert"><?=tl('download all screenshots & photos as .zip (%s)', $content->getAdditionalInfo()->images_archive_size)?></div></a>
 					<?php endif; ?>
 
 					<?php if (count($content->getAdditionalInfo()->images) > 0): ?>
 						<div class="uk-grid images">
 							<?php foreach ($content->getAdditionalInfo()->images as $image): ?>
 								<div class="uk-width-medium-1-2">
-									<a href="<?=$content->getAdditionalInfo()->release_name?>/images/<?=$image?>"><img src="<?=$content->getAdditionalInfo()->release_name?>/images/<?=$image?>" alt="<?=$image?>" /></a>
+									<a href="<?php
+										$content->getAdditionalInfo()->config->relativePath(
+											$content->getAdditionalInfo()->config->imagesDirname
+										)
+										.$image?>"><img src="<?=
+											$content->getAdditionalInfo()->config->relativePath(
+												$content->getAdditionalInfo()->config->imagesDirname
+											)
+											.$image?>" alt="<?=$image?>" /></a>
 								</div>
 							<?php endforeach; ?>
 						</div>
@@ -203,45 +248,40 @@
 						</div>
 					<?php endif; ?>
 
-					<hr>
-
+					<hr />
 					<h2 id="logo"><?=tl('Logo & Icon')?></h2>
-
 					<?php if ($content->getAdditionalInfo()->logo_archive_size != 0): ?>
-						<a href="<?=$content->getAdditionalInfo()->release_name?>/images/logo.zip"><div class="uk-alert"><?=tl('download logo files as .zip (%s)', $content->getAdditionalInfo()->logo_archive_size)?></div></a>
+						<a href="<?=
+							$content->getAdditionalInfo()->config->relativePath(
+								$content->getAdditionalInfo()->config->imageLogoZipFilename
+							)?>"><div class="uk-alert"><?=tl('download logo files as .zip (%s)', $content->getAdditionalInfo()->logo_archive_size)?></div></a>
 					<?php endif; ?>
-
 					<div class="uk-grid images">
-						<?php if ($content->getAdditionalInfo()->logo !== NULL): ?>
-							<div class="uk-width-medium-1-2"><a href="<?=$content->getAdditionalInfo()->release_name?>/images/logo.png"><img src="<?=$content->getAdditionalInfo()->release_name?>/images/logo.png" alt="logo" /></a></div>
+						<?php if (!empty($content->getAdditionalInfo()->logo)): ?>
+							<div class="uk-width-medium-1-2"><a href="<?=$content->getAdditionalInfo()->logo?>"><img src="<?=$content->getAdditionalInfo()->logo?>" alt="logo" /></a></div>
 						<?php endif; ?>
 
-						<?php if ($content->getAdditionalInfo()->icon !== NULL): ?>
-							<div class="uk-width-medium-1-2"><a href="<?=$content->getAdditionalInfo()->release_name?>/images/icon.png"><img src="<?=$content->getAdditionalInfo()->release_name?>/images/icon.png" alt="logo" /></a></div>
+						<?php if (!empty($content->getAdditionalInfo()->icon)): ?>
+							<div class="uk-width-medium-1-2"><a href="<?=$content->getAdditionalInfo()->icon?>"><img src="<?=$content->getAdditionalInfo()->icon?>" alt="icon" /></a></div>
 						<?php endif; ?>
 					</div>
-
-					<?php if ($content->getAdditionalInfo()->logo === NULL && $content->getAdditionalInfo()->icon === NULL): ?>
+					<?php if (empty($content->getAdditionalInfo()->logo) && empty($content->getAdditionalInfo()->icon)): ?>
 						<p><?=tlHtml('There are currently no logos or icons available for %s. Check back later for more or <a href="#contact">contact us</a> for specific requests!', $content->getTitle())?></p>
 					<?php endif; ?>
 
-					<hr>
-
 					<?php if (count($content->getAwards()) > 0): ?>
+						<hr />
 						<h2 id="awards"><?=tl('Awards & Recognition')?></h2>
-
 						<ul>
-							<?php foreach($content->getAwards() as $award): ?>
+							<?php foreach ($content->getAwards() as $award): ?>
 								<li><?=$award->description()?><cite> <?=$award->award()?></cite></li>
 							<?php endforeach; ?>
 						</ul>
-
-						<hr>
 					<?php endif; ?>
 
 					<?php if (count($content->getQuotes()) > 0): ?>
-						<h2><?=tl('Selected Articles')?></h2>
-
+						<hr />
+						<h2 id="quotes"><?=tl('Selected Articles')?></h2>
 						<ul>
 							<?php foreach ($content->getQuotes() as $quote): ?>
 								<li>
@@ -253,15 +293,12 @@
 								</li>
 							<?php endforeach; ?>
 						</ul>
-
-						<hr>
 					<?php endif; ?>
 
 					<?php if ($content->canPressRequestCopy()): ?>
+						<hr />
 						<h2 id="preview"><?=tl('Request Press Copy')?></h2>
-
 						<p><?=tl("Please fill in your e-mail address below to complete a distribute() request and we'll get back to you as soon as a press copy is available for you.")?><br/>
-
 						<div id="mailform">
 							<form id="pressrequest" class="uk-form" method="POST" action="<?=$url?>">
 							<input type="email" id="email" name="email" placeholder="name@yourdomain.com" style="width:100%;"></input>
@@ -269,21 +306,18 @@
 							<input type="submit" class="uk-button" id="submit-button" value="<?=tl('request a press copy')?>" style="width:100%;"></input>
 							<p><?=tlHtml('Alternatively, you can always request a press copy by <a href="#contact">sending us a quick email</a>.')?></p>
 						</div>
-
-						<hr>
 					<?php elseif (isset($press_request_fail) && $press_request_fail === true): ?>
+						<hr />
 						<h2 id="preview"><?=tl('Request Press Copy')?></h2>
 						<p><?=$press_request_fail_msg?></p>
-
-						<hr>
 					<?php elseif (isset($press_request_outdated_warning) && $press_request_outdated_warning === true): ?>
+						<hr />
 						<h2 id="preview"><?=tl('Request Press Copy')?></h2>
-
 						<p><?=tl("We are afraid this developer has not upgraded their presskit() to use distribute(). For security purposes, this form has been disabled.")?></p>
-						<hr>
 					<?php endif; ?>
 
 					<?php if ($content->hasMonetization()): ?>
+						<hr />
 						<h2 id="monetize"><?=tl('Monetization Permission')?></h2>
 						<?php if ($content->hasMonetization() == \Presskit\Content\ReleaseContent::MONETIZATION_FALSE): ?>
 							<p><?=tl(
@@ -313,49 +347,53 @@
 									$content->getCompany()->getTitle()
 								)?> <?=tlHtml(
 									'This permission can be found in writing at <a href="%s">%s</a>.',
-									'http://'. $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'],
-									'http://'. $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']
+									'//'. $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'],
+									'//'. $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']
 								)?></p>
 						<?php endif; ?>
-
-						<hr>
 					<?php endif; ?>
 
 					<?php if (count($content->getAdditionalLinks()) > 0): ?>
+						<hr />
 						<h2 id="links"><?=tl('Additional Links')?></h2>
-
 						<?php foreach ($content->getAdditionalLinks() as $additionaLink): ?>
 							<p>
 								<strong><?=$additionaLink->title()?></strong><br/>
 								<?=$additionaLink->description()?> <a href="<?=$additionaLink->website()->url()?>"><?=$additionaLink->website()->name()?></a>.
 							</p>
 						<?php endforeach; ?>
-
-						<hr>
 					<?php endif; ?>
 
+					<hr />
 					<h2 id="about"><?=tl('About %s', $content->getCompany()->getTitle())?></h2>
-
 					<p>
 						<strong><?=tl('Boilerplate')?></strong><br/>
 						<?=$content->getCompany()->getDescription()?>
 					</p>
-
 					<p>
 						<strong><?=tl('More information')?></strong><br/>
 						<?=tlHtml(
 								'More information on %s, our logo & relevant media are available <a href="%s">here</a>.',
 								$content->getCompany()->getTitle(),
-								\Presskit\Helpers::url('?l=', '').$content->getAdditionalInfo()->language
+								\Presskit\Helpers::url(
+									(count($content->getAdditionalInfo()->languages) > 1
+										? '?l='.$content->getAdditionalInfo()->language
+										: ''
+									),
+									(count($content->getAdditionalInfo()->languages) > 1
+										? $content->getAdditionalInfo()->language
+										: ''
+									)
+								)
 						)?>
 					</p>
 
-					<hr>
-
+					<?php if (count($content->getCredits()) > 0 || count($content->getCompany()->getContacts()) > 0): ?>
+					<hr />
 					<div class="uk-grid">
 						<div class="uk-width-medium-1-2">
+						<?php if (count($content->getCredits()) > 0): ?>
 							<h2 id="credits"><?=tl('%s Credits', $content->getTitle())?></h2>
-
 							<?php foreach ($content->getCredits() as $credit): ?>
 								<p>
 									<?php if ((string) $credit->website() === ''): ?>
@@ -367,11 +405,12 @@
 									<?php endif; ?>
 								</p>
 							<?php endforeach; ?>
+						<?php endif; ?>
 						</div>
 
 						<div class="uk-width-medium-1-2">
+						<?php if (count($content->getCompany()->getContacts()) > 0): ?>
 							<h2 id="contact"><?=tl('Contact')?></h2>
-
 							<?php foreach($content->getCompany()->getContacts() as $contact): ?>
 								<p>
 									<strong><?=$contact->name()?></strong><br/>
@@ -390,26 +429,30 @@
 									<?php endif; ?>
 								</p>
 							<?php endforeach; ?>
+						<?php endif; ?>
 						</div>
 					</div>
+					<?php endif; ?>
 
-					<hr>
-
+					<hr/>
 					<p><a href="http://dopresskit.com/">presskit()</a> by Rami Ismail (<a href="http://www.vlambeer.com/">Vlambeer</a>)
 						- also thanks to <a href="<?=  \Presskit\Helpers::url('/?p=', '/').\Presskit\Request::REQUEST_CREDITS_PAGE;?>">these fine folks</a>.</p>
 				</div>
 			</div>
 		</div>
 
-		<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-		<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/3.0.4/jquery.imagesloaded.js"></script>
-		<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/masonry/3.1.2/masonry.pkgd.min.js"></script>
+		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/3.0.4/jquery.imagesloaded.js"></script>
+		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/masonry/3.1.2/masonry.pkgd.min.js"></script>
 		<script type="text/javascript">
-			$( document ).ready(function() {
+			$( document ).ready(function()
+			{
 				var container = $('.images');
 
-				container.imagesLoaded( function() {
-					container.masonry({
+				container.imagesLoaded( function()
+				{
+					container.masonry(
+					{
 						itemSelector: '.uk-width-medium-1-2',
 					});
 				});

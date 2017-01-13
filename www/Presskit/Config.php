@@ -11,6 +11,7 @@ class Config
 	private $trailersDirname      = 'trailers';
 	private $languageDirname      = 'lang';
 	private $imagesDirname        = 'images';
+	private $imageHeaderFilename  = 'images/header.png';
 	private $imageZipFilename     = 'images/images.zip';
 	private $imageLogoZipFilename = 'images/logo.zip';
 	private $imageLogoFilename    = 'images/logo.png';
@@ -21,7 +22,13 @@ class Config
 		'icon.png',
 		'header.png',
 	);
-
+	/** array (it's possible to exclude filename or REGEX) */
+	private $releaseExcludeImageNames = array(
+		'logo.png',
+		'icon.png',
+		'header.png',
+	);
+	/** array (it's possible to exclude dirname or REGEX) */
 	private $releaseExcludeDirs = array(
 		'.',
 		'..',
@@ -30,7 +37,7 @@ class Config
 		'lang',
 		'trailers',
 	);
-
+	/** true if you want to've nice-url, otherwise false. */
 	public static $isModRewriteEnabled = false;
 	private $googleAnalytics = array(
 		Request::REQUEST_COMPANY_PAGE => null,

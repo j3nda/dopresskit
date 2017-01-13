@@ -11,7 +11,8 @@ spl_autoload_register(function ($class)
 
 
 /* @var $config \Presskit\Config */
-$config = require(__DIR__.'/index.config.php');
+$config   = require(__DIR__.'/index.config.php');
+$presskit = true;
 try
 {
 	$presskit = new Presskit\Presskit($config, $_GET, $_POST, $_REQUEST);
@@ -38,9 +39,16 @@ try
 				.DIRECTORY_SEPARATOR
 				.$presskit->getRelativePath($config->languageDirname);
 
-			$content = $presskit->parseRelease(
-				$config->currentDir.$release['dir'].DIRECTORY_SEPARATOR.basename($config->dataXmlFilename)
-			);
+			// ugly hack to modify "currentDir" to: "currentDir/releaseDir"!
+			// REMEMBER: all $config->currentDir is now pointed into release-page! (so: Presskit\Install reflect it!)
+			$prop = new ReflectionProperty($config, 'currentDir');
+			$prop->setAccessible(true);
+			$prop->setValue($config, $config->currentDir.DIRECTORY_SEPARATOR.$release['dir'].DIRECTORY_SEPARATOR);
+			$prop->setAccessible(false);
+
+
+			$content = $presskit->parseRelease($config->dataXmlFilename, $release['dir']);
+
 			$content->setCompany($companyContent);
 			$content->setAdditionalInfo(array_merge(
 				(array)$content->getAdditionalInfo(),
@@ -59,6 +67,12 @@ try
 		}
 		case \Presskit\Request::REQUEST_CREDITS_PAGE:
 		{
+			Presskit\TranslateTool::$languageDir = $config->languageDirname;
+			Presskit\TranslateTool::loadLanguage(
+				$config->languageDirname,
+				$presskit->getCurrentLanguage()
+			);
+
 			include_once($config->templateCreditsPhpFilename);
 			exit;
 			break;
@@ -104,6 +118,16 @@ catch (Presskit\Exceptions\DataXmlFilenameMissingException $e)
 catch (Presskit\Exceptions\ReleaseNotFoundException $e)
 {
 	header('HTTP/1.0 404 Not Found', true, 404);
+	include_once($config->template404PhpFilename);
+	exit;
+}
+catch (Presskit\Exceptions\ReleaseNameIsMissingCreateSome $e)
+{
+	header('HTTP/1.0 404 Not Found', true, 404);
+	$errorMessages = array(
+		get_class($e),
+		$e->getMessage()
+	);
 	include_once($config->template404PhpFilename);
 	exit;
 }

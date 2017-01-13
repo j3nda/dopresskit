@@ -12,6 +12,18 @@
 			<div class="uk-grid">
 				<div id="navigation" class="uk-width-medium-1-4">
 					<h1 id="game-title">Thanks!</h1>
+					<a class="nav-header" href="<?=
+						\Presskit\Helpers::url(
+							(count($presskit->getAvailableLanguages()) > 1
+								? '?l='.$presskit->getCurrentLanguage
+								: './'
+							),
+							(count($presskit->getAvailableLanguages()) > 1
+								? $presskit->getCurrentLanguage
+								: './'
+							)
+						)?>"><?=tl('press kit')?></a>
+
 					<p><strong><a href="#header">Credits</a></strong></p>
 				</div>
 				<div id="content" class="uk-width-medium-3-4">

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <language>
 	<set>
+		<!-- release-page -->
 		<translation>
 			<base>Request Press Copy</base>
 			<local>Request Press Copy</local>
@@ -119,7 +120,14 @@
 		</translation>
 		<translation>
 			<base>press kit</base>
-			<local>press kit</local>
+			<local>&lt;&lt; Back to: press kit.</local>
+		</translation>
+		
+		
+		<!-- company-page -->
+		<translation>
+			<base>Based in %s</base>
+			<local>Based in %s.</local>
 		</translation>
 	</set>	
 </language>
