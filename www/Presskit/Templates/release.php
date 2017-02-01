@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-		<title><?=$content->getTitle().($content->getCompany() ? ' by '.$content->getCompany()->getTitle() : '')?></title>
+		<title>PressKit: <?=$content->getTitle().($content->getCompany() ? ' by '.$content->getCompany()->getTitle() : '')?></title>
 		<link href="//cdnjs.cloudflare.com/ajax/libs/uikit/1.2.0/css/uikit.gradient.min.css" rel="stylesheet" type="text/css">
 		<?php if (count($content->getAdditionalInfo()->config->cssFilenames) > 0): ?>
 		<?php foreach($content->getAdditionalInfo()->config->cssFilenames as $cssFilename): ?>
