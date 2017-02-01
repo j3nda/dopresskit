@@ -45,7 +45,7 @@
 		</history>
 	</histories>
 		
-	<trailers>
+	<trailers skipEmpty="false">
 		<trailer>
 			<name>This video is nice</name>
 			<youtube>7jQbITg0MSk</youtube>

@@ -35,7 +35,18 @@ implements Content
 	private $additionalInfo = [];
 	private $hasMonetization = null;
 	private $monetization = null;
+	private $skipEmpty = [];
 
+
+	public function setSkipEmpty($key, $value)
+	{
+		$this->skipEmpty[$key] = $this->getBoolean($value);
+	}
+
+	public function hasSkipEmpty($key)
+	{
+		return isset($this->skipEmpty[$key]);
+	}
 
     public function setTitle($title)
     {
@@ -203,5 +214,20 @@ implements Content
 	public function hasMonetization()
 	{
 		return $this->hasMonetization;
+	}
+
+	private function getBoolean($value)
+	{
+		if (
+			   preg_match('/^(yes|true|t|1)/i', (string)$value)
+			|| $value === true
+		   )
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 }

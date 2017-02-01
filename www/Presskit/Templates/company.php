@@ -185,11 +185,15 @@
 						</div>
 					</div>
 
-					<hr />
-					<h2 id="trailers"><?=tl('Videos')?></h2>
 					<?php if (count($content->getTrailers()) === 0): ?>
-						<p><?=tlHtml('There are currently no trailers available for %s. Check back later for more or <a href="#contact">contact us</a> for specific requests!', $content->getTitle())?></p>
+						<?php if (!$content->hasSkipEmpty('trailers')): ?>
+							<hr />
+							<h2 id="trailers"><?=tl('Videos')?></h2>
+							<p><?=tlHtml('There are currently no trailers available for %s. Check back later for more or <a href="#contact">contact us</a> for specific requests!', $content->getTitle())?></p>
+						<?php endif; ?>
 					<?php else: ?>
+						<hr />
+						<h2 id="trailers"><?=tl('Videos')?></h2>
 						<?php foreach ($content->getTrailers() as $trailer): ?>
 							<div id="trailers-inner" class="uk-alert">
 								<strong id="trailer-name"><?=$trailer->name()?></strong>

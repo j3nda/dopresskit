@@ -215,8 +215,18 @@ class XML
 
     private function findTrailers()
     {
-        if (count($this->data->trailers) > 0) {
-            foreach ($this->data->trailers->trailer as $trailer) {
+        if (count($this->data->trailers) > 0)
+		{
+			foreach($this->data->trailers[0]->attributes() as $attr => $value)
+			{
+				if (preg_match('/^skipEmpty/i', $attr) && trim($value) != '')
+				{
+					$this->content->setSkipEmpty('trailers', trim($value));
+					break;
+				}
+			}
+            foreach ($this->data->trailers->trailer as $trailer)
+			{
                 $locations = [];
 
                 if (count($trailer->youtube) > 0) {
