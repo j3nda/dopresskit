@@ -131,8 +131,18 @@ class XML
     private function findSocialContacts()
     {
         if (count($this->data->socials) > 0) {
-            foreach ($this->data->socials->social as $social) {
-                $this->content->addSocialContact($social->name, $social->link);
+            foreach ($this->data->socials->social as $social)
+			{
+				$name = $social->name;
+				foreach($social->name->attributes() as $attr => $value)
+				{
+					if (preg_match('/^htmlSpecialChars/i', $attr) && $this->getBoolean(trim($value)))
+					{
+						$name = htmlspecialchars_decode($name);
+						break;
+					}
+				}
+                $this->content->addSocialContact($name, $social->link);
             }
         }
     }
@@ -300,5 +310,20 @@ class XML
 		if (count($this->data->{'monetization-permission'}) > 0) {
             $this->content->setMonetization($this->data->{'monetization-permission'});
         }
+	}
+
+	private function getBoolean($value)
+	{
+		if (
+			   preg_match('/^(yes|true|t|1)/i', (string)$value)
+			|| $value === true
+		   )
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 }

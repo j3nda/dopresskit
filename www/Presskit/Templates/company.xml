@@ -17,11 +17,17 @@
 
 	<socials>
 		<social>
-			<name>twitter.com/MyCompanyName</name>
+			<name> twitter.com/MyCompanyName</name>
 			<link>twitter.com/MyCompanyName</link>
 		</social>
 		<social>
-			<name>facebook.com/MyCompanyName</name>
+			<!--
+				social-font: http://www.dafont.com/social-shapes.font
+				-  add: your-own.css into "index.config.php"
+				-  css: @font-face { font-family: social-font; src: url("social_shapes.ttf"); } span.social { font-family: social-font; }
+				- here: htmlSpecialChars="true" and for "facebook": &lt;span style="font-size:200%;" class=&quot;social&quot;&gt;M&lt;/span&gt;
+			-->
+			<name htmlSpecialChars="false">facebook.com/MyCompanyName</name>
 			<link>facebook.com/MyCompanyName</link>
 		</social>
 		<social>
