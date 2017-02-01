@@ -111,7 +111,7 @@
 							<?php if (!empty($content->getWebsite())): ?>
 							<p>
 								<strong><?=tl('Website:')?></strong><br/>
-								<a href="<?=$content->getWebsite()->url()?>"><?=$content->getWebsite()->name()?></a>
+								<a href="<?=$content->getWebsite()->url()?>" target="_blank"><?=$content->getWebsite()->name()?></a>
 							</p>
 							<?php endif; ?>
 
@@ -144,7 +144,10 @@
 
 							<?php if (count($content->getAddress()) > 0): ?>
 							<p>
-								<strong><?=tl('Address:')?></strong><br/>
+								<?php if ($content->getAddressUrl()): ?><a href="<?=$content->getAddressUrl()?>" target="_blank"><?php endif; ?>
+								<strong><?=tl('Address:')?></strong>
+								<?php if ($content->getAddressUrl()): ?></a><?php endif; ?>
+								<br/>
 								<?php foreach($content->getAddress() as $addressLine): ?>
 									<?=$addressLine?><br/>
 								<?php endforeach; ?>

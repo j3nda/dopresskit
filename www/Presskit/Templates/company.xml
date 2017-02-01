@@ -9,7 +9,7 @@
 	
 	<press-contact>press-contact@company.com</press-contact>
 	<phone>+00 (1) 22 33 44 55 66</phone>
-	<address>
+	<address url="">
 		<line>Address Line 1</line>
 		<line>Address Line 2</line>
 		<line>Address Line 3</line>

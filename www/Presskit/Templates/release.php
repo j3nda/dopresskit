@@ -141,7 +141,7 @@
 							<?php if (!empty($content->getWebsite())): ?>
 							<p>
 								<strong><?=tl('Website:')?></strong><br/>
-								<a href="<?=$content->getWebsite()->url()?>"><?=$content->getWebsite()->name()?></a>
+								<a href="<?=$content->getWebsite()->url()?>" target="_blank"><?=$content->getWebsite()->name()?></a>
 							</p>
 							<?php endif; ?>
 

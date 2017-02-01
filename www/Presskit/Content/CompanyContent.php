@@ -4,7 +4,7 @@ namespace Presskit\Content;
 
 use Presskit\Value\Text;
 use Presskit\Value\Website;
-use Presskit\Value\URL;
+use Presskit\Value\URI;
 use Presskit\Value\Contact;
 use Presskit\Value\History;
 use Presskit\Value\Trailer;
@@ -26,6 +26,7 @@ implements Content
     private $location = '';
     private $socialContacts = [];
     private $address = [];
+	private $addressUrl = '';
     private $phone = '';
     private $features = [];
     private $contacts = [];
@@ -94,9 +95,23 @@ implements Content
         }
     }
 
+    public function addAddressUrl($addressUrl)
+    {
+        $url = new URI($addressUrl);
+
+        if ((string) $url !== '') {
+            $this->addressUrl = $url;
+        }
+    }
+
     public function getAddress()
     {
         return $this->address;
+    }
+
+    public function getAddressUrl()
+    {
+        return $this->addressUrl;
     }
 
     public function setPhone($phone)

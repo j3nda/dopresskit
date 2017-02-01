@@ -139,8 +139,18 @@ class XML
 
     private function findAddress()
     {
-        if (count($this->data->address) > 0) {
-            foreach ($this->data->address->line as $addressLine) {
+        if (count($this->data->address) > 0)
+		{
+			foreach($this->data->address[0]->attributes() as $attr => $value)
+			{
+				if (preg_match('/^url$/i', $attr) && trim($value) != '')
+				{
+					$this->content->addAddressUrl(trim($value));
+					break;
+				}
+			}
+            foreach ($this->data->address->line as $addressLine)
+			{
                 $this->content->addAddressLine($addressLine);
             }
         }
