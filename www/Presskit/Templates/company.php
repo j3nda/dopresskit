@@ -50,8 +50,21 @@
 							<li><a href="#projects"><?=tl('Projects')?></a></li>
 						<?php endif; ?>
 
+						<?php if (count($content->getTrailers()) !== 0 && !$content->hasSkipEmpty('trailers')): ?>
 						<li><a href="#trailers"><?=tl('Videos')?></a></li>
+						<?php endif; ?>
+
+						<?php
+							if (
+									$content->getAdditionalInfo()->config->hasSkipEmpty('images.company')
+								 && ($content->getAdditionalInfo()->images_archive_size == 0)
+								 && count($content->getAdditionalInfo()->images) == 0
+							   ):
+						?>
+						<?php else: ?>
 						<li><a href="#images"><?=tl('Images')?></a></li>
+						<?php endif; ?>
+
 						<li><a href="#logo"><?=tl('Logo & Icon')?></a></li>
 
 						<?php if (count($content->getAwards()) > 0): ?>
@@ -248,6 +261,16 @@
 						<div class="clear"></div>
 					<?php endif; ?>
 
+
+				<?php
+					// images...
+					if (
+							$content->getAdditionalInfo()->config->hasSkipEmpty('images.company')
+						 && ($content->getAdditionalInfo()->images_archive_size == 0)
+						 && count($content->getAdditionalInfo()->images) == 0
+					   ):
+				?>
+				<?php else: ?>
 					<hr />
 					<h2 id="images"><?=tl('Images')?></h2>
 					<?php if ($content->getAdditionalInfo()->images_archive_size != 0): ?>
@@ -278,6 +301,7 @@
 							<p class="images-text"><?=tlHtml('There are far more images available for %s, but these are the ones we felt would be most useful to you. If you have specific requests, please do <a href="#contact">contact us</a>!', $content->getTitle())?></p>
 						</div>
 					<?php endif; ?>
+				<?php endif; ?>
 
 					<hr />
 					<h2 id="logo"><?=tl('Logo & Icon')?></h2>

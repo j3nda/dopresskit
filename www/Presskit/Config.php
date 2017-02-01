@@ -43,6 +43,7 @@ class Config
 	private $googleAnalytics = array(
 		Request::REQUEST_COMPANY_PAGE => null,
 	);
+	private $skipEmpty = array();
 
 	private $templateCompanyDataXmlFilename = 'Presskit/Templates/company.xml';
 	private $templateCompanyLangXmlFilename = 'Presskit/Templates/company.lang.xml';
@@ -76,6 +77,7 @@ class Config
 		if (!is_array($value) && in_array($name,
 				array(
 					'companyExcludeImageNames',
+					'skipEmpty',
 				)
 		   ))
 		{
@@ -127,5 +129,10 @@ class Config
 			'',
 			$absoluteResource
 		);
+	}
+
+	public function hasSkipEmpty($key)
+	{
+		return in_array($key, $this->skipEmpty);
 	}
 }
