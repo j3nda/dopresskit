@@ -232,6 +232,10 @@ class Presskit
 
 	public function getImages($directory, $excludeImageNames = null)
 	{
+		if (!is_dir($directory) && !is_readable($directory))
+		{
+			return array();
+		}
 		$img = array();
 		$dir = new \DirectoryIterator($directory);
 		foreach ($dir as $file)
