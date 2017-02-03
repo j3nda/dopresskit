@@ -301,4 +301,22 @@ class Presskit
 	{
 		return TranslateTool::getLanguages();
 	}
+
+	public function output($content, $templateFilename, $outputFilename = null)
+	{
+		ob_start();
+		include_once($templateFilename);
+		$html = ob_get_contents();
+		ob_end_flush();
+
+		if (
+			   $this->config->autoCreateStaticHtml
+			&& !empty($outputFilename)
+			&& dirname($outputFilename) != $outputFilename
+			&& is_writeable(dirname($outputFilename))
+		   )
+		{
+			file_put_contents($outputFilename, $html);
+		}
+	}
 }

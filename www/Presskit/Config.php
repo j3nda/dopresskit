@@ -44,6 +44,7 @@ class Config
 		Request::REQUEST_COMPANY_PAGE => null,
 	);
 	private $skipEmpty = array();
+	private $autoCreateStaticHtml = false;
 
 	private $templateCompanyDataXmlFilename = 'Presskit/Templates/company.xml';
 	private $templateCompanyLangXmlFilename = 'Presskit/Templates/company.lang.xml';

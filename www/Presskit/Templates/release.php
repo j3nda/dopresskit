@@ -8,7 +8,7 @@
 		<link href="//cdnjs.cloudflare.com/ajax/libs/uikit/1.2.0/css/uikit.gradient.min.css" rel="stylesheet" type="text/css">
 		<?php if (count($content->getAdditionalInfo()->config->cssFilenames) > 0): ?>
 		<?php foreach($content->getAdditionalInfo()->config->cssFilenames as $cssFilename): ?>
-		<link href="<?=$cssFilename?>" rel="stylesheet" type="text/css">
+		<link href="/<?=$cssFilename?>" rel="stylesheet" type="text/css"> <!-- TODO: css: relative to documentRootDir! (it's hardcoded now) -->
 		<?php endforeach; ?>
 		<?php endif; ?>
 	</head>
@@ -511,15 +511,14 @@
 
 		<?php if ($content->getAdditionalInfo()->google_analytics !== null): ?>
 			<script type="text/javascript">
-				var _gaq = _gaq || [];
-				_gaq.push(['_setAccount', '<?=$content->getAdditionalInfo()->google_analytics?>');
-				_gaq.push(['_trackPageview']);
+				(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+				(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+				m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+				})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-				(function() {
-					var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-					ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-					var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-				})();
+				ga('create', '<?=$content->getAdditionalInfo()->google_analytics?>', 'auto');
+				ga('send', 'pageview');
+
 			</script>
 		<?php endif; ?>
 	</body>

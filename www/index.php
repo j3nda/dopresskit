@@ -21,11 +21,18 @@ try
 		case \Presskit\Request::REQUEST_COMPANY_PAGE:
 		{
 			Presskit\TranslateTool::$languageDir = $config->languageDirname;
-			$content = $presskit->parseCompany($config->dataXmlFilename);
-
-			include_once($config->templateCompanyPhpFilename);
+			echo $presskit->output(
+				$presskit->parseCompany($config->dataXmlFilename),
+				$config->templateCompanyPhpFilename,
+				$config->currentDir
+					.'/index'
+					.($presskit->getAvailableLanguages() > 1
+						? '-'.$presskit->getCurrentLanguage()
+						: ''
+					 )
+					.'.html'
+			);
 			exit;
-
 			break;
 		}
 		case \Presskit\Request::REQUEST_RELEASE_PAGE:
@@ -60,7 +67,17 @@ try
 				$content->setMonetization($companyContent->getMonetization());
 			}
 
-			include_once($config->templateReleasePhpFilename);
+			echo $presskit->output(
+				$content,
+				$config->templateReleasePhpFilename,
+				$config->currentDir
+					.'/index'
+					.($presskit->getAvailableLanguages() > 1
+						? '-'.$presskit->getCurrentLanguage()
+						: ''
+					 )
+					.'.html'
+			);
 			exit;
 
 			break;
@@ -73,7 +90,14 @@ try
 				$presskit->getCurrentLanguage()
 			);
 
-			include_once($config->templateCreditsPhpFilename);
+			echo $presskit->output(
+				array(
+					'config'   => $config,
+					'presskit' => $presskit,
+				),
+				$config->templateCreditsPhpFilename,
+				$config->currentDir.'/credits.html'
+			);
 			exit;
 			break;
 		}
