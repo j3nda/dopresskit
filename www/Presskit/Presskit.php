@@ -302,7 +302,7 @@ class Presskit
 		return TranslateTool::getLanguages();
 	}
 
-	public function output($content, $templateFilename, $outputFilename = null)
+	public function output($content, $templateFilename, $outputFilename = null, $makeOutputDirectory = false)
 	{
 		ob_start();
 		include_once($templateFilename);
@@ -313,10 +313,20 @@ class Presskit
 			   $this->config->autoCreateStaticHtml
 			&& !empty($outputFilename)
 			&& dirname($outputFilename) != $outputFilename
-			&& is_writeable(dirname($outputFilename))
 		   )
 		{
-			file_put_contents($outputFilename, $html);
+			if (
+				    $makeOutputDirectory
+				&&  is_writeable(dirname(dirname($outputFilename)))
+				&& !is_readable(dirname($outputFilename))
+			   )
+			{
+				mkdir(dirname($outputFilename));
+			}
+			if (is_writeable(dirname($outputFilename)))
+			{
+				file_put_contents($outputFilename, $html);
+			}
 		}
 	}
 }

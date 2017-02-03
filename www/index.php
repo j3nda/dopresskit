@@ -96,7 +96,10 @@ try
 					'presskit' => $presskit,
 				),
 				$config->templateCreditsPhpFilename,
-				$config->currentDir.'/credits.html'
+				$config->currentDir.DIRECTORY_SEPARATOR
+					.\Presskit\Request::REQUEST_CREDITS_PAGE
+					.DIRECTORY_SEPARATOR.'index-en.html',
+				true
 			);
 			exit;
 			break;

@@ -37,6 +37,7 @@ class Config
 		'images',
 		'lang',
 		'trailers',
+		\Presskit\Request::REQUEST_CREDITS_PAGE,
 	);
 	/** true if you want to've nice-url, otherwise false. */
 	public static $isModRewriteEnabled = false;

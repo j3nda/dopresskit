@@ -8,7 +8,7 @@
 		<link href="//cdnjs.cloudflare.com/ajax/libs/uikit/1.2.0/css/uikit.gradient.min.css" rel="stylesheet" type="text/css">
 		<?php if (count($content->getAdditionalInfo()->config->cssFilenames) > 0): ?>
 		<?php foreach($content->getAdditionalInfo()->config->cssFilenames as $cssFilename): ?>
-		<link href="/<?=$cssFilename?>" rel="stylesheet" type="text/css"> <!-- TODO: css: relative to documentRootDir! (it's hardcoded now) -->
+		<link href="/<?=$cssFilename?>" rel="stylesheet" type="text/css">
 		<?php endforeach; ?>
 		<?php endif; ?>
 	</head>
@@ -39,7 +39,8 @@
 									<select onchange="document.location = '<?=
 										\Presskit\Helpers::url(
 											'?l=\' + this.value + \'&amp;p='.$content->getAdditionalInfo()->release_name,
-											'\' + this.value + \'/'.htmlspecialchars($content->getAdditionalInfo()->release_name)
+											'/'.htmlspecialchars($content->getAdditionalInfo()->release_name)
+												.'/index-\' + this.value + \'.html'
 										)?>'">
 										<?php foreach($content->getAdditionalInfo()->languages as $tag => $name): ?>
 											<option value="<?=$tag?>" <?php if ($tag == $content->getAdditionalInfo()->language): ?>selected<?php endif; ?>><?= htmlspecialchars($name)?></option>
@@ -486,7 +487,10 @@
 
 					<hr/>
 					<p><a href="http://dopresskit.com/">presskit()</a> by Rami Ismail (<a href="http://www.vlambeer.com/">Vlambeer</a>)
-						- also thanks to <a href="<?=  \Presskit\Helpers::url('/?p=', '/').\Presskit\Request::REQUEST_CREDITS_PAGE;?>">these fine folks</a>.</p>
+						- also thanks to <a href="<?= \Presskit\Helpers::url(
+								'?p='.\Presskit\Request::REQUEST_CREDITS_PAGE,
+								'/'.\Presskit\Request::REQUEST_CREDITS_PAGE
+							);?>">these fine folks</a>.</p>
 				</div>
 			</div>
 		</div>

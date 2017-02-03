@@ -22,11 +22,11 @@
 						\Presskit\Helpers::url(
 							(count($content['presskit']->getAvailableLanguages()) > 1
 								? '?l='.$content['presskit']->getCurrentLanguage()
-								: './'
+								: '/'
 							),
 							(count($content['presskit']->getAvailableLanguages()) > 1
 								? $content['presskit']->getCurrentLanguage()
-								: './'
+								: '/'
 							)
 						)?>"><?=tl('press kit')?></a>
 
