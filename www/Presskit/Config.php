@@ -46,6 +46,7 @@ class Config
 	);
 	private $skipEmpty = array();
 	private $autoCreateStaticHtml = false;
+	private $releases = array();
 
 	private $templateCompanyDataXmlFilename = 'Presskit/Templates/company.xml';
 	private $templateCompanyLangXmlFilename = 'Presskit/Templates/company.lang.xml';
@@ -80,6 +81,7 @@ class Config
 				array(
 					'companyExcludeImageNames',
 					'skipEmpty',
+					'releases',
 				)
 		   ))
 		{

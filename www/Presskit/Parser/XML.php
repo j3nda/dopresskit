@@ -180,14 +180,25 @@ class XML
         }
     }
 
-    private function findCompanyHistory()
-    {
-        if (count($this->data->histories) > 0) {
-            foreach ($this->data->histories->history as $history) {
-                $this->content->addHistory($history->header, $history->text);
-            }
-        }
-    }
+	private function findCompanyHistory()
+	{
+		if (count($this->data->histories) > 0)
+		{
+			foreach ($this->data->histories->history as $history)
+			{
+				$tagText = $history->text;
+				foreach($tagText->attributes() as $attr => $value)
+				{
+					if (preg_match('/^htmlSpecialChars/i', $attr) && $this->getBoolean(trim($value)))
+					{
+						$tagText = htmlspecialchars_decode($tagText);
+						break;
+					}
+				}
+				$this->content->addHistory($history->header, trim($tagText));
+			}
+		}
+	}
 
     private function findReleaseHistory()
     {

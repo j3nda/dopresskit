@@ -432,8 +432,8 @@
 										: ''
 									),
 									(count($content->getAdditionalInfo()->languages) > 1
-										? $content->getAdditionalInfo()->language
-										: ''
+										? '/'.$content->getAdditionalInfo()->language
+										: '/'
 									)
 								)
 						)?>
