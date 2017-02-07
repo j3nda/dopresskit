@@ -73,9 +73,9 @@ implements Content
         return $this->canRequestCopy;
     }
 
-    public function addPlatform($name, $uri)
+    public function addPlatform($name, $uri, $email = null)
     {
-        $platform = new Platform($name, $uri, '');
+        $platform = new Platform($name, $uri, $email);
 
         if ((string) $platform !== '') {
             $this->platforms[] = $platform;

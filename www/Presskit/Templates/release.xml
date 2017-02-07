@@ -9,7 +9,10 @@
 	<platforms>
 		<platform>
 			<name>PC / Mac</name>
+<!--
+			<email>name.surname@domain.tld</email>
 			<link>http://www.gamesite.com/</link>
+-->
 		</platform>
 		<platform>
 			<name>Steam</name>

@@ -220,7 +220,7 @@ class XML
     {
         if (count($this->data->platforms) > 0) {
             foreach ($this->data->platforms->platform as $platform) {
-                $this->content->addPlatform($platform->name, $platform->link);
+                $this->content->addPlatform($platform->name, $platform->link, $platform->email);
             }
         }
     }

@@ -128,8 +128,8 @@
 											: ''
 										),
 										(count($content->getAdditionalInfo()->languages) > 1
-											? $content->getAdditionalInfo()->language
-											: ''
+											? '/'.$content->getAdditionalInfo()->language
+											: '/'
 										)
 									)?>"><?=$content->getCompany()->getTitle()?></a><br/>
 								<?=tl('Based in %s', $content->getCompany()->getLocation())?>
@@ -147,7 +147,13 @@
 								<strong><?=tl('Platforms:')?></strong><br />
 
 								<?php foreach($content->getPlatforms() as $platform): ?>
-									<a href="<?=$platform->url()?>"><?=$platform->name()?></a><br/>
+									<?php if ((string)$platform->url() != ''): ?>
+										<a href="<?=$platform->url()?>"><?=$platform->name()?></a><br/>
+									<?php elseif ((string)$platform->email() != ''): ?>
+										<a href="mailto:<?=$platform->email()?>"><?=$platform->name()?></a><br/>
+									<?php else: ?>
+										<?=$platform->name()?><br/>
+									<?php endif; ?>
 								<?php endforeach; ?>
 							</p>
 							<?php endif; ?>
