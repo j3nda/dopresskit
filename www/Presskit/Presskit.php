@@ -68,7 +68,7 @@ class Presskit
 				'header'              => $this->getRelativePath($this->config->imageHeaderFilename, true),
 				'logo'                => $this->getRelativePath($this->config->imageLogoFilename, true),
 				'icon'                => $this->getRelativePath($this->config->imageIconFilename, true),
-				'google_analytics'    => $this->config->googleAnalytics[Request::REQUEST_COMPANY_PAGE],
+				'google_analytics'    => $this->config->googleAnalytics,
 			));
 
 			return $xml;
@@ -98,18 +98,6 @@ class Presskit
 				$this->getCurrentLanguage()
 			);
 
-			$googleAnalytics = null;
-			$gaList = array_change_key_case($this->config->googleAnalytics, CASE_LOWER);
-			if (isset($gaList[strtolower($releaseName)]))
-			{
-				$googleAnalytics = $gaList[strtolower($releaseName)];
-			}
-			else
-			if (isset($gaList[Request::REQUEST_COMPANY_PAGE]))
-			{
-				$googleAnalytics = $gaList[Request::REQUEST_COMPANY_PAGE];
-			}
-
 			$xml->setAdditionalInfo(array(
 				'config'              => $this->config,
 				'language'            => $this->getCurrentLanguage(),
@@ -120,7 +108,7 @@ class Presskit
 				'header'              => $this->getRelativePath($this->config->imageHeaderFilename, true),
 				'logo'                => $this->getRelativePath($this->config->imageLogoFilename, true),
 				'icon'                => $this->getRelativePath($this->config->imageIconFilename, true),
-				'google_analytics'    => $googleAnalytics,
+				'google_analytics'    => $this->config->googleAnalytics,
 			));
 
 			return $xml;

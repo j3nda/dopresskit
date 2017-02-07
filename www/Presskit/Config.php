@@ -41,12 +41,9 @@ class Config
 	);
 	/** true if you want to've nice-url, otherwise false. */
 	public static $isModRewriteEnabled = false;
-	private $googleAnalytics = array(
-		Request::REQUEST_COMPANY_PAGE => null,
-	);
+	private $googleAnalytics = null;
 	private $skipEmpty = array();
 	private $autoCreateStaticHtml = false;
-	private $releases = array();
 
 	private $templateCompanyDataXmlFilename = 'Presskit/Templates/company.xml';
 	private $templateCompanyLangXmlFilename = 'Presskit/Templates/company.lang.xml';
@@ -81,7 +78,6 @@ class Config
 				array(
 					'companyExcludeImageNames',
 					'skipEmpty',
-					'releases',
 				)
 		   ))
 		{
@@ -122,6 +118,14 @@ class Config
 		}
 		else
 		{
+			$ref = new \ReflectionClass($this);
+			foreach($ref->getProperties(\ReflectionProperty::IS_PRIVATE) as $prop)
+			{
+				if ($prop->getName() === $name)
+				{
+					return $this->$name;
+				}
+			}
 			throw new \Exception('Uninitialized variable '.$name);
 		}
 	}

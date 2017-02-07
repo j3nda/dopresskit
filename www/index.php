@@ -46,13 +46,46 @@ try
 				.DIRECTORY_SEPARATOR
 				.$presskit->getRelativePath($config->languageDirname);
 
+			if (is_readable($config->currentDir.$release['dir'].DIRECTORY_SEPARATOR.'index.config.php'))
+			{
+				$releaseConfig = require($config->currentDir.$release['dir'].DIRECTORY_SEPARATOR.'index.config.php');
+				if ($releaseConfig->cssFilenames && !empty($releaseConfig->cssFilenames))
+				{
+					$config->cssFilenames = array_unique(
+						array_merge(
+							$config->cssFilenames,
+							$releaseConfig->cssFilenames
+						)
+					);
+				}
+				if ($releaseConfig->skipEmpty && !empty($releaseConfig->skipEmpty))
+				{
+					$config->skipEmpty = array_unique(
+						array_merge(
+							$config->skipEmpty,
+							$releaseConfig->skipEmpty
+						)
+					);
+				}
+				if ($releaseConfig->autoCreateStaticHtml !== null)
+				{
+					$config->autoCreateStaticHtml = $releaseConfig->autoCreateStaticHtml;
+				}
+				if ($releaseConfig->googleAnalytics && !empty($releaseConfig->googleAnalytics))
+				{
+					$config->googleAnalytics = $releaseConfig->googleAnalytics;
+				}
+				$config->imageIconFilename    = $releaseConfig->relativePath($releaseConfig->imageIconFilename);
+				$config->imageLogoFilename    = $releaseConfig->relativePath($releaseConfig->imageLogoFilename);
+				$config->imageLogoZipFilename = $releaseConfig->relativePath($releaseConfig->imageLogoZipFilename);
+			}
+
 			// ugly hack to modify "currentDir" to: "currentDir/releaseDir"!
 			// REMEMBER: all $config->currentDir is now pointed into release-page! (so: Presskit\Install reflect it!)
 			$prop = new ReflectionProperty($config, 'currentDir');
 			$prop->setAccessible(true);
 			$prop->setValue($config, $config->currentDir.DIRECTORY_SEPARATOR.$release['dir'].DIRECTORY_SEPARATOR);
 			$prop->setAccessible(false);
-
 
 			$content = $presskit->parseRelease($config->dataXmlFilename, $release['dir']);
 

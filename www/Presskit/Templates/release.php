@@ -277,7 +277,9 @@
 					<h2 id="images"><?=tl('Images')?></h2>
 					<?php if ($content->getAdditionalInfo()->images_archive_size != 0): ?>
 						<a href="<?=
-							$content->getAdditionalInfo()->config->relativePath(
+							$content->getAdditionalInfo()->release_name
+							.DIRECTORY_SEPARATOR
+							.$content->getAdditionalInfo()->config->relativePath(
 								$content->getAdditionalInfo()->config->imageZipFilename
 							)?>"><div class="uk-alert"><?=tl('download all screenshots & photos as .zip (%s)', $content->getAdditionalInfo()->images_archive_size)?></div></a>
 					<?php endif; ?>
@@ -286,12 +288,18 @@
 						<div class="uk-grid images">
 							<?php foreach ($content->getAdditionalInfo()->images as $image): ?>
 								<div class="uk-width-medium-1-2">
-									<a href="<?php
-										$content->getAdditionalInfo()->config->relativePath(
+									<a href="<?=
+										'/'
+										.$content->getAdditionalInfo()->release_name
+										.DIRECTORY_SEPARATOR
+										.$content->getAdditionalInfo()->config->relativePath(
 											$content->getAdditionalInfo()->config->imagesDirname
 										)
 										.$image?>"><img src="<?=
-											$content->getAdditionalInfo()->config->relativePath(
+											'/'
+											.$content->getAdditionalInfo()->release_name
+											.DIRECTORY_SEPARATOR
+											.$content->getAdditionalInfo()->config->relativePath(
 												$content->getAdditionalInfo()->config->imagesDirname
 											)
 											.$image?>" alt="<?=$image?>" /></a>
@@ -309,17 +317,38 @@
 					<h2 id="logo"><?=tl('Logo & Icon')?></h2>
 					<?php if ($content->getAdditionalInfo()->logo_archive_size != 0): ?>
 						<a href="<?=
-							$content->getAdditionalInfo()->config->relativePath(
+							'/'
+							.$content->getAdditionalInfo()->release_name
+							.DIRECTORY_SEPARATOR
+							.$content->getAdditionalInfo()->config->relativePath(
 								$content->getAdditionalInfo()->config->imageLogoZipFilename
 							)?>"><div class="uk-alert"><?=tl('download logo files as .zip (%s)', $content->getAdditionalInfo()->logo_archive_size)?></div></a>
 					<?php endif; ?>
 					<div class="uk-grid images">
 						<?php if (!empty($content->getAdditionalInfo()->logo)): ?>
-							<div class="uk-width-medium-1-2"><a href="<?=$content->getAdditionalInfo()->logo?>"><img src="<?=$content->getAdditionalInfo()->logo?>" alt="logo" /></a></div>
+							<div class="uk-width-medium-1-2"><a href="<?=
+								'/'
+								.$content->getAdditionalInfo()->release_name
+								.DIRECTORY_SEPARATOR
+								.$content->getAdditionalInfo()->logo?>"><img src="<?=
+
+								'/'
+								.$content->getAdditionalInfo()->release_name
+								.DIRECTORY_SEPARATOR
+								.$content->getAdditionalInfo()->logo?>" alt="logo" /></a></div>
 						<?php endif; ?>
 
 						<?php if (!empty($content->getAdditionalInfo()->icon)): ?>
-							<div class="uk-width-medium-1-2"><a href="<?=$content->getAdditionalInfo()->icon?>"><img src="<?=$content->getAdditionalInfo()->icon?>" alt="icon" /></a></div>
+							<div class="uk-width-medium-1-2"><a href="<?=
+								'/'
+								.$content->getAdditionalInfo()->release_name
+								.DIRECTORY_SEPARATOR
+								.$content->getAdditionalInfo()->icon?>"><img src="<?=
+
+								'/'
+								.$content->getAdditionalInfo()->release_name
+								.DIRECTORY_SEPARATOR
+								.$content->getAdditionalInfo()->icon?>" alt="icon" /></a></div>
 						<?php endif; ?>
 					</div>
 					<?php if (empty($content->getAdditionalInfo()->logo) && empty($content->getAdditionalInfo()->icon)): ?>
