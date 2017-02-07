@@ -24,7 +24,6 @@ implements Content
     private $releaseDate = '';
     private $pressContact = '';
     private $location = '';
-    private $socialContacts = [];
     private $address = [];
 	private $addressUrl = '';
     private $phone = '';
@@ -70,20 +69,6 @@ implements Content
     public function getLocation()
     {
         return $this->location;
-    }
-
-    public function addSocialContact($name, $uri)
-    {
-        $contact = new Contact($name, $uri, '');
-
-        if ((string) $contact !== '') {
-            $this->socialContacts[] = $contact;
-        }
-    }
-
-    public function getSocialContacts()
-    {
-        return $this->socialContacts;
     }
 
     public function addAddressLine($addressLineText)

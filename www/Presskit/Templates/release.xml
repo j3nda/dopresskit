@@ -127,6 +127,13 @@
 	-->	
 	<monetization-permission>@company</monetization-permission>
     
+	<!--
+		can be:
+		- missing/empty
+		- @company = shared from company
+	-->
+	<socials>@company</socials>
+	
 	<additionals>
 		<additional>
 			<title>Original Soundtrack</title>

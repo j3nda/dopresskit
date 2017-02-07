@@ -47,6 +47,7 @@ class XML
         $this->findAdditionalLinks();
         $this->findCredits();
 		$this->findMonetization();
+		$this->findSocialContacts();
 	}
 
 	private function parseCompany()
@@ -56,7 +57,6 @@ class XML
         $this->findFoundingDate();
         $this->findPressContact();
         $this->findLocation(); // tag: based-in
-        $this->findSocialContacts();
         $this->findAddress();
         $this->findPhone();
         $this->findCompanyHistory();
@@ -130,20 +130,28 @@ class XML
 
     private function findSocialContacts()
     {
-        if (count($this->data->socials) > 0) {
-            foreach ($this->data->socials->social as $social)
+        if (count($this->data->socials) > 0)
+		{
+			if ((string)$this->data->socials == '@company')
 			{
-				$name = $social->name;
-				foreach($social->name->attributes() as $attr => $value)
+				$this->content->addSocialContact('@company', 'http://@company');
+			}
+			else
+			{
+				foreach ($this->data->socials->social as $social)
 				{
-					if (preg_match('/^htmlSpecialChars/i', $attr) && $this->getBoolean(trim($value)))
+					$name = $social->name;
+					foreach($social->name->attributes() as $attr => $value)
 					{
-						$name = htmlspecialchars_decode($name);
-						break;
+						if (preg_match('/^htmlSpecialChars/i', $attr) && $this->getBoolean(trim($value)))
+						{
+							$name = htmlspecialchars_decode($name);
+							break;
+						}
 					}
+					$this->content->addSocialContact($name, $social->link);
 				}
-                $this->content->addSocialContact($name, $social->link);
-            }
+			}
         }
     }
 

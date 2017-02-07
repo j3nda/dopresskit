@@ -178,6 +178,20 @@
 									</table>
 								</p>
 							<?php endif; ?>
+
+							<?php if (count($content->getSocialContacts()) > 0): ?>
+							<p>
+								<strong><?=tl('Social:')?></strong><br/>
+								<?php if ($content->getSocialContacts()[0]->name() == '@company'): ?>
+								<?php $socialContacts = $content->getCompany()->getSocialContacts(); ?>
+								<?php else: ?>
+								<?php $socialContacts = $content->getSocialContacts(); ?>
+								<?php endif; ?>
+								<?php foreach($socialContacts as $contact): ?>
+									<a href="<?=$contact->uri()?>"><?=$contact->name()?></a><br/>
+								<?php endforeach; ?>
+							</p>
+							<?php endif; ?>
 						</div>
 
 						<div class="uk-width-medium-4-6">

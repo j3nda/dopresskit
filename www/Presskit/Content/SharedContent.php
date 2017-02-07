@@ -10,6 +10,7 @@ use Presskit\Value\Award;
 use Presskit\Value\Quote;
 use Presskit\Value\AdditionalLink;
 use Presskit\Value\Credit;
+use Presskit\Value\Contact;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyFields)
@@ -36,6 +37,7 @@ implements Content
 	private $hasMonetization = null;
 	private $monetization = null;
 	private $skipEmpty = [];
+	private $socialContacts = [];
 
 
 	public function setSkipEmpty($key, $value)
@@ -230,4 +232,18 @@ implements Content
 			return false;
 		}
 	}
+
+    public function addSocialContact($name, $uri)
+    {
+        $contact = new Contact($name, $uri, '');
+
+        if ((string) $contact !== '') {
+            $this->socialContacts[] = $contact;
+        }
+    }
+
+    public function getSocialContacts()
+    {
+        return $this->socialContacts;
+    }
 }
