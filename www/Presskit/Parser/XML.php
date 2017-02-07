@@ -175,8 +175,18 @@ class XML
 
     private function findDescription()
     {
-        if (count($this->data->description) > 0) {
-            $this->content->setDescription($this->data->description);
+        if (count($this->data->description) > 0)
+		{
+			$tagText = $this->data->description;
+			foreach($tagText->attributes() as $attr => $value)
+			{
+				if (preg_match('/^htmlSpecialChars/i', $attr) && $this->getBoolean(trim($value)))
+				{
+					$tagText = htmlspecialchars_decode($tagText);
+					break;
+				}
+			}
+            $this->content->setDescription($tagText);
         }
     }
 
