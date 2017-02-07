@@ -125,7 +125,7 @@
 									\Presskit\Helpers::url(
 										(count($content->getAdditionalInfo()->languages) > 1
 											? '?l='.$content->getAdditionalInfo()->language
-											: ''
+											: '/'
 										),
 										(count($content->getAdditionalInfo()->languages) > 1
 											? '/'.$content->getAdditionalInfo()->language
@@ -483,7 +483,7 @@
 								\Presskit\Helpers::url(
 									(count($content->getAdditionalInfo()->languages) > 1
 										? '?l='.$content->getAdditionalInfo()->language
-										: ''
+										: '/'
 									),
 									(count($content->getAdditionalInfo()->languages) > 1
 										? '/'.$content->getAdditionalInfo()->language
