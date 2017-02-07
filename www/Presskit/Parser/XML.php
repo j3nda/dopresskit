@@ -215,6 +215,23 @@ class XML
         if (count($this->data->history) > 0) {
             $this->content->addHistory('unused', $this->data->history);
         }
+		else
+		if (count($this->data->histories) > 0)
+		{
+			foreach ($this->data->histories->history as $history)
+			{
+				$tagText = $history->text;
+				foreach($tagText->attributes() as $attr => $value)
+				{
+					if (preg_match('/^htmlSpecialChars/i', $attr) && $this->getBoolean(trim($value)))
+					{
+						$tagText = htmlspecialchars_decode($tagText);
+						break;
+					}
+				}
+				$this->content->addHistory($history->header, trim($tagText));
+			}
+		}
     }
 
     private function findFeatures()
