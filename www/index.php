@@ -67,7 +67,7 @@ try
 						)
 					);
 				}
-				if ($releaseConfig->autoCreateStaticHtml !== null)
+				if ($releaseConfig->autoCreateStaticHtml !== null && is_bool($releaseConfig->autoCreateStaticHtml))
 				{
 					$config->autoCreateStaticHtml = $releaseConfig->autoCreateStaticHtml;
 				}
