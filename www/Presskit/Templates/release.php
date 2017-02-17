@@ -480,40 +480,31 @@
 							<p><?=tlHtml('Alternatively, you can always request a press copy by <a href="#contact">sending us a quick email</a>.')?></p>
 						<?php endif; ?>
 						</div>
-
-					<?php elseif (isset($press_request_fail) && $press_request_fail === true): ?>
-						<hr />
-						<h2 id="preview"><?=tl('Request Press Copy')?></h2>
-						<p><?=$press_request_fail_msg?></p>
-					<?php elseif (isset($press_request_outdated_warning) && $press_request_outdated_warning === true): ?>
-						<hr />
-						<h2 id="preview"><?=tl('Request Press Copy')?></h2>
-						<p><?=tl("We are afraid this developer has not upgraded their presskit() to use distribute(). For security purposes, this form has been disabled.")?></p>
 					<?php endif; ?>
 
 					<?php if ($content->hasMonetization()): ?>
 						<hr />
 						<h2 id="monetize"><?=tl('Monetization Permission')?></h2>
-						<?php if ($content->hasMonetization() == \Presskit\Content\ReleaseContent::MONETIZATION_FALSE): ?>
+						<?php if ($content->getMonetization() == \Presskit\Content\ReleaseContent::MONETIZATION_FALSE): ?>
 							<p><?=tl(
 									'%s does currently not allow for the contents of %s to be published through video broadcasting services.',
 									$content->getCompany()->getTitle(),
 									$content->getTitle()
 								)?></p>
-						<?php elseif ($content->hasMonetization() == \Presskit\Content\ReleaseContent::MONETIZATION_ASK): ?>
+						<?php elseif ($content->getMonetization() == \Presskit\Content\ReleaseContent::MONETIZATION_ASK): ?>
 							<p><?=tl(
 									'%s does allow the contents of this game to be published through video broadcasting services only with direct written permission from %s. Check at the bottom of this page for contact information.',
 									$content->getCompany()->getTitle(),
 									$content->getTitle()
 								)?></p>
-						<?php elseif ($content->hasMonetization() == \Presskit\Content\ReleaseContent::MONETIZATION_NON_COMMERCIAL): ?>
+						<?php elseif ($content->getMonetization() == \Presskit\Content\ReleaseContent::MONETIZATION_NON_COMMERCIAL): ?>
 							<p><?=tl(
 									'%s allows for the contents of %s to be published through video broadcasting services for non-commercial purposes only. Monetization of any video created containing assets from %s is not allowed.',
 									$content->getCompany()->getTitle(),
 									$content->getTitle(),
 									$content->getTitle()
 								)?></p>
-						<?php elseif ($content->hasMonetization() == \Presskit\Content\ReleaseContent::MONETIZATION_MONETIZE): ?>
+						<?php elseif ($content->getMonetization() == \Presskit\Content\ReleaseContent::MONETIZATION_MONETIZE): ?>
 							<p><?=tl(
 									'%s allows for the contents of %s to be published through video broadcasting services for any commercial or non-commercial purposes. Monetization of videos created containing assets from %s is legally & explicitly allowed by %s.',
 									$content->getCompany()->getTitle(),
