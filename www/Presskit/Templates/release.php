@@ -405,12 +405,82 @@
 						<h2 id="preview"><?=tl('Request Press Copy')?></h2>
 						<p><?=tl("Please fill in your e-mail address below to complete a distribute() request and we'll get back to you as soon as a press copy is available for you.")?><br/>
 						<div id="mailform">
-							<form id="pressrequest" class="uk-form" method="POST" action="<?=$url?>">
-							<input type="email" id="email" name="email" placeholder="name@yourdomain.com" style="width:100%;"></input>
-							<input type="hidden" id="key" name="key" value="<?=$key?>"></input><br/>
-							<input type="submit" class="uk-button" id="submit-button" value="<?=tl('request a press copy')?>" style="width:100%;"></input>
+						<?php
+							$usePressKey = (
+							   (
+								   $content->getAdditionalInfo()->pressRequestCopy
+								&& isset($content->getAdditionalInfo()->pressRequestCopy[\Presskit\Config::PressRequestCopy_formUse])
+								&& isset($content->getAdditionalInfo()->pressRequestCopy[$content->getAdditionalInfo()->pressRequestCopy[\Presskit\Config::PressRequestCopy_formUse]])
+							   )
+									? $content->getAdditionalInfo()->pressRequestCopy[\Presskit\Config::PressRequestCopy_formUse]
+									: null
+							);
+						?>
+						<?php if ($usePressKey == \Presskit\Config::PressRequestCopy_phpForm): ?>
+							<form id="pressrequest" class="uk-form" method="POST" action="<?=$content->getAdditionalInfo()->pressRequestCopy[$usePressKey]?>">
+								<input type="email" id="email" name="email" placeholder="name@yourdomain.com" style="width:100%;" />
+								<?php if ($content->getAdditionalInfo()->pressRequestCopy[\Presskit\Config::PressRequestCopy_formHidden] && is_array($content->getAdditionalInfo()->pressRequestCopy[\Presskit\Config::PressRequestCopy_formHidden])): ?>
+									<?php foreach($content->getAdditionalInfo()->pressRequestCopy[\Presskit\Config::PressRequestCopy_formHidden] as $key => $value): ?>
+									<input type="hidden" name="<?=$key?>" value="<?=$value?>" />
+									<?php endforeach; ?>
+								<?php endif; ?>
+								<input type="submit" class="uk-button" id="submit-button" value="<?=tl('request a press copy')?>" style="width:100%;" />
+							</form>
 							<p><?=tlHtml('Alternatively, you can always request a press copy by <a href="#contact">sending us a quick email</a>.')?></p>
+
+						<?php elseif ($usePressKey == \Presskit\Config::PressRequestCopy_mailchimpForm): ?>
+							<!-- Begin MailChimp Signup Form -->
+							<link href="/index.mailchimp.classic-10_7.css" rel="stylesheet" type="text/css">
+							<style type="text/css">
+								#mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }
+							</style>
+							<div id="mc_embed_signup">
+							<form action="<?=$content->getAdditionalInfo()->pressRequestCopy[$usePressKey]?>" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+								<?php if ($content->getAdditionalInfo()->pressRequestCopy[\Presskit\Config::PressRequestCopy_formHidden] && is_array($content->getAdditionalInfo()->pressRequestCopy[\Presskit\Config::PressRequestCopy_formHidden])): ?>
+									<?php foreach($content->getAdditionalInfo()->pressRequestCopy[\Presskit\Config::PressRequestCopy_formHidden] as $key => $value): ?>
+									<input type="hidden" name="<?=$key?>" value="<?=$value?>" id="mce-<?=$key?>" />
+									<?php endforeach; ?>
+								<?php endif; ?>
+								<div id="mc_embed_signup_scroll">
+									<div class="mc-field-group">
+										<div>
+											<div style="float:left;display:inline-block;width:78%;">
+												<div style="float:left;display:inline-block;">
+													<label for="mce-EMAIL"><strong>Email Address:</strong></label>
+												</div>
+												<div style="float:right;display:inline-block;width:50%;height:30px;text-align:right;">
+													<div for="mce-EMAIL" class="mce_inline_error" style="display:none;"></div>
+												</div>
+												<div class="clear"></div>
+												<input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" />
+												<div style="text-align:right;font-size:70%;">
+													Powered by <a href="http://eepurl.com/cCmJ7v" title="MailChimp - email marketing made easy and fun" target="_blank">MailChimp</a>.
+												</div>
+											</div>
+											<div style="float:right;display:inline-block;width:22%;margin-top:26px;text-align:center;">
+												<input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button">
+											</div>
+											<div class="clear"></div>
+										</div>
+										<div id="mce-responses" class="clear">
+											<div class="response" id="mce-error-response" style="display:none;"></div>
+											<div class="response" id="mce-success-response" style="display:none;"></div>
+										</div>
+									</div>
+									<!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+									<div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_c9ef36bf4fb2f0117538f5068_ab93c30126" tabindex="-1" value=""></div>
+								</div>
+							</form>
+							</div>
+							<script type='text/javascript' src='//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'></script><script type='text/javascript'>(function($) {window.fnames = new Array(); window.ftypes = new Array();fnames[0]='EMAIL';ftypes[0]='email';}(jQuery));var $mcj = jQuery.noConflict(true);</script>
+							<!--End mc_embed_signup-->
+							<div><?=tlHtml('Alternatively, you can always request a press copy by <a href="#contact">sending us a quick email</a>.')?></div>
+
+						<?php else: ?>
+							<p><?=tlHtml('Alternatively, you can always request a press copy by <a href="#contact">sending us a quick email</a>.')?></p>
+						<?php endif; ?>
 						</div>
+
 					<?php elseif (isset($press_request_fail) && $press_request_fail === true): ?>
 						<hr />
 						<h2 id="preview"><?=tl('Request Press Copy')?></h2>

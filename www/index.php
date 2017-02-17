@@ -71,9 +71,23 @@ try
 				{
 					$config->autoCreateStaticHtml = $releaseConfig->autoCreateStaticHtml;
 				}
-				if ($releaseConfig->googleAnalytics && !empty($releaseConfig->googleAnalytics))
+				if ($releaseConfig->googleAnalytics && trim($releaseConfig->googleAnalytics) != '')
 				{
 					$config->googleAnalytics = $releaseConfig->googleAnalytics;
+				}
+				if ($releaseConfig->pressRequestCopy && is_array($releaseConfig->pressRequestCopy) && count($releaseConfig->pressRequestCopy) > 0)
+				{
+					$tmp = $config->pressRequestCopy;
+					if (!isset($tmp) || !is_array($tmp))
+					{
+						$tmp = array();
+						$config->pressRequestCopy = $tmp;
+					}
+					$config->pressRequestCopy = \Presskit\Config::array_merge_recursive_distinct(
+						$config->pressRequestCopy,
+						$releaseConfig->pressRequestCopy
+					);
+					unset($tmp);
 				}
 				$config->imageIconFilename    = $releaseConfig->relativePath($releaseConfig->imageIconFilename);
 				$config->imageLogoFilename    = $releaseConfig->relativePath($releaseConfig->imageLogoFilename);
@@ -92,7 +106,8 @@ try
 			$content->setCompany($companyContent);
 			$content->setAdditionalInfo(array_merge(
 				(array)$content->getAdditionalInfo(),
-				array('release_name' => $release['dir'])
+				array('release_name' => $release['dir']),
+				array('pressRequestCopy' => $config->pressRequestCopy)
 			));
 
 			if ($content->getMonetization() == Presskit\Content\SharedContent::MONETIZATION_SHARED_COMPANY)
