@@ -264,8 +264,10 @@ class Presskit
                 $matches = array_unique(array_merge($matches, $tmp));
             }
         }
+		$images = array_diff($img, $matches);
+		sort($images);
 
-		return array_diff($img, $matches);
+		return $images;
 	}
 
 	public function getRelativePath($absoluteResource, $checkAvailability = false)
