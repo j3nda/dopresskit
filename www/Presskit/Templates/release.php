@@ -53,7 +53,7 @@
 
 						<li><a href="#factsheet"><?=tl('Factsheet')?></a></li>
 
-						<?php if(!empty($content->getDescription())): ?>
+						<?php if($content->getDescription()): ?>
 							<li><a href="#description"><?=tl('Description')?></a></li>
 						<?php endif; ?>
 
@@ -135,7 +135,7 @@
 								<?=tl('Based in %s', $content->getCompany()->getLocation())?>
 							</p>
 
-							<?php if (!empty($content->getReleaseDate())): ?>
+							<?php if ($content->getReleaseDate()): ?>
 							<p>
 								<strong><?=tl('Release date:')?></strong><br/>
 								<?=$content->getReleaseDate()?>.
@@ -158,7 +158,7 @@
 							</p>
 							<?php endif; ?>
 
-							<?php if (!empty($content->getWebsite())): ?>
+							<?php if ($content->getWebsite()): ?>
 							<p>
 								<strong><?=tl('Website:')?></strong><br/>
 								<a href="<?=$content->getWebsite()->url()?>" target="_blank"><?=$content->getWebsite()->name()?></a>

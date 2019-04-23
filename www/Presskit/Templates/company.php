@@ -38,7 +38,7 @@
 
 						<li><a href="#factsheet"><?=tl('Factsheet')?></a></li>
 
-						<?php if(!empty($content->getDescription())): ?>
+						<?php if($content->getDescription()): ?>
 							<li><a href="#description"><?=tl('Description')?></a></li>
 						<?php endif; ?>
 
@@ -114,21 +114,21 @@
 								<?=tl('Based in %s', $content->getLocation())?>
 							</p>
 
-							<?php if (!empty($content->getFoundingDate())): ?>
+							<?php if ($content->getFoundingDate()): ?>
 							<p>
 								<strong><?=tl('Founding date:')?></strong><br/>
 								<?=$content->getFoundingDate()?>.
 							</p>
 							<?php endif; ?>
 
-							<?php if (!empty($content->getWebsite())): ?>
+							<?php if ($content->getWebsite()): ?>
 							<p>
 								<strong><?=tl('Website:')?></strong><br/>
 								<a href="<?=$content->getWebsite()->url()?>" target="_blank"><?=$content->getWebsite()->name()?></a>
 							</p>
 							<?php endif; ?>
 
-							<?php if (!empty($content->getPressContact())): ?>
+							<?php if ($content->getPressContact()): ?>
 							<p>
 								<strong><?=tl('Press / Business Contact:')?></strong><br/>
 								<a href="mailto:<?=$content->getPressContact()?>"><?=$content->getPressContact()?></a>
@@ -167,7 +167,7 @@
 							</p>
 							<?php endif; ?>
 
-							<?php if (!empty($content->getPhone())): ?>
+							<?php if ($content->getPhone()): ?>
 							<p>
 								<strong><?=tl('Phone:')?></strong><br/>
 								<?=$content->getPhone()?>
