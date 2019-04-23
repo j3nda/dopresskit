@@ -1,0 +1,6 @@
+<?php
+
+{
+    $config = require(__DIR__.'/../../../public_html/index.config.php');
+    return $config;
+}
